@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// criar uma migration: yarn prisma migrate dev
+
+model User {
+  id       String  @id @default(uuid())
+  name     String  @db.VarChar(295)
+  slug     String? @db.VarChar(295)
+  email    String  @unique @db.VarChar(180)
+  password String
+
+  created_at DateTime? @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt
+
+  @@map("users")
+}
+
+model PasswordRecoveryUser {
+  id    String @id @default(uuid())
+  email String
+
+  @@map("passwordrecoveryusers")
+}
+
+model Category {
+  id       String         @id @default(uuid())
+  name     String?        @unique @db.VarChar(300)
+  slug     String?        @db.VarChar(300)
+  nivel    Int?
+  parentId String?
+  order    Int?
+  status   StatusCategory @default(Disponivel)
+
+  imagecategories ImageCategory?
+  subcategories   SubCategory[]
+
+  created_at DateTime? @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt
+
+  @@map("categories")
+}
+
+enum StatusCategory {
+  Disponivel
+  Indisponivel
+}
+
+model ImageCategory {
+  id          String   @id @default(uuid())
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id String   @unique
+  image       String
+
+  created_at DateTime? @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt
+
+  @@map("imagecategories")
+}
+
+model SubCategory {
+  id                String            @id @default(uuid())
+  category          Category?         @relation(fields: [name], references: [name])
+  name              String?
+  sub_category      String?           @db.VarChar(385)
+  slug_sub_category String?           @db.VarChar(400)
+  order             Int?
+  nivel             Int?
+  parentId          String?
+  status            StatusSubCategory @default(Disponivel)
+
+  created_at DateTime? @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt
+
+  @@map("subcategories")
+}
+
+enum StatusSubCategory {
+  Disponivel
+  Indisponivel
+}
