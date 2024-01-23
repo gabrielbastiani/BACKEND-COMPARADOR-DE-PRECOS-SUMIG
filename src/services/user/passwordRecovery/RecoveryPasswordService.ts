@@ -6,7 +6,7 @@ interface UserRecovery {
   password: string;
 }
 
-class PasswordRecoveryService {
+class RecoveryPasswordService {
   async execute({ passwordRecoveryUser_id, password }: UserRecovery) {
     const recovery = await prismaClient.passwordRecoveryUser.findUnique({
       where: {
@@ -44,4 +44,4 @@ class PasswordRecoveryService {
   }
 }
 
-export { PasswordRecoveryService };
+export { RecoveryPasswordService };
