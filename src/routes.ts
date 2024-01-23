@@ -20,6 +20,8 @@ import { UpdateEmailUserController } from "./controllers/user/UpdateEmailUserCon
 // -- CATEGORY -- //
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { UpdateNameCategoryController } from "./controllers/category/UpdateNameCategoryController";
+import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrderCategoryController";
+import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 
 
 // -- USERS -- //
@@ -36,6 +38,8 @@ router.get('/find_recovery', isAuthenticated, new FindRecoveryIDUserController()
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
+router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
+router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
 
 
 export { router }
