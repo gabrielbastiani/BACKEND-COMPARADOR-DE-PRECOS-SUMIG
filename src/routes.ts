@@ -19,6 +19,7 @@ import { UpdateEmailUserController } from "./controllers/user/UpdateEmailUserCon
 
 // -- CATEGORY -- //
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
+import { UpdateNameCategoryController } from "./controllers/category/UpdateNameCategoryController";
 
 
 // -- USERS -- //
@@ -34,6 +35,7 @@ router.get('/find_recovery', isAuthenticated, new FindRecoveryIDUserController()
 
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
+router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 
 
 export { router }
