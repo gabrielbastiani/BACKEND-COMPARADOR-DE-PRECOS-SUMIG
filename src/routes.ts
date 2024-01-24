@@ -24,6 +24,10 @@ import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrde
 import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
 
+// -- PRODUCTS -- //
+import { MaquinasDeSoldaListController } from "./controllers/products/MaquinasDeSoldaListController";
+
+
 
 // -- USERS -- //
 router.post('/create_user', new CreateUserController().handle);
@@ -42,6 +46,9 @@ router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryContr
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
 router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
+
+// -- PRODUCTS -- //
+router.get('/machine_weld', isAuthenticated, new MaquinasDeSoldaListController().handle);
 
 
 export { router }
