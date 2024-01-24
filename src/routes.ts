@@ -22,6 +22,7 @@ import { CreateCategoryController } from "./controllers/category/CreateCategoryC
 import { UpdateNameCategoryController } from "./controllers/category/UpdateNameCategoryController";
 import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrderCategoryController";
 import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
+import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
 
 
 // -- USERS -- //
@@ -40,6 +41,7 @@ router.post('/create_category', isAuthenticated, upload.single('file'), new Crea
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
+router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
 
 
 export { router }

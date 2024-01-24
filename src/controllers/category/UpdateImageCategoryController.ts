@@ -5,7 +5,7 @@ import fs from 'fs';
 
 class UpdateImageCategoryController {
     async handle(req: Request, res: Response) {
-        const { category_id } = req.body;
+        const category_id = req.query.category_id as string;
 
         const updateImage = new UpdateImageCategoryService();
         const findImage = new FindUniqueCategoryService();
@@ -14,7 +14,7 @@ class UpdateImageCategoryController {
             category_id
         });
 
-        fs.unlinkSync(__dirname + '/' + '..' + '/' + '..' + '/' + '..' + '/' + '..' + '/' + 'images' + '/' + imagesUpdateCateg.image);
+        fs.unlinkSync(__dirname + '/' + '..' + '/' + '..' + '/' + '..' + '/' + 'images' + '/' + imagesUpdateCateg.image);
 
         if (!req.file) {
             throw new Error('error upload file');
