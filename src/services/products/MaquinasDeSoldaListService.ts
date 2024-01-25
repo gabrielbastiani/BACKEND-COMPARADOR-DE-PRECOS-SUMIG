@@ -17,7 +17,7 @@ class MaquinasDeSoldaListService {
         const links = await page.$$eval('.rush-component > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
         for (const link of links) {
-            if (c === 4) continue;
+            if (c === 20) continue;
             await page.goto(link);
             await page.waitForSelector('#productTitle');
 
@@ -67,7 +67,7 @@ class MaquinasDeSoldaListService {
         const links_magalu = await page_magalu.$$eval('.sc-kTbCBX > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
         for (const link of links_magalu) {
-            if (m === 4) continue;
+            if (m === 20) continue;
             await page_magalu.goto(link);
             await page_magalu.waitForSelector('[data-testid="heading-product-title"]');
 
@@ -105,7 +105,7 @@ class MaquinasDeSoldaListService {
         // ---------------------------------- //
 
 
-        const url_livre = 'https://lista.mercadolivre.com.br/ferramentas/ferramentas-eletricas/soldagem/maquinas-solda/m%C3%A1quina-de-solda_NoIndex_True#D[A:m%C3%A1quina%20de%20solda,on]';
+        const url_livre = 'https://lista.mercadolivre.com.br/m%C3%A1quina-de-solda#D[A:m%C3%A1quina%20de%20solda]';
 
         let l = 1;
 
@@ -116,10 +116,13 @@ class MaquinasDeSoldaListService {
         await page_livre.waitForSelector('.ui-search-item__group--title');
         const links_livre = await page_livre.$$eval('.ui-search-item__group--title > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-        console.log(links_livre)
+        const novoArray = links_livre.filter(item => typeof item === 'string' && item.length > 200).map(item => item);
 
-        for (const link of links_livre) {
-            if (l === 2) continue;
+        console.log(novoArray);
+
+
+        for (const link of novoArray) {
+            if (l === 20) continue;
             await page_livre.goto(link);
             await page_livre.waitForSelector('.ui-pdp-title');
 
