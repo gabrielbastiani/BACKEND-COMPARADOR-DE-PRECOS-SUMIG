@@ -17,7 +17,7 @@ class MaquinasDeSoldaListService {
         const links = await page.$$eval('.rush-component > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
         for (const link of links) {
-            if (c === 20) continue;
+            if (c === 21) continue;
             await page.goto(link);
             await page.waitForSelector('#productTitle');
 
@@ -67,7 +67,7 @@ class MaquinasDeSoldaListService {
         const links_magalu = await page_magalu.$$eval('.sc-kTbCBX > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
         for (const link of links_magalu) {
-            if (m === 20) continue;
+            if (m === 21) continue;
             await page_magalu.goto(link);
             await page_magalu.waitForSelector('[data-testid="heading-product-title"]');
 
@@ -118,11 +118,9 @@ class MaquinasDeSoldaListService {
 
         const novoArray = links_livre.filter(item => typeof item === 'string' && item.length > 200).map(item => item);
 
-        console.log(novoArray);
-
 
         for (const link of novoArray) {
-            if (l === 20) continue;
+            if (l === 21) continue;
             await page_livre.goto(link);
             await page_livre.waitForSelector('.ui-pdp-title');
 
