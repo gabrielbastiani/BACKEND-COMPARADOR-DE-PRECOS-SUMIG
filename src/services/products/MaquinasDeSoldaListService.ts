@@ -154,11 +154,57 @@ class MaquinasDeSoldaListService {
             l++;
         }
 
+
+        // ---------------------------------- //
+
+
+	    const url_esab = 'https://www.lojaesab.com.br/maquinas-de-solda?limit=24';
+
+        let e = 1;
+
+        const browser_esab = await puppeteer.launch({ headless: false });
+        const page_esab = await browser_esab.newPage();
+        await page_esab.goto(url_esab);
+
+        await page_esab.waitForSelector('.area-product');
+        const links_esab = await page_esab.$$eval('.area-product > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+
+        for (const link of links_esab) {
+            if (e === 21) continue;
+            await page_esab.goto(link);
+            await page_esab.waitForSelector('.product-name');
+
+            const title = await page_esab.$eval('.product-name', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            });
+
+            await page_esab.waitForSelector('.price');
+
+            const price = await page_esab.$eval('.price', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            });
+
+            const store = "ESAB";
+            const brand = "ESAB";
+
+            const obj: { [key: string]: any } = {};
+            obj.store = store;
+            obj.title = title;
+            obj.price = price.replace(/R\$\s*/g, '').replace(/,/g, '.');;
+            obj.brand = brand;
+            obj.link = link;
+
+            list_products.push(obj);
+
+            e++;
+        }
+
         console.log(list_products)
 
         await browser.close();
         await browser_magalu.close();
         await browser_livre.close();
+	    await browser_esab.close();
 
         return list_products;
 
