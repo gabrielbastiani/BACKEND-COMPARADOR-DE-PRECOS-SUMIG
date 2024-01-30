@@ -158,7 +158,7 @@ class MaquinasDeSoldaListService {
         // ---------------------------------- //
 
 
-	    const url_esab = 'https://www.lojaesab.com.br/maquinas-de-solda?limit=24';
+        const url_esab = 'https://www.lojaesab.com.br/maquinas-de-solda?limit=24';
 
         let e = 1;
 
@@ -199,12 +199,68 @@ class MaquinasDeSoldaListService {
             e++;
         }
 
+
+        // ---------------------------------- //
+
+
+        const url_mecanico = 'https://www.lojadomecanico.com.br/busca?q=m%C3%A1quina%20de%20solda';
+
+        let lm = 1;
+
+        const browser_mecanico = await puppeteer.launch({ headless: false });
+        const context_mecanico = await browser_mecanico.createIncognitoBrowserContext();
+        const page_mecanico = await context_mecanico.newPage();
+        await page_mecanico.goto(url_mecanico);
+
+        await page_mecanico.waitForSelector('h3');
+        const links_mecanico = await page_mecanico.$$eval('h3 > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+
+        for (const link of links_mecanico) {
+            if (lm === 5) continue;
+            await page_mecanico.goto(link);
+            await page_mecanico.waitForSelector('.product-name');
+
+            await page_mecanico.waitForTimeout(2100);
+
+            const title = await page_mecanico.$eval('.product-name', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            });
+
+            await page_mecanico.waitForTimeout(3500);
+
+            await page_mecanico.waitForSelector('#product-price');
+
+            const price = await page_mecanico.$eval('#product-price', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            });
+
+            await page_mecanico.waitForSelector('.by-brand');
+
+            const brand = await page_mecanico.$eval('.by-brand', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            });
+
+            const store = "Loja do Mecânico";
+
+            const obj: { [key: string]: any } = {};
+            obj.store = store;
+            obj.title = title;
+            obj.price = price;
+            obj.brand = brand;
+            obj.link = link;
+
+            list_products.push(obj);
+
+            lm++;
+        }
+
         console.log(list_products)
 
         await browser.close();
         await browser_magalu.close();
         await browser_livre.close();
-	    await browser_esab.close();
+        await browser_esab.close();
+        await browser_mecanico.close();
 
         return list_products;
 
