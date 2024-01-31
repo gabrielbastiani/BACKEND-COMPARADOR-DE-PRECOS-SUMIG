@@ -243,7 +243,7 @@ class MaquinasDeSoldaListService {
         const links_mecanico = await page_mecanico.$$eval('h3 > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
         for (const link of links_mecanico) {
-            if (lm === 5) continue;
+            if (lm === 21) continue;
             await page_mecanico.goto(link);
             await page_mecanico.waitForSelector('.product-name');
 
