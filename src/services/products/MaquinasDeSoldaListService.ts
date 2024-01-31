@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import randonUserAgent from 'random-useragent';
 
 class MaquinasDeSoldaListService {
     async execute() {
@@ -9,8 +10,12 @@ class MaquinasDeSoldaListService {
 
         let c = 1;
 
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null
+        });
         const page = await browser.newPage();
+        await page.setUserAgent(randonUserAgent.getRandom());
         await page.goto(url_amazon);
 
         await page.waitForSelector('.rush-component');
@@ -59,8 +64,12 @@ class MaquinasDeSoldaListService {
 
         let m = 1;
 
-        const browser_magalu = await puppeteer.launch({ headless: false });
+        const browser_magalu = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null
+        });
         const page_magalu = await browser_magalu.newPage();
+        await page_magalu.setUserAgent(randonUserAgent.getRandom());
         await page_magalu.goto(url_magalu);
 
         await page_magalu.waitForSelector('.sc-kTbCBX');
@@ -109,8 +118,12 @@ class MaquinasDeSoldaListService {
 
         let l = 1;
 
-        const browser_livre = await puppeteer.launch({ headless: false });
+        const browser_livre = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null
+        });
         const page_livre = await browser_livre.newPage();
+        await page_livre.setUserAgent(randonUserAgent.getRandom());
         await page_livre.goto(url_livre);
 
         await page_livre.waitForSelector('.ui-search-item__group--title');
@@ -162,8 +175,12 @@ class MaquinasDeSoldaListService {
 
         let e = 1;
 
-        const browser_esab = await puppeteer.launch({ headless: false });
+        const browser_esab = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null
+        });
         const page_esab = await browser_esab.newPage();
+        await page_esab.setUserAgent(randonUserAgent.getRandom());
         await page_esab.goto(url_esab);
 
         await page_esab.waitForSelector('.area-product');
@@ -203,14 +220,24 @@ class MaquinasDeSoldaListService {
         // ---------------------------------- //
 
 
-        const url_mecanico = 'https://www.lojadomecanico.com.br/busca?q=m%C3%A1quina%20de%20solda';
+        const url_mecanico = 'https://www.lojadomecanico.com.br/';
 
         let lm = 1;
 
-        const browser_mecanico = await puppeteer.launch({ headless: false });
+        const browser_mecanico = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null
+        });
         const context_mecanico = await browser_mecanico.createIncognitoBrowserContext();
         const page_mecanico = await context_mecanico.newPage();
+        await page_mecanico.setUserAgent(randonUserAgent.getRandom());
         await page_mecanico.goto(url_mecanico);
+
+        await page_mecanico.waitForSelector('#busca1');
+        await page_mecanico.type('#busca1', 'maquina de solda', { delay: 150 });
+        await page_mecanico.keyboard.press('Enter');
+
+        await page_mecanico.waitForTimeout(2000);
 
         await page_mecanico.waitForSelector('h3');
         const links_mecanico = await page_mecanico.$$eval('h3 > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -220,13 +247,9 @@ class MaquinasDeSoldaListService {
             await page_mecanico.goto(link);
             await page_mecanico.waitForSelector('.product-name');
 
-            await page_mecanico.waitForTimeout(2100);
-
             const title = await page_mecanico.$eval('.product-name', (element: HTMLElement | null) => {
                 return element ? element.innerText : '';
             });
-
-            await page_mecanico.waitForTimeout(3500);
 
             await page_mecanico.waitForSelector('#product-price');
 
@@ -245,7 +268,7 @@ class MaquinasDeSoldaListService {
             const obj: { [key: string]: any } = {};
             obj.store = store;
             obj.title = title;
-            obj.price = price;
+            obj.price = price.replace(/R\$\s*/g, '').replace(/,/g, '.');
             obj.brand = brand;
             obj.link = link;
 
