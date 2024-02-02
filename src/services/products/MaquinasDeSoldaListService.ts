@@ -207,13 +207,23 @@ class MaquinasDeSoldaListService {
                 return element ? element.innerText : '';
             });
 
+            function processarString(str: string) {
+                if (str.includes('.')) {
+                    str = str.replace('.', '');
+                }
+
+                str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
+
+                return str;
+            }
+
             const store = "ESAB";
             const brand = "ESAB";
 
             const obj: { [key: string]: any } = {};
             obj.store = store;
             obj.title = title;
-            obj.price = price.replace(/R\$\s*/g, '').replace(/,/g, '.');;
+            obj.price = processarString(price);
             obj.brand = brand;
             obj.link = link;
 
@@ -250,6 +260,16 @@ class MaquinasDeSoldaListService {
             return elementos.map(elemento => elemento.textContent.trim());
         });
 
+        function processarString(str: string) {
+            if (str.includes('.')) {
+                str = str.replace('.', '');
+            }
+
+            str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
+
+            return str;
+        }
+
         const brand: any = [];
 
         for (let i = 0; i < title.length; i++) {
@@ -270,12 +290,10 @@ class MaquinasDeSoldaListService {
         const new_mecanico = Object.keys(obj.array1).map((index) => ({
             store,
             title: obj.array1[index],
-            price: obj.array2[index],
+            price: processarString(obj.array2[index]),
             brand: obj.array3[index],
             link: obj.array4[index]
         }));
-
-        console.log(new_mecanico);
 
         list_products.push(new_mecanico);
 
