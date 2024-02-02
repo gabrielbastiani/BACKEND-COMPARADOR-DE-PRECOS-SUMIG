@@ -56,6 +56,8 @@ class MaquinasDeSoldaListService {
             c++;
         }
 
+        await browser.close();
+
 
         // ---------------------------------- //
 
@@ -109,6 +111,8 @@ class MaquinasDeSoldaListService {
 
             m++;
         }
+
+        await browser_magalu.close();
 
 
         // ---------------------------------- //
@@ -167,6 +171,8 @@ class MaquinasDeSoldaListService {
             l++;
         }
 
+        await browser_livre.close();
+
 
         // ---------------------------------- //
 
@@ -216,73 +222,65 @@ class MaquinasDeSoldaListService {
             e++;
         }
 
+        await browser_esab.close();
+
 
         // ---------------------------------- //
 
 
-        const url_mecanico = 'https://www.lojadomecanico.com.br/';
-
-        let lm = 1;
+        const url_mecanico = 'https://www.google.com/search?sca_esv=584838229&tbm=shop&sxsrf=ACQVn0-GEFCj6Gvd40tdVLc00-cDZDzxPg:1706872438258&q=maquina+de+solda&tbs=mr:1,merchagg:m10892984&sa=X&ved=0ahUKEwiHm--qw4yEAxUGJrkGHd5IAdEQsysIwwkoAg&biw=1358&bih=620&dpr=1';
 
         const browser_mecanico = await puppeteer.launch({
             headless: false,
             defaultViewport: null
         });
-        const context_mecanico = await browser_mecanico.createIncognitoBrowserContext();
-        const page_mecanico = await context_mecanico.newPage();
+        const page_mecanico = await browser_mecanico.newPage();
         await page_mecanico.setUserAgent(randonUserAgent.getRandom());
         await page_mecanico.goto(url_mecanico);
 
-        await page_mecanico.waitForSelector('#busca1');
-        await page_mecanico.type('#busca1', 'maquina de solda', { delay: 150 });
-        await page_mecanico.keyboard.press('Enter');
+        await page_mecanico.waitForSelector('.rgHvZc');
+        const links_mecanico = await page_mecanico.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-        await page_mecanico.waitForTimeout(2000);
+        const title = await page_mecanico.$$eval(`.rgHvZc > a`, elementos => {
+            return elementos.map(elemento => elemento.textContent.trim());
+        });
 
-        await page_mecanico.waitForSelector('h3');
-        const links_mecanico = await page_mecanico.$$eval('h3 > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+        await page_mecanico.waitForSelector('.HRLxBb');
+        const price = await page_mecanico.$$eval('.HRLxBb', elementos => {
+            return elementos.map(elemento => elemento.textContent.trim());
+        });
 
-        for (const link of links_mecanico) {
-            if (lm === 21) continue;
-            await page_mecanico.goto(link);
-            await page_mecanico.waitForSelector('.product-name');
+        const brand: any = [];
 
-            const title = await page_mecanico.$eval('.product-name', (element: HTMLElement | null) => {
-                return element ? element.innerText : '';
-            });
+        for (let i = 0; i < title.length; i++) {
+            const palavras = title[i].split(' ');
+            const brands = palavras[palavras.length - 1];
 
-            await page_mecanico.waitForSelector('#product-price');
-
-            const price = await page_mecanico.$eval('#product-price', (element: HTMLElement | null) => {
-                return element ? element.innerText : '';
-            });
-
-            await page_mecanico.waitForSelector('.by-brand');
-
-            const brand = await page_mecanico.$eval('.by-brand', (element: HTMLElement | null) => {
-                return element ? element.innerText : '';
-            });
-
-            const store = "Loja do Mecânico";
-
-            const obj: { [key: string]: any } = {};
-            obj.store = store;
-            obj.title = title;
-            obj.price = price.replace(/R\$\s*/g, '').replace(/,/g, '.');
-            obj.brand = brand;
-            obj.link = link;
-
-            list_products.push(obj);
-
-            lm++;
+            brand.push(brands);
         }
+
+        const store = "Loja do Mecanico";
+
+        const obj: { [key: string]: any } = {};
+        obj.array1 = title;
+        obj.array2 = price;
+        obj.array3 = brand;
+        obj.array4 = links_mecanico;
+
+        const new_mecanico = Object.keys(obj.array1).map((index) => ({
+            store,
+            title: obj.array1[index],
+            price: obj.array2[index],
+            brand: obj.array3[index],
+            link: obj.array4[index]
+        }));
+
+        console.log(new_mecanico);
+
+        list_products.push(new_mecanico);
 
         console.log(list_products)
 
-        await browser.close();
-        await browser_magalu.close();
-        await browser_livre.close();
-        await browser_esab.close();
         await browser_mecanico.close();
 
         return list_products;
