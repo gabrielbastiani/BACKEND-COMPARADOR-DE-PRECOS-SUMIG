@@ -268,7 +268,7 @@ class MaquinasDeSoldaListService {
             headless: false
         });
         const page_mecanico = await browser_mecanico.newPage();
-        await page_magalu.setViewport({
+        await page_mecanico.setViewport({
             width: 775,
             height: 667,
             deviceScaleFactor: 2,
