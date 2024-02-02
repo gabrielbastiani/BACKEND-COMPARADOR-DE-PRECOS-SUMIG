@@ -401,9 +401,69 @@ class MaquinasDeSoldaListService {
         await browser_esab.close();
 
 
+        // ----------------- CARREFOUR ----------------- //
+
+
+        const url_carrefour = 'https://www.carrefour.com.br/busca/maquina%20de%20solda?maxItemsPerPage=25&page=1';
+
+        let ca = 1;
+
+        const browser_carrefour = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null
+        });
+        const page_carrefour = await browser_carrefour.newPage();
+        await page_carrefour.setViewport({
+            width: 1800,
+            height: 900,
+            deviceScaleFactor: 1,
+            isMobile: false
+        });
+        await page_carrefour.setUserAgent(randonUserAgent.getRandom());
+        await page_carrefour.goto(url_carrefour);
+
+        await page_carrefour.waitForSelector('.vtex-product-summary-2-x-container');
+        const links_carrefour = await page_carrefour.$$eval('.vtex-product-summary-2-x-container > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+
+        for (const link of links_carrefour) {
+            if (ca === 6) continue;
+            await page_carrefour.goto(link);
+            await page_carrefour.waitForSelector('.vtex-store-components-3-x-productBrand ');
+
+            const title = await page_carrefour.$eval('.vtex-store-components-3-x-productBrand ', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            });
+
+            await page_carrefour.waitForSelector('.carrefourbr-carrefour-components-0-x-currencyInteger');
+
+            const price = await page_carrefour.$eval('.carrefourbr-carrefour-components-0-x-currencyInteger', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            });
+
+            /* await page_carrefour.waitForSelector('.vtex-store-components-3-x-productBrandName');
+
+            const brand = await page_carrefour.$eval('.vtex-store-components-3-x-productBrandName', (element: HTMLElement | null) => {
+                return element ? element.innerText : '';
+            }); */
+
+            const store = "Carrefour";
+
+            const obj: { [key: string]: any } = {};
+            obj.store = store;
+            obj.title = title;
+            obj.price = price;
+            /* obj.brand = brand; */
+            obj.link = link;
+
+            list_products.push(obj);
+
+            ca++;
+        }
+
+        await browser_carrefour.close();
+
+
         // -----------------  ----------------- //
-
-
 
 
         console.log(list_products)
