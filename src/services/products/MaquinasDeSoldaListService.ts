@@ -6,39 +6,47 @@ class MaquinasDeSoldaListService {
 
         const list_products: any = [];
 
+        // ----------------- AMAZON ----------------- //
+
         const url_amazon = 'https://www.amazon.com.br/s?k=m%C3%A1quina+de+solda&__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2904PMWP2D0V0&sprefix=m%C3%A1quina+de+sold%2Caps%2C306&ref=nb_sb_noss_2';
 
-        let c = 1;
+        let a = 1;
 
-        const browser = await puppeteer.launch({
+        const browser_amazon = await puppeteer.launch({
             headless: false,
             defaultViewport: null
         });
-        const page = await browser.newPage();
-        await page.setUserAgent(randonUserAgent.getRandom());
-        await page.goto(url_amazon);
+        const page_amazon = await browser_amazon.newPage();
+        await page_amazon.setViewport({
+            width: 1800,
+            height: 900,
+            deviceScaleFactor: 1,
+            isMobile: false
+        });
+        await page_amazon.setUserAgent(randonUserAgent.getRandom());
+        await page_amazon.goto(url_amazon);
 
-        await page.waitForSelector('.rush-component');
-        const links = await page.$$eval('.rush-component > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+        await page_amazon.waitForSelector('.rush-component');
+        const links_amazon = await page_amazon.$$eval('.rush-component > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-        for (const link of links) {
-            if (c === 21) continue;
-            await page.goto(link);
-            await page.waitForSelector('#productTitle');
+        for (const link of links_amazon) {
+            if (a === 6) continue;
+            await page_amazon.goto(link);
+            await page_amazon.waitForSelector('#productTitle');
 
-            const title = await page.$eval('#productTitle', (element: HTMLElement | null) => {
+            const title = await page_amazon.$eval('#productTitle', (element: HTMLElement | null) => {
                 return element ? element.innerText : '';
             });
 
-            await page.waitForSelector('.a-price-whole');
+            await page_amazon.waitForSelector('.a-price-whole');
 
-            const price = await page.$eval('.a-price-whole', (element: HTMLElement | null) => {
+            const price = await page_amazon.$eval('.a-price-whole', (element: HTMLElement | null) => {
                 return element ? element.innerText : '';
             });
 
-            await page.waitForSelector('.prodDetAttrValue');
+            await page_amazon.waitForSelector('.prodDetAttrValue');
 
-            const brand = await page.$eval('.prodDetAttrValue', (element: HTMLElement | null) => {
+            const brand = await page_amazon.$eval('.prodDetAttrValue', (element: HTMLElement | null) => {
                 return element ? element.innerText : '';
             });
 
@@ -53,13 +61,13 @@ class MaquinasDeSoldaListService {
 
             list_products.push(obj);
 
-            c++;
+            a++;
         }
 
-        await browser.close();
+        await browser_amazon.close();
 
 
-        // ---------------------------------- //
+        // ----------------- MAGALU ----------------- //
 
 
         const url_magalu = 'https://www.magazineluiza.com.br/busca/maquina+de+solda/';
@@ -71,6 +79,12 @@ class MaquinasDeSoldaListService {
             defaultViewport: null
         });
         const page_magalu = await browser_magalu.newPage();
+        await page_magalu.setViewport({
+            width: 1800,
+            height: 900,
+            deviceScaleFactor: 1,
+            isMobile: false
+        });
         await page_magalu.setUserAgent(randonUserAgent.getRandom());
         await page_magalu.goto(url_magalu);
 
@@ -115,7 +129,7 @@ class MaquinasDeSoldaListService {
         await browser_magalu.close();
 
 
-        // ---------------------------------- //
+        // ----------------- MERCADO LIVRE ----------------- //
 
 
         const url_livre = 'https://lista.mercadolivre.com.br/m%C3%A1quina-de-solda#D[A:m%C3%A1quina%20de%20solda]';
@@ -123,21 +137,25 @@ class MaquinasDeSoldaListService {
         let l = 1;
 
         const browser_livre = await puppeteer.launch({
-            headless: false,
-            defaultViewport: null
+            headless: false
         });
         const page_livre = await browser_livre.newPage();
+        await page_livre.setViewport({
+            width: 1800,
+            height: 900,
+            deviceScaleFactor: 1,
+            isMobile: false
+        });
         await page_livre.setUserAgent(randonUserAgent.getRandom());
         await page_livre.goto(url_livre);
 
         await page_livre.waitForSelector('.ui-search-item__group--title');
         const links_livre = await page_livre.$$eval('.ui-search-item__group--title > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-        const novoArray = links_livre.filter(item => typeof item === 'string' && item.length > 200).map(item => item);
+        const links_new_livre = links_livre.filter(item => typeof item === 'string' && item.length > 200).map(item => item);
 
-
-        for (const link of novoArray) {
-            if (l === 21) continue;
+        for (const link of links_new_livre) {
+            if (l === 6) continue;
             await page_livre.goto(link);
             await page_livre.waitForSelector('.ui-pdp-title');
 
@@ -174,7 +192,7 @@ class MaquinasDeSoldaListService {
         await browser_livre.close();
 
 
-        // ---------------------------------- //
+        // ----------------- ESAB ----------------- //
 
 
         const url_esab = 'https://www.lojaesab.com.br/maquinas-de-solda?limit=24';
@@ -186,6 +204,12 @@ class MaquinasDeSoldaListService {
             defaultViewport: null
         });
         const page_esab = await browser_esab.newPage();
+        await page_esab.setViewport({
+            width: 1800,
+            height: 900,
+            deviceScaleFactor: 1,
+            isMobile: false
+        });
         await page_esab.setUserAgent(randonUserAgent.getRandom());
         await page_esab.goto(url_esab);
 
@@ -193,7 +217,7 @@ class MaquinasDeSoldaListService {
         const links_esab = await page_esab.$$eval('.area-product > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
         for (const link of links_esab) {
-            if (e === 21) continue;
+            if (e === 6) continue;
             await page_esab.goto(link);
             await page_esab.waitForSelector('.product-name');
 
@@ -235,16 +259,21 @@ class MaquinasDeSoldaListService {
         await browser_esab.close();
 
 
-        // ---------------------------------- //
+        // ----------------- LOJA DO MECANICO ----------------- //
 
 
         const url_mecanico = 'https://www.google.com/search?sca_esv=584838229&tbm=shop&sxsrf=ACQVn0-GEFCj6Gvd40tdVLc00-cDZDzxPg:1706872438258&q=maquina+de+solda&tbs=mr:1,merchagg:m10892984&sa=X&ved=0ahUKEwiHm--qw4yEAxUGJrkGHd5IAdEQsysIwwkoAg&biw=1358&bih=620&dpr=1';
 
         const browser_mecanico = await puppeteer.launch({
-            headless: false,
-            defaultViewport: null
+            headless: false
         });
         const page_mecanico = await browser_mecanico.newPage();
+        await page_magalu.setViewport({
+            width: 775,
+            height: 667,
+            deviceScaleFactor: 2,
+            isMobile: true
+        });
         await page_mecanico.setUserAgent(randonUserAgent.getRandom());
         await page_mecanico.goto(url_mecanico);
 
@@ -297,9 +326,15 @@ class MaquinasDeSoldaListService {
 
         list_products.push(new_mecanico);
 
-        console.log(list_products)
-
         await browser_mecanico.close();
+
+
+        // -----------------  ----------------- //
+
+
+
+
+        console.log(list_products)
 
         return list_products;
 
