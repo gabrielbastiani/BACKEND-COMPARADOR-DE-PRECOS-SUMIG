@@ -233,7 +233,7 @@ class MaquinasDeSoldaListService {
             isMobile: false
         });
         await page_amazon.setUserAgent(randonUserAgent.getRandom());
-        await page_amazon.goto(url_amazon);
+        await page_amazon.goto(url_amazon, { timeout: 60000 });
 
         try {
 
@@ -688,6 +688,7 @@ class MaquinasDeSoldaListService {
         let ca = 1;
 
         const browser_carrefour = await puppeteer.launch({
+            args: ['--disable-http2', '--disable-cache'],
             headless: false,
             defaultViewport: null
         });
