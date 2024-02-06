@@ -34,6 +34,9 @@ import { DutraMaquinasMaquinasDeSoldaListController } from "./controllers/produc
 import { ShopeeMaquinasDeSoldaListController } from "./controllers/products/machines-weld/ShopeeMaquinasDeSoldaListController";
 import { CasasBahiaMaquinasDeSoldaListController } from "./controllers/products/machines-weld/CasasBahiaMaquinasDeSoldaListController";
 import { PontoFrioMaquinasDeSoldaListController } from "./controllers/products/machines-weld/PontoFrioMaquinasDeSoldaListController";
+import { MadeiraMadeiraMaquinasDeSoldaListController } from "./controllers/products/machines-weld/MadeiraMadeiraMaquinasDeSoldaListController";
+import { LeroyMerlinMaquinasDeSoldaListController } from "./controllers/products/machines-weld/LeroyMerlinMaquinasDeSoldaListController";
+import { FerramentasKennedyMaquinasDeSoldaListController } from "./controllers/products/machines-weld/FerramentasKennedyMaquinasDeSoldaListController";
 
 
 
@@ -72,6 +75,9 @@ router.get('/dutra_maquinas_machines_weld', isAuthenticated, new DutraMaquinasMa
 router.get('/shopee_machines_weld', isAuthenticated, new ShopeeMaquinasDeSoldaListController().handle);
 router.get('/casas_bahia_machines_weld', isAuthenticated, new CasasBahiaMaquinasDeSoldaListController().handle);
 router.get('/ponto_frio_machines_weld', isAuthenticated, new PontoFrioMaquinasDeSoldaListController().handle);
+router.get('/madeiramadeira_machines_weld', isAuthenticated, new MadeiraMadeiraMaquinasDeSoldaListController().handle);
+router.get('/leroy_merlin_machines_weld', isAuthenticated, new LeroyMerlinMaquinasDeSoldaListController().handle);
+router.get('/ferramentas_kennedy_machines_weld', isAuthenticated, new FerramentasKennedyMaquinasDeSoldaListController().handle);
 
 
 export { router }
