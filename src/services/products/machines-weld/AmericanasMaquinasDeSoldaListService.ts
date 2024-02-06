@@ -41,7 +41,7 @@ class AmericanasMaquinasDeSoldaListService {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
-            function processarString_americanas(str: string) {
+            function processarString(str: string) {
                 if (str.includes('.')) {
                     str = str.replace('.', '');
                 }
@@ -71,7 +71,7 @@ class AmericanasMaquinasDeSoldaListService {
             const new_americanas = Object.keys(obj_americanas.array1).map((index) => ({
                 store: store_americanas,
                 title: obj_americanas.array1[index],
-                price: processarString_americanas(obj_americanas.array2[index]),
+                price: processarString(obj_americanas.array2[index]),
                 brand: obj_americanas.array3[index],
                 link: obj_americanas.array4[index]
             }));

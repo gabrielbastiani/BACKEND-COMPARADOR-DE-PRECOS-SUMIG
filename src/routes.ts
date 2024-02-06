@@ -32,6 +32,8 @@ import { EsabMaquinasDeSoldaListController } from "./controllers/products/machin
 import { CarrefourMaquinasDeSoldaListController } from "./controllers/products/machines-weld/CarrefourMaquinasDeSoldaListController";
 import { DutraMaquinasMaquinasDeSoldaListController } from "./controllers/products/machines-weld/DutraMaquinasMaquinasDeSoldaListController";
 import { ShopeeMaquinasDeSoldaListController } from "./controllers/products/machines-weld/ShopeeMaquinasDeSoldaListController";
+import { CasasBahiaMaquinasDeSoldaListController } from "./controllers/products/machines-weld/CasasBahiaMaquinasDeSoldaListController";
+import { PontoFrioMaquinasDeSoldaListController } from "./controllers/products/machines-weld/PontoFrioMaquinasDeSoldaListController";
 
 
 
@@ -68,6 +70,8 @@ router.get('/esab_machines_weld', isAuthenticated, new EsabMaquinasDeSoldaListCo
 router.get('/carrefour_machines_weld', isAuthenticated, new CarrefourMaquinasDeSoldaListController().handle);
 router.get('/dutra_maquinas_machines_weld', isAuthenticated, new DutraMaquinasMaquinasDeSoldaListController().handle);
 router.get('/shopee_machines_weld', isAuthenticated, new ShopeeMaquinasDeSoldaListController().handle);
+router.get('/casas_bahia_machines_weld', isAuthenticated, new CasasBahiaMaquinasDeSoldaListController().handle);
+router.get('/ponto_frio_machines_weld', isAuthenticated, new PontoFrioMaquinasDeSoldaListController().handle);
 
 
 export { router }

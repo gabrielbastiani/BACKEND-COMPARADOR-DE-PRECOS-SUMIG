@@ -41,7 +41,7 @@ class DutraMaquinasMaquinasDeSoldaListService {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
-            function processarString_americanas(str: string) {
+            function processarString(str: string) {
                 if (str.includes('.')) {
                     str = str.replace('.', '');
                 }
@@ -71,7 +71,7 @@ class DutraMaquinasMaquinasDeSoldaListService {
             const new_dutra = Object.keys(obj_dutra.array1).map((index) => ({
                 store: store_dutra,
                 title: obj_dutra.array1[index],
-                price: processarString_americanas(obj_dutra.array2[index]),
+                price: processarString(obj_dutra.array2[index]),
                 brand: obj_dutra.array3[index],
                 link: obj_dutra.array4[index]
             }));

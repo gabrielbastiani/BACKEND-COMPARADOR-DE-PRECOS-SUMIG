@@ -41,7 +41,7 @@ class ShopeeMaquinasDeSoldaListService {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
-            function processarString_americanas(str: string) {
+            function processarString(str: string) {
                 if (str.includes('.')) {
                     str = str.replace('.', '');
                 }
@@ -71,7 +71,7 @@ class ShopeeMaquinasDeSoldaListService {
             const new_shopee = Object.keys(obj_shopee.array1).map((index) => ({
                 store: store_shopee,
                 title: obj_shopee.array1[index],
-                price: processarString_americanas(obj_shopee.array2[index]),
+                price: processarString(obj_shopee.array2[index]),
                 brand: obj_shopee.array3[index],
                 link: obj_shopee.array4[index]
             }));
