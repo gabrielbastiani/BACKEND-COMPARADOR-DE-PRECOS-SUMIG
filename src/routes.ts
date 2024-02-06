@@ -3,8 +3,6 @@ import multer from 'multer';
 import uploadConfig from './config/multer';
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
-const router = Router();
-const upload = multer(uploadConfig.upload("./images"));
 
 // -- USERS -- //
 import { CreateUserController } from "./controllers/user/CreateUserController";
@@ -25,7 +23,20 @@ import { UpdateImageCategoryController } from "./controllers/category/UpdateImag
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
 
 // -- PRODUCTS -- //
-import { MaquinasDeSoldaListController } from "./controllers/products/MaquinasDeSoldaListController";
+import { AmericanasMaquinasDeSoldaListController } from "./controllers/products/machines-weld/AmericanasMaquinasDeSoldaListController";
+import { LojaDoMecanicoMaquinasDeSoldaListController } from "./controllers/products/machines-weld/LojaDoMecanicoMaquinasDeSoldaListController";
+import { AmazonMaquinasDeSoldaListController } from "./controllers/products/machines-weld/AmazonMaquinasDeSoldaListController";
+import { MagaLuMaquinasDeSoldaListController } from "./controllers/products/machines-weld/MagaLuMaquinasDeSoldaListController";
+import { MercadoLivreMaquinasDeSoldaListController } from "./controllers/products/machines-weld/MercadoLivreMaquinasDeSoldaListController";
+import { EsabMaquinasDeSoldaListController } from "./controllers/products/machines-weld/EsabMaquinasDeSoldaListController";
+import { CarrefourMaquinasDeSoldaListController } from "./controllers/products/machines-weld/CarrefourMaquinasDeSoldaListController";
+import { DutraMaquinasMaquinasDeSoldaListController } from "./controllers/products/machines-weld/DutraMaquinasMaquinasDeSoldaListController";
+import { ShopeeMaquinasDeSoldaListController } from "./controllers/products/machines-weld/ShopeeMaquinasDeSoldaListController";
+
+
+
+const router = Router();
+const upload = multer(uploadConfig.upload("./images"));
 
 
 
@@ -48,7 +59,15 @@ router.put('/update_image_category', isAuthenticated, upload.single('file'), new
 router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
 
 // -- PRODUCTS -- //
-router.get('/machine_weld', isAuthenticated, new MaquinasDeSoldaListController().handle);
+router.get('/americanas_machines_weld', isAuthenticated, new AmericanasMaquinasDeSoldaListController().handle);
+router.get('/loja_do_mecanico_machines_weld', isAuthenticated, new LojaDoMecanicoMaquinasDeSoldaListController().handle);
+router.get('/amazon_machines_weld', isAuthenticated, new AmazonMaquinasDeSoldaListController().handle);
+router.get('/magalu_machines_weld', isAuthenticated, new MagaLuMaquinasDeSoldaListController().handle);
+router.get('/mercado_livre_machines_weld', isAuthenticated, new MercadoLivreMaquinasDeSoldaListController().handle);
+router.get('/esab_machines_weld', isAuthenticated, new EsabMaquinasDeSoldaListController().handle);
+router.get('/carrefour_machines_weld', isAuthenticated, new CarrefourMaquinasDeSoldaListController().handle);
+router.get('/dutra_maquinas_machines_weld', isAuthenticated, new DutraMaquinasMaquinasDeSoldaListController().handle);
+router.get('/shopee_machines_weld', isAuthenticated, new ShopeeMaquinasDeSoldaListController().handle);
 
 
 export { router }
