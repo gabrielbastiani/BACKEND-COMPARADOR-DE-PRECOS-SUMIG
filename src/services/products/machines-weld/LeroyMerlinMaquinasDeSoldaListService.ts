@@ -80,7 +80,7 @@ class LeroyMerlinMaquinasDeSoldaListService {
 
             await browser_leroy_merlin.close();
 
-            return list_products;
+            return list_products[0];
 
         } catch (error) {
             console.log(error);

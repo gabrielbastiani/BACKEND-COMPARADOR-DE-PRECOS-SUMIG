@@ -80,7 +80,7 @@ class ShopeeMaquinasDeSoldaListService {
 
             await browser_shopee.close();
 
-            return list_products;
+            return list_products[0];
 
         } catch (error) {
             console.log(error);

@@ -80,7 +80,7 @@ class DutraMaquinasMaquinasDeSoldaListService {
 
             await browser_dutra.close();
 
-            return list_products;
+            return list_products[0];
 
         } catch (error) {
             console.log(error);

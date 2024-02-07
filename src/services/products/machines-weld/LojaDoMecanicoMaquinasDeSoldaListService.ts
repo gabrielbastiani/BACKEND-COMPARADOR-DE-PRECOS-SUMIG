@@ -80,7 +80,7 @@ class LojaDoMecanicoMaquinasDeSoldaListService {
 
             await browser_mecanico.close();
 
-            return list_products;
+            return list_products[0];
 
         } catch (error) {
             console.log(error);

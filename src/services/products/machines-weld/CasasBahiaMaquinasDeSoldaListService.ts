@@ -80,7 +80,7 @@ class CasasBahiaMaquinasDeSoldaListService {
 
             await browser_casas_bahia.close();
 
-            return list_products;
+            return list_products[0];
 
         } catch (error) {
             console.log(error);
