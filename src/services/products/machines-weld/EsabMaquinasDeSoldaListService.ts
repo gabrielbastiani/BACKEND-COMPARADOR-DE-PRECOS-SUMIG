@@ -38,9 +38,9 @@ class EsabMaquinasDeSoldaListService {
                 if (e === 21) continue;
                 await page_esab.goto(link);
 
-                await page_esab.waitForSelector('.zoomContainer', { timeout: 60000 });
+                await page_esab.waitForSelector('#amasty_zoom_fix', { timeout: 60000 });
 
-                await page_esab.click('.zoomContainer');
+                await page_esab.click('#amasty_zoom_fix');
 
                 await page_esab.waitForSelector('.fancybox-image', { timeout: 60000 });
 
