@@ -35,8 +35,14 @@ class AmazonMaquinasDeSoldaListService {
             const links_amazon = await page_amazon.$$eval('.rush-component > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
             for (const link of links_amazon) {
-                if (a === 21) continue;
+                if (a === 5) continue;
                 await page_amazon.goto(link);
+
+                await page_amazon.waitForSelector('.a-dynamic-image', { timeout: 60000 });
+
+                const image = await page_amazon.$eval('.a-dynamic-image', (element: HTMLElement | null) => {
+                    return element ? element.getAttribute('src') : '';
+                });
 
                 await page_amazon.waitForSelector('#productTitle', { timeout: 60000 });
 
@@ -75,6 +81,7 @@ class AmazonMaquinasDeSoldaListService {
                 const store = "Amazon.com";
 
                 const obj: { [key: string]: any } = {};
+                obj.image = image;
                 obj.store = store;
                 obj.title = title;
                 obj.price = Number(processarString(price + cents));
