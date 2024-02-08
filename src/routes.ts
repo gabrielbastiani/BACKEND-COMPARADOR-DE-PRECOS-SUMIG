@@ -63,7 +63,7 @@ router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryCon
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
 router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
 
-// -- PRODUCTS -- //
+// -- STORES -- //
 router.get('/americanas_machines_weld', isAuthenticated, new AmericanasMaquinasDeSoldaListController().handle);
 router.get('/loja_do_mecanico_machines_weld', isAuthenticated, new LojaDoMecanicoMaquinasDeSoldaListController().handle);
 router.get('/amazon_machines_weld', isAuthenticated, new AmazonMaquinasDeSoldaListController().handle);
