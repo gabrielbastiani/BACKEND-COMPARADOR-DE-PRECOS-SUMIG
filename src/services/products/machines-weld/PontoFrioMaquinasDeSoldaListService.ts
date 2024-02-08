@@ -27,6 +27,10 @@ class PontoFrioMaquinasDeSoldaListService {
 
         try {
 
+            await page_ponto_frio.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_ponto_frio.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_ponto_frio.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_ponto_frio = await page_ponto_frio.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class PontoFrioMaquinasDeSoldaListService {
             obj_ponto_frio.array2 = price_ponto_frio;
             obj_ponto_frio.array3 = brand_ponto_frio;
             obj_ponto_frio.array4 = links_ponto_frio;
+            obj_ponto_frio.array5 = images;
 
             const new_ponto_frio = Object.keys(obj_ponto_frio.array1).map((index) => ({
                 store: store_ponto_frio,
+                image: obj_ponto_frio.array5[index],
                 title: obj_ponto_frio.array1[index],
                 price: Number(processarString(obj_ponto_frio[index])),
                 brand: obj_ponto_frio.array3[index],

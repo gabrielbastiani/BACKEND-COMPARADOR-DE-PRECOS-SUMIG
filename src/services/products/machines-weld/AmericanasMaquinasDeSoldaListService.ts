@@ -27,6 +27,10 @@ class AmericanasMaquinasDeSoldaListService {
 
         try {
 
+            await page_americanas.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_americanas.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_americanas.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_americanas = await page_americanas.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class AmericanasMaquinasDeSoldaListService {
             obj_americanas.array2 = price_americanas;
             obj_americanas.array3 = brand_americanas;
             obj_americanas.array4 = links_americanas;
+            obj_americanas.array5 = images;
 
             const new_americanas = Object.keys(obj_americanas.array1).map((index) => ({
                 store: store_americanas,
+                image: obj_americanas.array5[index],
                 title: obj_americanas.array1[index],
                 price: Number(processarString(obj_americanas.array2[index])),
                 brand: obj_americanas.array3[index],

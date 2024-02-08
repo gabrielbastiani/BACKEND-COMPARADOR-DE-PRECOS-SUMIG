@@ -81,8 +81,8 @@ class AmazonMaquinasDeSoldaListService {
                 const store = "Amazon.com";
 
                 const obj: { [key: string]: any } = {};
-                obj.image = image;
                 obj.store = store;
+                obj.image = image;
                 obj.title = title;
                 obj.price = Number(processarString(price + cents));
                 obj.brand = brand.replace(/\|/g, '');

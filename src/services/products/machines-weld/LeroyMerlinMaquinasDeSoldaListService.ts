@@ -27,6 +27,10 @@ class LeroyMerlinMaquinasDeSoldaListService {
 
         try {
 
+            await page_leroy_merlin.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_leroy_merlin.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_leroy_merlin.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_leroy_merlin = await page_leroy_merlin.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class LeroyMerlinMaquinasDeSoldaListService {
             obj_leroy_merlin.array2 = price_leroy_merlin;
             obj_leroy_merlin.array3 = brand_leroy_merlin;
             obj_leroy_merlin.array4 = links_leroy_merlin;
+            obj_leroy_merlin.array5 = images;
 
             const new_leroy_merlin = Object.keys(obj_leroy_merlin.array1).map((index) => ({
                 store: store_leroy_merlin,
+                image: obj_leroy_merlin.array5[index],
                 title: obj_leroy_merlin.array1[index],
                 price: Number(processarString(obj_leroy_merlin.array2[index])),
                 brand: obj_leroy_merlin.array3[index],

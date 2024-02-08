@@ -27,6 +27,10 @@ class DutraMaquinasMaquinasDeSoldaListService {
 
         try {
 
+            await page_dutra.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_dutra.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_dutra.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_dutra = await page_dutra.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class DutraMaquinasMaquinasDeSoldaListService {
             obj_dutra.array2 = price_dutra;
             obj_dutra.array3 = brand_dutra;
             obj_dutra.array4 = links_dutra;
+            obj_dutra.array5 = images;
 
             const new_dutra = Object.keys(obj_dutra.array1).map((index) => ({
                 store: store_dutra,
+                image: obj_dutra.array5[index],
                 title: obj_dutra.array1[index],
                 price: Number(processarString(obj_dutra.array2[index])),
                 brand: obj_dutra.array3[index],

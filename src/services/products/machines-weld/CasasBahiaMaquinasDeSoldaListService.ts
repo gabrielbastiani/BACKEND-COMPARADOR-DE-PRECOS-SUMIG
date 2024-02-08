@@ -27,6 +27,10 @@ class CasasBahiaMaquinasDeSoldaListService {
 
         try {
 
+            await page_casas_bahia.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_casas_bahia.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_casas_bahia.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_casas_bahia = await page_casas_bahia.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class CasasBahiaMaquinasDeSoldaListService {
             obj_casas_bahia.array2 = price_casas_bahia;
             obj_casas_bahia.array3 = brand_casas_bahia;
             obj_casas_bahia.array4 = links_casas_bahia;
+            obj_casas_bahia.array5 = images;
 
             const new_casas_bahia = Object.keys(obj_casas_bahia.array1).map((index) => ({
                 store: store_casas_bahia,
+                image: obj_casas_bahia.array5[index],
                 title: obj_casas_bahia.array1[index],
                 price: Number(processarString(obj_casas_bahia.array2[index])),
                 brand: obj_casas_bahia.array3[index],

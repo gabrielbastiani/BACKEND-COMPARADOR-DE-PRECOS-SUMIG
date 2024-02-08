@@ -27,6 +27,10 @@ class FerramentasKennedyMaquinasDeSoldaListService {
 
         try {
 
+            await page_ferramentas_kennedy.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_ferramentas_kennedy.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_ferramentas_kennedy.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_ferramentas_kennedy = await page_ferramentas_kennedy.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class FerramentasKennedyMaquinasDeSoldaListService {
             obj_ferramentas_kennedy.array2 = price_ferramentas_kennedy;
             obj_ferramentas_kennedy.array3 = brand_ferramentas_kennedy;
             obj_ferramentas_kennedy.array4 = links_ferramentas_kennedy;
+            obj_ferramentas_kennedy.array5 = images;
 
             const new_ferramentas_kennedy = Object.keys(obj_ferramentas_kennedy.array1).map((index) => ({
                 store: store_ferramentas_kennedy,
+                image: obj_ferramentas_kennedy.array5[index],
                 title: obj_ferramentas_kennedy.array1[index],
                 price: Number(processarString(obj_ferramentas_kennedy.array2[index])),
                 brand: obj_ferramentas_kennedy.array3[index],

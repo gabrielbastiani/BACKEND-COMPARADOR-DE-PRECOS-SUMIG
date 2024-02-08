@@ -27,6 +27,10 @@ class LojaDoMecanicoMaquinasDeSoldaListService {
 
         try {
 
+            await page_mecanico.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_mecanico.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_mecanico.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_mecanico = await page_mecanico.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class LojaDoMecanicoMaquinasDeSoldaListService {
             obj.array2 = price;
             obj.array3 = brand;
             obj.array4 = links_mecanico;
+            obj.array5 = images;
 
             const new_mecanico = Object.keys(obj.array1).map((index) => ({
                 store,
+                image: obj.array5[index],
                 title: obj.array1[index],
                 price: Number(processarString(obj.array2[index])),
                 brand: obj.array3[index],

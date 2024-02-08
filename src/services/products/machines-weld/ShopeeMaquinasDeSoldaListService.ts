@@ -27,6 +27,10 @@ class ShopeeMaquinasDeSoldaListService {
 
         try {
 
+            await page_shopee.waitForSelector('.oR27Gd', { timeout: 60000 });
+
+            const images = await page_shopee.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+
             await page_shopee.waitForSelector('.rgHvZc', { timeout: 60000 });
 
             const links_shopee = await page_shopee.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
@@ -67,9 +71,11 @@ class ShopeeMaquinasDeSoldaListService {
             obj_shopee.array2 = price_shopee;
             obj_shopee.array3 = brand_shopee;
             obj_shopee.array4 = links_shopee;
+            obj_shopee.array5 = images;
 
             const new_shopee = Object.keys(obj_shopee.array1).map((index) => ({
                 store: store_shopee,
+                image: obj_shopee.array5[index],
                 title: obj_shopee.array1[index],
                 price: Number(processarString(obj_shopee[index])),
                 brand: obj_shopee.array3[index],
