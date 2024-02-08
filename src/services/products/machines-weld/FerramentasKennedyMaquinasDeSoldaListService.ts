@@ -71,7 +71,7 @@ class FerramentasKennedyMaquinasDeSoldaListService {
             const new_ferramentas_kennedy = Object.keys(obj_ferramentas_kennedy.array1).map((index) => ({
                 store: store_ferramentas_kennedy,
                 title: obj_ferramentas_kennedy.array1[index],
-                price: processarString(obj_ferramentas_kennedy.array2[index]),
+                price: Number(processarString(obj_ferramentas_kennedy.array2[index])),
                 brand: obj_ferramentas_kennedy.array3[index],
                 link: obj_ferramentas_kennedy.array4[index]
             }));

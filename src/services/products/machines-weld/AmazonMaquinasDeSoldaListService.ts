@@ -44,10 +44,26 @@ class AmazonMaquinasDeSoldaListService {
                     return element ? element.innerText : '';
                 });
 
+                await page_amazon.waitForSelector('.a-price-fraction', { timeout: 60000 });
+
+                const cents = await page_amazon.$eval('.a-price-fraction', (element: HTMLElement | null) => {
+                    return element ? element.innerText : '';
+                });
+
+                function processarString(str: string) {
+                    if (str.includes('.')) {
+                        str = str.replace('.', '');
+                    }
+    
+                    str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
+    
+                    return str;
+                }
+
                 await page_amazon.waitForSelector('.a-price-whole', { timeout: 60000 });
 
                 const price = await page_amazon.$eval('.a-price-whole', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
+                    return element ? "," + element.innerText : '';
                 });
 
                 await page_amazon.waitForSelector('.prodDetAttrValue', { timeout: 60000 });
@@ -61,7 +77,7 @@ class AmazonMaquinasDeSoldaListService {
                 const obj: { [key: string]: any } = {};
                 obj.store = store;
                 obj.title = title;
-                obj.price = price.replace(/,|\n/g, '') + ".00";
+                obj.price = Number(processarString(price + cents));
                 obj.brand = brand.replace(/\|/g, '');
                 obj.link = link;
 

@@ -71,7 +71,7 @@ class CasasBahiaMaquinasDeSoldaListService {
             const new_casas_bahia = Object.keys(obj_casas_bahia.array1).map((index) => ({
                 store: store_casas_bahia,
                 title: obj_casas_bahia.array1[index],
-                price: processarString(obj_casas_bahia.array2[index]),
+                price: Number(processarString(obj_casas_bahia.array2[index])),
                 brand: obj_casas_bahia.array3[index],
                 link: obj_casas_bahia.array4[index]
             }));

@@ -71,7 +71,7 @@ class CarrefourMaquinasDeSoldaListService {
             const new_mecanico = Object.keys(obj.array1).map((index) => ({
                 store,
                 title: obj.array1[index],
-                price: processarString(obj.array2[index]),
+                price: Number(processarString(obj.array2[index])),
                 brand: obj.array3[index],
                 link: obj.array4[index]
             }));

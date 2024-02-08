@@ -71,7 +71,7 @@ class LeroyMerlinMaquinasDeSoldaListService {
             const new_leroy_merlin = Object.keys(obj_leroy_merlin.array1).map((index) => ({
                 store: store_leroy_merlin,
                 title: obj_leroy_merlin.array1[index],
-                price: processarString(obj_leroy_merlin.array2[index]),
+                price: Number(processarString(obj_leroy_merlin.array2[index])),
                 brand: obj_leroy_merlin.array3[index],
                 link: obj_leroy_merlin.array4[index]
             }));

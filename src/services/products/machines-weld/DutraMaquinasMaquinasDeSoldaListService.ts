@@ -71,7 +71,7 @@ class DutraMaquinasMaquinasDeSoldaListService {
             const new_dutra = Object.keys(obj_dutra.array1).map((index) => ({
                 store: store_dutra,
                 title: obj_dutra.array1[index],
-                price: processarString(obj_dutra.array2[index]),
+                price: Number(processarString(obj_dutra.array2[index])),
                 brand: obj_dutra.array3[index],
                 link: obj_dutra.array4[index]
             }));

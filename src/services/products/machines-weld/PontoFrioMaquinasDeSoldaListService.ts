@@ -71,7 +71,7 @@ class PontoFrioMaquinasDeSoldaListService {
             const new_ponto_frio = Object.keys(obj_ponto_frio.array1).map((index) => ({
                 store: store_ponto_frio,
                 title: obj_ponto_frio.array1[index],
-                price: processarString(obj_ponto_frio.array2[index]),
+                price: Number(processarString(obj_ponto_frio[index])),
                 brand: obj_ponto_frio.array3[index],
                 link: obj_ponto_frio.array4[index]
             }));

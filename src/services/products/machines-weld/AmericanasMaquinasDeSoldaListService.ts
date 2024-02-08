@@ -71,7 +71,7 @@ class AmericanasMaquinasDeSoldaListService {
             const new_americanas = Object.keys(obj_americanas.array1).map((index) => ({
                 store: store_americanas,
                 title: obj_americanas.array1[index],
-                price: processarString(obj_americanas.array2[index]),
+                price: Number(processarString(obj_americanas.array2[index])),
                 brand: obj_americanas.array3[index],
                 link: obj_americanas.array4[index]
             }));

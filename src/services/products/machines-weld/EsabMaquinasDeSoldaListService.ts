@@ -66,7 +66,7 @@ class EsabMaquinasDeSoldaListService {
                 const obj: { [key: string]: any } = {};
                 obj.store = store;
                 obj.title = title;
-                obj.price = processarString(price);
+                obj.price = Number(processarString(price));
                 obj.brand = brand;
                 obj.link = link;
 

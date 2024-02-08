@@ -56,12 +56,22 @@ class MagaLuMaquinasDeSoldaListService {
                     return element ? element.innerText : '';
                 });
 
+                function processarString(str: string) {
+                    if (str.includes('.')) {
+                        str = str.replace('.', '');
+                    }
+    
+                    str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
+    
+                    return str;
+                }
+
                 const store = "MagaLu";
 
                 const obj: { [key: string]: any } = {};
                 obj.store = store;
                 obj.title = title;
-                obj.price = price.replace(/R\$\s*/g, '').replace(/,/g, '.');
+                obj.price = Number(processarString(price));
                 obj.brand = brand;
                 obj.link = link;
 
