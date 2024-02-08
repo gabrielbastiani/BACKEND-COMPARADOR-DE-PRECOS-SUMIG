@@ -38,6 +38,16 @@ class EsabMaquinasDeSoldaListService {
                 if (e === 21) continue;
                 await page_esab.goto(link);
 
+                await page_esab.waitForSelector('.zoomContainer', { timeout: 60000 });
+
+                await page_esab.click('.zoomContainer');
+
+                await page_esab.waitForSelector('.fancybox-image', { timeout: 60000 });
+
+                const image = await page_esab.$eval('.fancybox-image', (element: HTMLElement | null) => {
+                    return element ? element.getAttribute('src') : '';
+                });
+
                 await page_esab.waitForSelector('.product-name', { timeout: 60000 });
 
                 const title = await page_esab.$eval('.product-name', (element: HTMLElement | null) => {
@@ -65,6 +75,7 @@ class EsabMaquinasDeSoldaListService {
 
                 const obj: { [key: string]: any } = {};
                 obj.store = store;
+                obj.image = image;
                 obj.title = title;
                 obj.price = Number(processarString(price));
                 obj.brand = brand;
