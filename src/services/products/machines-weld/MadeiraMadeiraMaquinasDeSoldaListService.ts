@@ -60,6 +60,12 @@ class MadeiraMadeiraMaquinasDeSoldaListService {
                     return str;
                 }
 
+                await page_madeiramadeira.waitForSelector('img', { timeout: 60000 });
+
+                const image = await page_madeiramadeira.$eval('img', (element: HTMLElement | null) => {
+                    return element ? element.getAttribute('src') : '';
+                });
+
                 await page_madeiramadeira.waitForSelector('.cav--c-difWUU', { timeout: 60000 });
 
                 const tabelaSelector = '.cav--c-dKpJQB';
@@ -90,6 +96,7 @@ class MadeiraMadeiraMaquinasDeSoldaListService {
 
                 const obj: { [key: string]: any } = {};
                 obj.store = store;
+                obj.image = image;
                 obj.title = title;
                 obj.price = Number(processarString(price));
                 obj.brand = dadosDaTabela[0][1];
