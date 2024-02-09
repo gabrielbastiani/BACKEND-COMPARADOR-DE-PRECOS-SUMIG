@@ -73,10 +73,17 @@ class MercadoLivreMaquinasDeSoldaListService {
                     return element ? element.innerText : '';
                 });
 
+                await page_livre.waitForSelector('.ui-pdp-image', { timeout: 60000 });
+
+                const image = await page_livre.$eval('.ui-pdp-image', (element: HTMLElement | null) => {
+                    return element ? element.getAttribute('src') : '';
+                });
+
                 const store = "Mercado Livre";
 
                 const obj: { [key: string]: any } = {};
                 obj.store = store;
+                obj.image = image;
                 obj.title = title;
                 obj.price = Number(processarString(price + cents));
                 obj.brand = brand;

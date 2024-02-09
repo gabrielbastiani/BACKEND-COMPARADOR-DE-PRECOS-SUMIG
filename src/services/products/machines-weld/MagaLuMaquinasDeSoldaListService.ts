@@ -56,6 +56,12 @@ class MagaLuMaquinasDeSoldaListService {
                     return element ? element.innerText : '';
                 });
 
+                await page_magalu.waitForSelector('.sc-cWSHoV', { timeout: 60000 });
+
+                const image = await page_magalu.$eval('.sc-cWSHoV', (element: HTMLElement | null) => {
+                    return element ? element.getAttribute('src') : '';
+                });
+
                 function processarString(str: string) {
                     if (str.includes('.')) {
                         str = str.replace('.', '');
@@ -70,6 +76,7 @@ class MagaLuMaquinasDeSoldaListService {
 
                 const obj: { [key: string]: any } = {};
                 obj.store = store;
+                obj.image = image;
                 obj.title = title;
                 obj.price = Number(processarString(price));
                 obj.brand = brand;
