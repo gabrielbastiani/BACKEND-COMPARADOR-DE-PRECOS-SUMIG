@@ -78,7 +78,7 @@ class PontoFrioMaquinasDeSoldaListService {
                 store: store_ponto_frio,
                 image: obj_ponto_frio.array5[index],
                 title: obj_ponto_frio.array1[index],
-                price: Number(processarString(obj_ponto_frio[index])),
+                price: Number(processarString(obj_ponto_frio.array2[index])),
                 brand: obj_ponto_frio.array3[index],
                 link: obj_ponto_frio.array4[index]
             }));

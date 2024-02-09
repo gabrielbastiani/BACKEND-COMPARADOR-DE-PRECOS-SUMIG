@@ -78,7 +78,7 @@ class ShopeeMaquinasDeSoldaListService {
                 store: store_shopee,
                 image: obj_shopee.array5[index],
                 title: obj_shopee.array1[index],
-                price: Number(processarString(obj_shopee[index])),
+                price: Number(processarString(obj_shopee.array2[index])),
                 brand: obj_shopee.array3[index],
                 link: obj_shopee.array4[index]
             }));
