@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
+import prismaClient from '../../../prisma';
 
 class ShopeeMaquinasDeSoldaListService {
     async execute() {
@@ -81,6 +82,19 @@ class ShopeeMaquinasDeSoldaListService {
                 brand: obj_shopee.array3[index],
                 link: obj_shopee.array4[index]
             }));
+
+            for (const item of new_shopee) {
+                await prismaClient.storeProduct.create({
+                    data: {
+                        store: item.store,
+                        image: item.image,
+                        title_product: item.title,
+                        price: item.price,
+                        brand: item.brand.replace(/\|/g, ''),
+                        link: item.link
+                    }
+                });
+            }
 
             list_products.push(new_shopee);
 

@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
+import prismaClient from '../../../prisma';
 
 class LeroyMerlinMaquinasDeSoldaListService {
     async execute() {
@@ -81,6 +82,19 @@ class LeroyMerlinMaquinasDeSoldaListService {
                 brand: obj_leroy_merlin.array3[index],
                 link: obj_leroy_merlin.array4[index]
             }));
+
+            for (const item of new_leroy_merlin) {
+                await prismaClient.storeProduct.create({
+                    data: {
+                        store: item.store,
+                        image: item.image,
+                        title_product: item.title,
+                        price: item.price,
+                        brand: item.brand.replace(/\|/g, ''),
+                        link: item.link
+                    }
+                });
+            }
 
             list_products.push(new_leroy_merlin);
 

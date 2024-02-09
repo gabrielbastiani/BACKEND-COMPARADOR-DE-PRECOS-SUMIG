@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
+import prismaClient from '../../../prisma';
 
 class CasasBahiaMaquinasDeSoldaListService {
     async execute() {
@@ -81,6 +82,19 @@ class CasasBahiaMaquinasDeSoldaListService {
                 brand: obj_casas_bahia.array3[index],
                 link: obj_casas_bahia.array4[index]
             }));
+
+            for (const item of new_casas_bahia) {
+                await prismaClient.storeProduct.create({
+                    data: {
+                        store: item.store,
+                        image: item.image,
+                        title_product: item.title,
+                        price: item.price,
+                        brand: item.brand.replace(/\|/g, ''),
+                        link: item.link
+                    }
+                });
+            }
 
             list_products.push(new_casas_bahia);
 

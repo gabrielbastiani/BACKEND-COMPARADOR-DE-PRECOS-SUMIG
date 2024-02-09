@@ -42,6 +42,8 @@ model Category {
   order    Int?
   status   StatusCategory @default(Disponivel)
 
+  Product    Product[]
+
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
 
@@ -53,34 +55,29 @@ enum StatusCategory {
   Indisponivel
 }
 
-model Stores {
-  id                  String @id @default(uuid())
-  amazon              Json?
-  americanas          Json?
-  carrefour           Json?
-  casas_bahia         Json?
-  dutra_maquinas      Json?
-  esab                Json?
-  ferramentas_kennedy Json?
-  leroy_merlin        Json?
-  loja_do_mecanico    Json?
-  madeiramadeira      Json?
-  magalu              Json?
-  mercado_livre       Json?
-  ponto_frio          Json?
-  shopee              Json?
+model StoreProduct {
+  id            String  @id @default(uuid())
+  store         String?
+  image         String?
+  title_product String?
+  price         Float?
+  brand         String?
+  link          String?
+
+  Product    Product[]
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
 
-  @@map("store")
+  @@map("storeproducts")
 }
 
 model Product {
-  id            String  @id @default(uuid())
-  title_product String?
-  price         Float?
-  store         String?
+  id              String        @id @default(uuid())
+  storeProduct    StoreProduct? @relation(fields: [storeProduct_id], references: [id])
+  storeProduct_id String?
+  category        Category?     @relation(fields: [category_id], references: [id])
+  category_id     String?
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
