@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
+import prismaClient from '../../../prisma';
 
 class MadeiraMadeiraMaquinasDeSoldaListService {
     async execute() {
@@ -10,106 +11,96 @@ class MadeiraMadeiraMaquinasDeSoldaListService {
         // ----------------- MADEIRAMADEIRA ----------------- //
 
 
-        const url_madeiramadeira = 'https://www.madeiramadeira.com.br/busca?q=maquina%20de%20solda&f=eyJxdWVyeVN0cmluZyI6W119';
+        const url_madeiramadeira = 'https://www.google.com/search?sca_esv=584838229&tbm=shop&sxsrf=ACQVn0-6KFAKou72wtWgG1CYNW-_CNq3Eg:1707652584097&q=maquina+de+solda&tbs=mr:1,merchagg:g11358442%7Cm734684566&sa=X&ved=0ahUKEwiwmLLNnaOEAxUaqZUCHVkcAY0QsysIkgkoDg&biw=1528&bih=708&dpr=1.25';
 
-        let m = 1;
-
-        const browser_madeira = await puppeteer.launch({
-            headless: false,
-            defaultViewport: null
+        const browser_madeiramadeira = await puppeteer.launch({
+            headless: false
         });
-        const page_madeiramadeira = await browser_madeira.newPage();
+        const page_madeiramadeira = await browser_madeiramadeira.newPage();
         await page_madeiramadeira.setViewport({
-            width: 1800,
-            height: 900,
-            deviceScaleFactor: 1,
-            isMobile: false
+            width: 775,
+            height: 667,
+            deviceScaleFactor: 2,
+            isMobile: true
         });
         await page_madeiramadeira.setUserAgent(randonUserAgent.getRandom());
         await page_madeiramadeira.goto(url_madeiramadeira);
 
         try {
 
-            await page_madeiramadeira.waitForSelector('.cav--c-zPire', { timeout: 60000 });
+            await page_madeiramadeira.waitForSelector('.oR27Gd', { timeout: 60000 });
 
-            const links_madeiramadeira = await page_madeiramadeira.$$eval('.cav--c-zPire > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+            const images = await page_madeiramadeira.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
 
-            for (const link of links_madeiramadeira) {
-                if (m === 21) continue;
-                await page_madeiramadeira.goto(link);
+            await page_madeiramadeira.waitForSelector('.rgHvZc', { timeout: 60000 });
 
-                await page_madeiramadeira.waitForSelector('.cav--c-fpAEqe', { timeout: 60000 });
+            const links_madeiramadeira = await page_madeiramadeira.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-                const title = await page_madeiramadeira.$eval('.cav--c-fpAEqe', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
-                });
+            const title_madeiramadeira = await page_madeiramadeira.$$eval(`.rgHvZc > a`, elementos => {
+                return elementos.map(elemento => elemento.textContent.trim());
+            });
 
-                await page_madeiramadeira.waitForSelector('.cav--c-gNPphv-hHqInm-size-h3', { timeout: 60000 });
+            await page_madeiramadeira.waitForSelector('.HRLxBb', { timeout: 60000 });
 
-                const price = await page_madeiramadeira.$eval('.cav--c-gNPphv-hHqInm-size-h3', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
-                });
+            const price_madeiramadeira = await page_madeiramadeira.$$eval('.HRLxBb', elementos => {
+                return elementos.map(elemento => elemento.textContent.trim());
+            });
 
-                function processarString(str: string) {
-                    if (str.includes('.')) {
-                        str = str.replace('.', '');
-                    }
-
-                    str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
-
-                    return str;
+            function processarString(str: string) {
+                if (str.includes('.')) {
+                    str = str.replace('.', '');
                 }
 
-                await page_madeiramadeira.waitForSelector('img', { timeout: 60000 });
+                str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
 
-                const image = await page_madeiramadeira.$eval('img', (element: HTMLElement | null) => {
-                    return element ? element.getAttribute('src') : '';
-                });
-
-                await page_madeiramadeira.waitForSelector('.cav--c-difWUU', { timeout: 60000 });
-
-                const tabelaSelector = '.cav--c-dKpJQB';
-
-                const dadosDaTabela = await page_madeiramadeira.evaluate((tabelaSelector) => {
-                    const tabela = document.querySelector(tabelaSelector);
-                    const linhas = tabela.querySelectorAll('tr');
-
-                    const dados = [];
-
-                    linhas.forEach((linha) => {
-                        const colunas = linha.querySelectorAll('td');
-                        const linhaDados = [];
-
-                        colunas.forEach((coluna) => {
-                            linhaDados.push(coluna.textContent.trim());
-                        });
-
-                        dados.push(linhaDados);
-
-                    });
-
-                    return dados;
-
-                }, tabelaSelector);
-
-                const store = "MadeiraMadeira";
-
-                const obj: { [key: string]: any } = {};
-                obj.store = store;
-                obj.image = image;
-                obj.title = title;
-                obj.price = Number(processarString(price));
-                obj.brand = dadosDaTabela[0][1];
-                obj.link = link;
-
-                list_products.push(obj);
-
-                m++;
+                return str;
             }
 
-            await browser_madeira.close();
+            const brand_madeiramadeira: any = [];
 
-            return list_products;
+            for (let i = 0; i < title_madeiramadeira.length; i++) {
+                const palavras = title_madeiramadeira[i].split(' ');
+                const brands = palavras[palavras.length - 1];
+
+                brand_madeiramadeira.push(brands);
+            }
+
+            const store_madeiramadeira = "MadeiraMadeira";
+
+            const obj_madeiramadeira: { [key: string]: any } = {};
+            obj_madeiramadeira.array1 = title_madeiramadeira;
+            obj_madeiramadeira.array2 = price_madeiramadeira;
+            obj_madeiramadeira.array3 = brand_madeiramadeira;
+            obj_madeiramadeira.array4 = links_madeiramadeira;
+            obj_madeiramadeira.array5 = images;
+
+            const new_madeiramadeira = Object.keys(obj_madeiramadeira.array1).map((index) => ({
+                store: store_madeiramadeira,
+                image: obj_madeiramadeira.array5[index],
+                title: obj_madeiramadeira.array1[index],
+                price: Number(processarString(obj_madeiramadeira.array2[index])),
+                brand: obj_madeiramadeira.array3[index],
+                link: obj_madeiramadeira.array4[index]
+            }));
+
+            for (const item of new_madeiramadeira) {
+                await prismaClient.storeProduct.create({
+                    data: {
+                        store: item.store,
+                        image: item.image,
+                        title_product: item.title,
+                        price: item.price,
+                        brand: item.brand.replace(/\|/g, ''),
+                        link: item.link
+                    }
+                });
+            }
+
+            list_products.push(new_madeiramadeira);
+
+            await browser_madeiramadeira.close();
+
+            return list_products[0];
 
         } catch (error) {
             console.log(error);

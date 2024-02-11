@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
+import prismaClient from '../../../prisma';
 
 class MercadoLivreMaquinasDeSoldaListService {
     async execute() {
@@ -10,98 +11,102 @@ class MercadoLivreMaquinasDeSoldaListService {
         // ----------------- MERCADO LIVRE ----------------- //
 
 
-        const url_livre = 'https://lista.mercadolivre.com.br/m%C3%A1quina-de-solda#D[A:m%C3%A1quina%20de%20solda]';
+        const url_mercadolivre = 'https://www.google.com/search?sca_esv=584838229&tbm=shop&sxsrf=ACQVn0_infdiwy0yi57d5LegpG66Vgs5yQ:1707651865854&q=maquina+de+solda&tbs=mr:1,merchagg:g8670533%7Cm735125422%7Cm735098639%7Cm735098660%7Cm735128188%7Cm255113151&sa=X&ved=0ahUKEwjdrfT2mqOEAxUTppUCHQIuA8wQsysIoAkoEQ&biw=1528&bih=708&dpr=1.25';
 
-        let l = 1;
-
-        const browser_livre = await puppeteer.launch({
+        const browser_mercadolivre = await puppeteer.launch({
             headless: false
         });
-        const page_livre = await browser_livre.newPage();
-        await page_livre.setViewport({
-            width: 1800,
-            height: 900,
-            deviceScaleFactor: 1,
-            isMobile: false
+        const page_mercadolivre = await browser_mercadolivre.newPage();
+        await page_mercadolivre.setViewport({
+            width: 775,
+            height: 667,
+            deviceScaleFactor: 2,
+            isMobile: true
         });
-        await page_livre.setUserAgent(randonUserAgent.getRandom());
-        await page_livre.goto(url_livre);
+        await page_mercadolivre.setUserAgent(randonUserAgent.getRandom());
+        await page_mercadolivre.goto(url_mercadolivre);
 
         try {
 
-            await page_livre.waitForSelector('.ui-search-item__group--title', { timeout: 60000 });
+            await page_mercadolivre.waitForSelector('.oR27Gd', { timeout: 60000 });
 
-            const links_livre = await page_livre.$$eval('.ui-search-item__group--title > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+            const images = await page_mercadolivre.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
 
-            const links_new_livre = links_livre.filter(item => typeof item === 'string' && item.length > 200).map(item => item);
+            await page_mercadolivre.waitForSelector('.rgHvZc', { timeout: 60000 });
 
-            for (const link of links_new_livre) {
-                if (l === 21) continue;
-                await page_livre.goto(link);
+            const links_mercadolivre = await page_mercadolivre.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-                await page_livre.waitForSelector('.ui-pdp-title', { timeout: 60000 });
+            const title_mercadolivre = await page_mercadolivre.$$eval(`.rgHvZc > a`, elementos => {
+                return elementos.map(elemento => elemento.textContent.trim());
+            });
 
-                const title = await page_livre.$eval('.ui-pdp-title', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
-                });
+            await page_mercadolivre.waitForSelector('.HRLxBb', { timeout: 60000 });
 
-                await page_livre.waitForSelector('.andes-money-amount__cents', { timeout: 60000 });
+            const price_mercadolivre = await page_mercadolivre.$$eval('.HRLxBb', elementos => {
+                return elementos.map(elemento => elemento.textContent.trim());
+            });
 
-                const cents = await page_livre.$eval('.andes-money-amount__cents', (element: HTMLElement | null) => {
-                    return element ? "," + element.innerText : '';
-                });
-
-                function processarString(str: string) {
-                    if (str.includes('.')) {
-                        str = str.replace('.', '');
-                    }
-    
-                    str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
-    
-                    return str;
+            function processarString(str: string) {
+                if (str.includes('.')) {
+                    str = str.replace('.', '');
                 }
 
-                await page_livre.waitForSelector('.andes-money-amount__cents', { timeout: 60000 });
+                str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
 
-                const price = await page_livre.$eval('.andes-money-amount__fraction', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
-                });
-
-                await page_livre.waitForSelector('.andes-table__column--value', { timeout: 60000 });
-
-                const brand = await page_livre.$eval('.andes-table__column--value', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
-                });
-
-                await page_livre.waitForSelector('.ui-pdp-image', { timeout: 60000 });
-
-                const image = await page_livre.$eval('.ui-pdp-image', (element: HTMLElement | null) => {
-                    return element ? element.getAttribute('src') : '';
-                });
-
-                const store = "Mercado Livre";
-
-                const obj: { [key: string]: any } = {};
-                obj.store = store;
-                obj.image = image;
-                obj.title = title;
-                obj.price = Number(processarString(price + cents));
-                obj.brand = brand;
-                obj.link = link;
-
-                list_products.push(obj);
-
-                l++;
+                return str;
             }
 
-            await browser_livre.close();
+            const brand_mercadolivre: any = [];
 
-            return list_products;
+            for (let i = 0; i < title_mercadolivre.length; i++) {
+                const palavras = title_mercadolivre[i].split(' ');
+                const brands = palavras[palavras.length - 1];
+
+                brand_mercadolivre.push(brands);
+            }
+
+            const store_mercadolivre = "Mercado Livre";
+
+            const obj_mercadolivre: { [key: string]: any } = {};
+            obj_mercadolivre.array1 = title_mercadolivre;
+            obj_mercadolivre.array2 = price_mercadolivre;
+            obj_mercadolivre.array3 = brand_mercadolivre;
+            obj_mercadolivre.array4 = links_mercadolivre;
+            obj_mercadolivre.array5 = images;
+
+            const new_mercadolivre = Object.keys(obj_mercadolivre.array1).map((index) => ({
+                store: store_mercadolivre,
+                image: obj_mercadolivre.array5[index],
+                title: obj_mercadolivre.array1[index],
+                price: Number(processarString(obj_mercadolivre.array2[index])),
+                brand: obj_mercadolivre.array3[index],
+                link: obj_mercadolivre.array4[index]
+            }));
+
+            for (const item of new_mercadolivre) {
+                await prismaClient.storeProduct.create({
+                    data: {
+                        store: item.store,
+                        image: item.image,
+                        title_product: item.title,
+                        price: item.price,
+                        brand: item.brand.replace(/\|/g, ''),
+                        link: item.link
+                    }
+                });
+            }
+
+            list_products.push(new_mercadolivre);
+
+            await browser_mercadolivre.close();
+
+            return list_products[0];
 
         } catch (error) {
             console.log(error);
             throw new Error("Erro ao carregar dados da concorrencia = Mercado Livre");
         }
+
     }
 
 }

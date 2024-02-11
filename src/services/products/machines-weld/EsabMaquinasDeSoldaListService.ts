@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
+import prismaClient from '../../../prisma';
 
 class EsabMaquinasDeSoldaListService {
     async execute() {
@@ -10,90 +11,92 @@ class EsabMaquinasDeSoldaListService {
         // ----------------- ESAB ----------------- //
 
 
-        const url_esab = 'https://www.lojaesab.com.br/maquinas-de-solda?limit=24';
-
-        let e = 1;
+        const url_esab = 'https://www.google.com/search?sca_esv=584838229&tbm=shop&sxsrf=ACQVn08BTT6y36GZcj95hVO3R2tg-Jk3Qg:1707649453556&q=maquina+de+solda&tbs=mr:1,merchagg:m560953009&sa=X&ved=0ahUKEwjVntH4kaOEAxXwrZUCHbMVDuQQsysImQkoDg&biw=1528&bih=708&dpr=1.25';
 
         const browser_esab = await puppeteer.launch({
-            headless: false,
-            defaultViewport: null
+            headless: false
         });
         const page_esab = await browser_esab.newPage();
         await page_esab.setViewport({
-            width: 1800,
-            height: 900,
-            deviceScaleFactor: 1,
-            isMobile: false
+            width: 775,
+            height: 667,
+            deviceScaleFactor: 2,
+            isMobile: true
         });
         await page_esab.setUserAgent(randonUserAgent.getRandom());
         await page_esab.goto(url_esab);
 
         try {
 
-            await page_esab.waitForSelector('.area-product', { timeout: 60000 });
+            await page_esab.waitForSelector('.oR27Gd', { timeout: 60000 });
 
-            const links_esab = await page_esab.$$eval('.area-product > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+            const images = await page_esab.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
 
-            for (const link of links_esab) {
-                if (e === 21) continue;
-                await page_esab.goto(link);
+            await page_esab.waitForSelector('.rgHvZc', { timeout: 60000 });
 
-                await page_esab.waitForSelector('#amasty_zoom_fix', { timeout: 60000 });
+            const links_esab = await page_esab.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-                await page_esab.click('#amasty_zoom_fix');
+            const title_esab = await page_esab.$$eval(`.rgHvZc > a`, elementos => {
+                return elementos.map(elemento => elemento.textContent.trim());
+            });
 
-                await page_esab.waitForSelector('.fancybox-image', { timeout: 60000 });
+            await page_esab.waitForSelector('.HRLxBb', { timeout: 60000 });
 
-                const image = await page_esab.$eval('.fancybox-image', (element: HTMLElement | null) => {
-                    return element ? element.getAttribute('src') : '';
-                });
+            const price_esab = await page_esab.$$eval('.HRLxBb', elementos => {
+                return elementos.map(elemento => elemento.textContent.trim());
+            });
 
-                await page_esab.waitForSelector('.product-name', { timeout: 60000 });
-
-                const title = await page_esab.$eval('.product-name', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
-                });
-
-                await page_esab.waitForSelector('.price', { timeout: 60000 });
-
-                const price = await page_esab.$eval('.price', (element: HTMLElement | null) => {
-                    return element ? element.innerText : '';
-                });
-
-                function processarString(str: string) {
-                    if (str.includes('.')) {
-                        str = str.replace('.', '');
-                    }
-
-                    str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
-
-                    return str;
+            function processarString(str: string) {
+                if (str.includes('.')) {
+                    str = str.replace('.', '');
                 }
 
-                const store = "ESAB";
-                const brand = "ESAB";
+                str = str.replace(/R\$\s*/g, '').replace(/,/g, '.');
 
-                const obj: { [key: string]: any } = {};
-                obj.store = store;
-                obj.image = image;
-                obj.title = title;
-                obj.price = Number(processarString(price));
-                obj.brand = brand;
-                obj.link = link;
-
-                list_products.push(obj);
-
-                e++;
+                return str;
             }
+
+            const store_esab = "ESAB";
+            const brand_esab = "ESAB";
+
+            const obj_esab: { [key: string]: any } = {};
+            obj_esab.array1 = title_esab;
+            obj_esab.array2 = price_esab;
+            obj_esab.array4 = links_esab;
+            obj_esab.array5 = images;
+
+            const new_esab = Object.keys(obj_esab.array1).map((index) => ({
+                store: store_esab,
+                image: obj_esab.array5[index],
+                title: obj_esab.array1[index],
+                price: Number(processarString(obj_esab.array2[index])),
+                link: obj_esab.array4[index]
+            }));
+
+            for (const item of new_esab) {
+                await prismaClient.storeProduct.create({
+                    data: {
+                        store: item.store,
+                        image: item.image,
+                        title_product: item.title,
+                        price: item.price,
+                        brand: brand_esab,
+                        link: item.link
+                    }
+                });
+            }
+
+            list_products.push(new_esab);
 
             await browser_esab.close();
 
-            return list_products;
+            return list_products[0];
 
         } catch (error) {
             console.log(error);
             throw new Error("Erro ao carregar dados da concorrencia = ESAB");
         }
+
     }
 
 }
