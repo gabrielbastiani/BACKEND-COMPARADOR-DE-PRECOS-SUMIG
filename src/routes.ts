@@ -37,6 +37,7 @@ import { PontoFrioMaquinasDeSoldaListController } from "./controllers/products/m
 import { MadeiraMadeiraMaquinasDeSoldaListController } from "./controllers/products/machines-weld/MadeiraMadeiraMaquinasDeSoldaListController";
 import { LeroyMerlinMaquinasDeSoldaListController } from "./controllers/products/machines-weld/LeroyMerlinMaquinasDeSoldaListController";
 import { FerramentasKennedyMaquinasDeSoldaListController } from "./controllers/products/machines-weld/FerramentasKennedyMaquinasDeSoldaListController";
+import { SUMIGMaquinasDeSoldaListController } from "./controllers/products/machines-weld/SUMIGMaquinasDeSoldaListController";
 
 
 
@@ -78,6 +79,7 @@ router.get('/ponto_frio_machines_weld', isAuthenticated, new PontoFrioMaquinasDe
 router.get('/madeiramadeira_machines_weld', isAuthenticated, new MadeiraMadeiraMaquinasDeSoldaListController().handle);
 router.get('/leroy_merlin_machines_weld', isAuthenticated, new LeroyMerlinMaquinasDeSoldaListController().handle);
 router.get('/ferramentas_kennedy_machines_weld', isAuthenticated, new FerramentasKennedyMaquinasDeSoldaListController().handle);
+router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMaquinasDeSoldaListController().handle);
 
 
 export { router }
