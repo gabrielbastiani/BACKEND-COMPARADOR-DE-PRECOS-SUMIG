@@ -38,6 +38,7 @@ import { MadeiraMadeiraMaquinasDeSoldaListController } from "./controllers/produ
 import { LeroyMerlinMaquinasDeSoldaListController } from "./controllers/products/machines-weld/LeroyMerlinMaquinasDeSoldaListController";
 import { FerramentasKennedyMaquinasDeSoldaListController } from "./controllers/products/machines-weld/FerramentasKennedyMaquinasDeSoldaListController";
 import { SUMIGMaquinasDeSoldaListController } from "./controllers/products/machines-weld/SUMIGMaquinasDeSoldaListController";
+import { UpdateBrandProductController } from "./controllers/products/UpdateBrandProductController";
 
 
 
@@ -80,6 +81,7 @@ router.get('/madeiramadeira_machines_weld', isAuthenticated, new MadeiraMadeiraM
 router.get('/leroy_merlin_machines_weld', isAuthenticated, new LeroyMerlinMaquinasDeSoldaListController().handle);
 router.get('/ferramentas_kennedy_machines_weld', isAuthenticated, new FerramentasKennedyMaquinasDeSoldaListController().handle);
 router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMaquinasDeSoldaListController().handle);
+router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
 
 
 export { router }
