@@ -39,6 +39,9 @@ import { LeroyMerlinMaquinasDeSoldaListController } from "./controllers/products
 import { FerramentasKennedyMaquinasDeSoldaListController } from "./controllers/products/machines-weld/FerramentasKennedyMaquinasDeSoldaListController";
 import { SUMIGMaquinasDeSoldaListController } from "./controllers/products/machines-weld/SUMIGMaquinasDeSoldaListController";
 import { UpdateBrandProductController } from "./controllers/products/UpdateBrandProductController";
+import { CreateProductController } from "./controllers/products/CreateProductController";
+import { ListAllProductController } from "./controllers/products/ListAllProductController";
+import { StoreListProductController } from "./controllers/products/StoreListProductController";
 
 
 
@@ -82,6 +85,11 @@ router.get('/leroy_merlin_machines_weld', isAuthenticated, new LeroyMerlinMaquin
 router.get('/ferramentas_kennedy_machines_weld', isAuthenticated, new FerramentasKennedyMaquinasDeSoldaListController().handle);
 router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMaquinasDeSoldaListController().handle);
 router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
+
+// -- PRODUCTS -- //
+router.post('/create_product', isAuthenticated, new CreateProductController().handle);
+router.get('/list_all_products', isAuthenticated, new ListAllProductController().handle);
+router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
 
 
 export { router }
