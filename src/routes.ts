@@ -42,6 +42,7 @@ import { UpdateBrandProductController } from "./controllers/products/UpdateBrand
 import { CreateProductController } from "./controllers/products/CreateProductController";
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
+import { DeleteProductController } from "./controllers/products/DeleteProductController";
 
 
 
@@ -90,6 +91,7 @@ router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().
 router.post('/create_product', isAuthenticated, new CreateProductController().handle);
 router.get('/list_all_products', isAuthenticated, new ListAllProductController().handle);
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
+router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
 
 
 export { router }
