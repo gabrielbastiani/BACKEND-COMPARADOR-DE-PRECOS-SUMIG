@@ -2,47 +2,46 @@ import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
 import prismaClient from '../../../prisma';
 
-class CarrefourMaquinasDeSoldaListService {
-    async execute() {
+interface SearchRequest {
+    url_search: string;
+    stores: string;
+}
+
+class SearchMachinesStoresService {
+    async execute({ url_search, stores }: SearchRequest) {
 
         const list_products: any = [];
 
-
-        // ----------------- CARREFOUR ----------------- //
-
-
-        const url_carrefour = 'https://www.google.com/search?sca_esv=584838229&tbm=shop&sxsrf=ACQVn0-Q7I6b7pVcKPFWHAbXcu084c1qIA:1707228614910&q=maquina+de+solda&tbs=mr:1,merchagg:g115994814%7Cm142916516%7Cm142915541&sa=X&ved=0ahUKEwjgx5CZ8paEAxVFrJUCHehdDDIQsysIpgkoAg&biw=1592&bih=752&dpr=1';
-
-        const browser_carrefour = await puppeteer.launch({
+        const browser = await puppeteer.launch({
             headless: false
         });
-        const page_carrefour = await browser_carrefour.newPage();
-        await page_carrefour.setViewport({
+        const page = await browser.newPage();
+        await page.setViewport({
             width: 775,
             height: 667,
             deviceScaleFactor: 2,
             isMobile: true
         });
-        await page_carrefour.setUserAgent(randonUserAgent.getRandom());
-        await page_carrefour.goto(url_carrefour);
+        await page.setUserAgent(randonUserAgent.getRandom());
+        await page.goto(url_search);
 
         try {
 
-            await page_carrefour.waitForSelector('.oR27Gd', { timeout: 60000 });
+            await page.waitForSelector('.oR27Gd', { timeout: 60000 });
 
-            const images = await page_carrefour.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
+            const images = await page.$$eval('.oR27Gd > img', (el: any[]) => el.map((link: { src: any; }) => link.src));
 
-            await page_carrefour.waitForSelector('.rgHvZc', { timeout: 60000 });
+            await page.waitForSelector('.rgHvZc', { timeout: 60000 });
 
-            const links_carrefour = await page_carrefour.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+            const links = await page.$$eval('.rgHvZc > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-            const title = await page_carrefour.$$eval(`.rgHvZc > a`, elementos => {
+            const title = await page.$$eval(`.rgHvZc > a`, elementos => {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
-            await page_carrefour.waitForSelector('.HRLxBb', { timeout: 60000 });
+            await page.waitForSelector('.HRLxBb', { timeout: 60000 });
 
-            const price = await page_carrefour.$$eval('.HRLxBb', elementos => {
+            const price = await page.$$eval('.HRLxBb', elementos => {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
@@ -65,17 +64,17 @@ class CarrefourMaquinasDeSoldaListService {
                 brand.push(brands);
             }
 
-            const store = "Carrefour";
+            const store = stores;
 
             const obj: { [key: string]: any } = {};
             obj.array1 = title;
             obj.array2 = price;
             obj.array3 = brand;
-            obj.array4 = links_carrefour;
+            obj.array4 = links;
             obj.array5 = images;
 
-            const new_mecanico = Object.keys(obj.array1).map((index) => ({
-                store,
+            const news = Object.keys(obj.array1).map((index) => ({
+                store: store,
                 image: obj.array5[index],
                 title: obj.array1[index],
                 price: Number(processarString(obj.array2[index])),
@@ -83,7 +82,7 @@ class CarrefourMaquinasDeSoldaListService {
                 link: obj.array4[index]
             }));
 
-            for (const item of new_mecanico) {
+            for (const item of news) {
                 await prismaClient.storeProduct.create({
                     data: {
                         store: item.store,
@@ -96,19 +95,19 @@ class CarrefourMaquinasDeSoldaListService {
                 });
             }
 
-            list_products.push(new_mecanico);
+            list_products.push(news);
 
-            await browser_carrefour.close();
+            await browser.close();
 
             return list_products[0];
 
         } catch (error) {
             console.log(error);
-            throw new Error("Erro ao carregar dados da concorrencia = Carrefour");
+            throw new Error(`Erro ao carregar dados da concorrencia ${stores}`);
         }
 
     }
 
 }
 
-export { CarrefourMaquinasDeSoldaListService }
+export { SearchMachinesStoresService }

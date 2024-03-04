@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
 import prismaClient from '../../../prisma';
 
-class EsabMaquinasDeSoldaListService {
+class EsabSearchService {
     async execute() {
 
         const list_products: any = [];
@@ -101,4 +101,4 @@ class EsabMaquinasDeSoldaListService {
 
 }
 
-export { EsabMaquinasDeSoldaListService }
+export { EsabSearchService }
