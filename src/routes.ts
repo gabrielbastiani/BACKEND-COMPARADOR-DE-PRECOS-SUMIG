@@ -14,6 +14,7 @@ import { RequestPasswordRecoveryController } from "./controllers/user/passwordRe
 import { FindRecoveryIDUserController } from "./controllers/user/passwordRecovery/FindRecoveryIDUserController";
 import { UpdateNameUserController } from "./controllers/user/UpdateNameUserController";
 import { UpdateEmailUserController } from "./controllers/user/UpdateEmailUserController";
+import { FindUniqueUserController } from "./controllers/user/FindUniqueUserController";
 
 // -- CATEGORY -- //
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
@@ -51,6 +52,7 @@ router.put('/recover_password', new RecoveryPasswordController().handle);
 router.delete('/delete_recovery_id', isAuthenticated, new DeletePasswordRecoveryController().handle);
 router.post('/recovery_email', new RequestPasswordRecoveryController().handle);
 router.get('/find_recovery', isAuthenticated, new FindRecoveryIDUserController().handle);
+router.get('/find_unique_user', isAuthenticated, new FindUniqueUserController().handle);
 
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
