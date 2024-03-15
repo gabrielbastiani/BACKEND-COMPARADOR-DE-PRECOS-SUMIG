@@ -15,6 +15,7 @@ import { FindRecoveryIDUserController } from "./controllers/user/passwordRecover
 import { UpdateNameUserController } from "./controllers/user/UpdateNameUserController";
 import { UpdateEmailUserController } from "./controllers/user/UpdateEmailUserController";
 import { FindUniqueUserController } from "./controllers/user/FindUniqueUserController";
+import { DeleteUserController } from "./controllers/user/DeleteUserController";
 
 // -- CATEGORY -- //
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
@@ -22,6 +23,7 @@ import { UpdateNameCategoryController } from "./controllers/category/UpdateNameC
 import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrderCategoryController";
 import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
+import { AllCategoryController } from "./controllers/category/AllCategoryController";
 
 // -- SEARCH IN STORES -- //
 import { SearchMachinesStoresController } from "./controllers/products/searchMachines/SearchMachinesStoresController";
@@ -34,7 +36,6 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
-import { DeleteUserController } from "./controllers/user/DeleteUserController";
 
 
 
@@ -58,6 +59,7 @@ router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle
 
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
+router.get('/all_categorys', isAuthenticated, new AllCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
