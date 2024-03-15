@@ -34,6 +34,7 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
+import { DeleteUserController } from "./controllers/user/DeleteUserController";
 
 
 
@@ -53,6 +54,7 @@ router.delete('/delete_recovery_id', isAuthenticated, new DeletePasswordRecovery
 router.post('/recovery_email', new RequestPasswordRecoveryController().handle);
 router.get('/find_recovery', isAuthenticated, new FindRecoveryIDUserController().handle);
 router.get('/find_unique_user', isAuthenticated, new FindUniqueUserController().handle);
+router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle);
 
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
