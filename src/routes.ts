@@ -23,7 +23,7 @@ import { UpdateNameCategoryController } from "./controllers/category/UpdateNameC
 import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrderCategoryController";
 import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
-import { AllCategoryController } from "./controllers/category/AllCategoryController";
+import { AllCategoryLevelZeroController } from "./controllers/category/AllCategoryLevelZeroController";
 
 // -- SEARCH IN STORES -- //
 import { SearchMachinesStoresController } from "./controllers/products/searchMachines/SearchMachinesStoresController";
@@ -59,7 +59,7 @@ router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle
 
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
-router.get('/all_categorys', isAuthenticated, new AllCategoryController().handle);
+router.get('/all_zeros_levels_categorys', isAuthenticated, new AllCategoryLevelZeroController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);

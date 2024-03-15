@@ -1,11 +1,12 @@
 import { StatusCategory } from '@prisma/client';
 import prismaClient from '../../prisma';
 
-class AllCategoryService {
+class AllCategoryLevelZeroService {
     async execute() {
         const categorys = await prismaClient.category.findMany({
             where: {
-                status: StatusCategory.Disponivel
+                status: StatusCategory.Disponivel,
+                nivel: 0
             },
             orderBy: {
                 created_at: 'desc'
@@ -19,4 +20,4 @@ class AllCategoryService {
     }
 }
 
-export { AllCategoryService }
+export { AllCategoryLevelZeroService }
