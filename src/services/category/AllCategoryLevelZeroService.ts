@@ -9,7 +9,7 @@ class AllCategoryLevelZeroService {
                 nivel: 0
             },
             orderBy: {
-                created_at: 'desc'
+                order: 'desc'
             },
             include: {
                 Product: true
