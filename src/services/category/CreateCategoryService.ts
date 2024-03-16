@@ -3,7 +3,7 @@ import prismaClient from "../../prisma";
 interface CategoryRequest {
   name: string;
   nivel: number;
-  parentId: string | null;
+  parentId: string;
   order: number;
   image: string;
 }
