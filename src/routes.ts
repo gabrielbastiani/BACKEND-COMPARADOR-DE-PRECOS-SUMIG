@@ -36,6 +36,7 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
+import { FindUniqueCategoryController } from "./controllers/category/FindUniqueCategoryController";
 
 
 
@@ -60,6 +61,7 @@ router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
 router.get('/all_zeros_levels_categorys', isAuthenticated, new AllCategoryLevelZeroController().handle);
+router.get('/find_unique_category', isAuthenticated, new FindUniqueCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
