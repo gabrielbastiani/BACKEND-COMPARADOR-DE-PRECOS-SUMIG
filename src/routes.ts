@@ -20,6 +20,7 @@ import { DeleteUserController } from "./controllers/user/DeleteUserController";
 // -- CATEGORY -- //
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { UpdateNameCategoryController } from "./controllers/category/UpdateNameCategoryController";
+import { FindUniqueCategoryController } from "./controllers/category/FindUniqueCategoryController";
 import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrderCategoryController";
 import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
@@ -36,7 +37,6 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
-import { FindUniqueCategoryController } from "./controllers/category/FindUniqueCategoryController";
 
 
 
