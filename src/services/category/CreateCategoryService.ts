@@ -3,7 +3,7 @@ import prismaClient from "../../prisma";
 interface CategoryRequest {
   name: string;
   nivel: number;
-  parentId: string;
+  parentId: string | null;
   order: number;
   image: string;
 }
@@ -24,9 +24,9 @@ class CreateCategoryService {
       data: {
         name: name,
         slug: removerAcentos(name),
-        nivel: nivel,
+        nivel: Number(nivel),
         parentId: parentId,
-        order: order,
+        order: Number(order),
         image: image
       }
     });
