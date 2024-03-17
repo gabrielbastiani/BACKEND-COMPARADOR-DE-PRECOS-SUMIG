@@ -12,7 +12,7 @@ class UpdateOrderCategoryService {
                 id: category_id
             },
             data: {
-                order: order,
+                order: Number(order),
             }
         })
 
