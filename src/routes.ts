@@ -24,7 +24,6 @@ import { FindUniqueCategoryController } from "./controllers/category/FindUniqueC
 import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrderCategoryController";
 import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
-import { AllCategoryLevelZeroController } from "./controllers/category/AllCategoryLevelZeroController";
 import { DeleteCategoryController } from "./controllers/category/DeleteCategoryController";
 import { CreateSubCategoryController } from "./controllers/category/CreateSubCategoryController"
 import { AllCategorysController } from "./controllers/category/AllCategorysController";
@@ -63,7 +62,6 @@ router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
 router.post('/create_subcategory', isAuthenticated, new CreateSubCategoryController().handle);
-router.get('/all_zeros_levels_categorys', isAuthenticated, new AllCategoryLevelZeroController().handle);
 router.get('/all_categorys', isAuthenticated, new AllCategorysController().handle);
 router.get('/find_unique_category', isAuthenticated, new FindUniqueCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
