@@ -39,6 +39,7 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
+import { SubCategorysController } from "./controllers/category/SubCategorysController";
 
 
 const router = Router();
@@ -69,6 +70,7 @@ router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryCon
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
 router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
 router.delete('/delete_category', isAuthenticated, new DeleteCategoryController().handle);
+router.get('/sub_categorys_category', isAuthenticated, new SubCategorysController().handle);
 
 // -- SEARCH IN STORES -- //
 router.get('/search_products', isAuthenticated, new SearchMachinesStoresController().handle);
