@@ -25,6 +25,8 @@ import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrde
 import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
 import { AllCategoryLevelZeroController } from "./controllers/category/AllCategoryLevelZeroController";
+import { DeleteCategoryController } from "./controllers/category/DeleteCategoryController";
+import { CreateSubCategoryController } from "./controllers/category/CreateSubCategoryController"
 
 // -- SEARCH IN STORES -- //
 import { SearchMachinesStoresController } from "./controllers/products/searchMachines/SearchMachinesStoresController";
@@ -36,8 +38,7 @@ import { UpdateBrandProductController } from "./controllers/products/UpdateBrand
 import { CreateProductController } from "./controllers/products/CreateProductController";
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
-import { DeleteProductController } from "./controllers/products/DeleteProductController";
-import { DeleteCategoryController } from "./controllers/category/DeleteCategoryController";
+import { DeleteProductController } from "./controllers/products/DeleteProductController";;
 
 
 
@@ -61,6 +62,7 @@ router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle
 
 // -- CATEGORY -- //
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
+router.post('/create_subcategory', isAuthenticated, new CreateSubCategoryController().handle);
 router.get('/all_zeros_levels_categorys', isAuthenticated, new AllCategoryLevelZeroController().handle);
 router.get('/find_unique_category', isAuthenticated, new FindUniqueCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
