@@ -22,8 +22,7 @@ class SubCategorysService {
 
         const categorys = await prismaClient.category.findUnique({
             where: {
-                id: parentId,
-                nivel: 0
+                id: parentId
             },
             include: {
                 Product: true
