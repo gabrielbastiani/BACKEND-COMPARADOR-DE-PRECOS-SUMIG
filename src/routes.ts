@@ -27,6 +27,7 @@ import { UpdateStatusCategoryController } from "./controllers/category/UpdateSta
 import { AllCategoryLevelZeroController } from "./controllers/category/AllCategoryLevelZeroController";
 import { DeleteCategoryController } from "./controllers/category/DeleteCategoryController";
 import { CreateSubCategoryController } from "./controllers/category/CreateSubCategoryController"
+import { AllCategorysController } from "./controllers/category/AllCategorysController";
 
 // -- SEARCH IN STORES -- //
 import { SearchMachinesStoresController } from "./controllers/products/searchMachines/SearchMachinesStoresController";
@@ -38,8 +39,7 @@ import { UpdateBrandProductController } from "./controllers/products/UpdateBrand
 import { CreateProductController } from "./controllers/products/CreateProductController";
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
-import { DeleteProductController } from "./controllers/products/DeleteProductController";;
-
+import { DeleteProductController } from "./controllers/products/DeleteProductController";
 
 
 const router = Router();
@@ -64,6 +64,7 @@ router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle
 router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
 router.post('/create_subcategory', isAuthenticated, new CreateSubCategoryController().handle);
 router.get('/all_zeros_levels_categorys', isAuthenticated, new AllCategoryLevelZeroController().handle);
+router.get('/all_categorys', isAuthenticated, new AllCategorysController().handle);
 router.get('/find_unique_category', isAuthenticated, new FindUniqueCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
