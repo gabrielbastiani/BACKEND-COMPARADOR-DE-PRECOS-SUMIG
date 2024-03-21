@@ -3,12 +3,15 @@ import randonUserAgent from 'random-useragent';
 import prismaClient from '../../../prisma';
 
 interface SearchRequest {
-    url_search: string;
+    urlSearchStore: string;
     stores: string;
 }
 
 class SearchMachinesStoresService {
-    async execute({ url_search, stores }: SearchRequest) {
+    async execute({ urlSearchStore, stores }: SearchRequest) {
+
+        console.log(urlSearchStore)
+        console.log(stores)
 
         const list_products: any = [];
 
@@ -23,7 +26,7 @@ class SearchMachinesStoresService {
             isMobile: true
         });
         await page.setUserAgent(randonUserAgent.getRandom());
-        await page.goto(url_search);
+        await page.goto(urlSearchStore);
 
         try {
 

@@ -3,11 +3,12 @@ import { SearchMachinesStoresService } from "../../../services/products/searchMa
 
 class SearchMachinesStoresController {
     async handle(req: Request, res: Response) {
-        const { url_search, stores } = req.body;
+        
+        const { urlSearchStore, stores } = req.body;
 
         const search = new SearchMachinesStoresService();
 
-        const machines = await search.execute({ url_search, stores });
+        const machines = await search.execute({ urlSearchStore, stores });
 
         return res.json(machines);
     }
