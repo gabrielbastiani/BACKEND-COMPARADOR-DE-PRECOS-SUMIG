@@ -10,9 +10,6 @@ interface SearchRequest {
 class SearchMachinesStoresService {
     async execute({ urlSearchStore, stores }: SearchRequest) {
 
-        console.log(urlSearchStore)
-        console.log(stores)
-
         const list_products: any = [];
 
         const browser = await puppeteer.launch({

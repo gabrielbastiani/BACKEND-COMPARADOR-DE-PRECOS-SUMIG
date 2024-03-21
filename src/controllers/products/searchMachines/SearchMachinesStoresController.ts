@@ -3,8 +3,9 @@ import { SearchMachinesStoresService } from "../../../services/products/searchMa
 
 class SearchMachinesStoresController {
     async handle(req: Request, res: Response) {
-        
-        const { urlSearchStore, stores } = req.body;
+
+        const urlSearchStore = req.query.urlSearchStore as string;
+        const stores = req.query.stores as string;
 
         const search = new SearchMachinesStoresService();
 
