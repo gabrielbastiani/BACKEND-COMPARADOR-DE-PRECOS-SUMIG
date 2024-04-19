@@ -7,16 +7,14 @@ interface ProductRequest {
 class StoreListProductService {
     async execute({ store }: ProductRequest) {
 
-        const product = await prismaClient.product.findMany({
+        const product = await prismaClient.storeProduct.findMany({
             where: {
-                storeProduct: {
-                    store: store
-                }
+                store: store
             }, orderBy: {
                 created_at: 'asc'
             },
             include: {
-                storeProduct: true
+                Product: true
             }
         });
 
