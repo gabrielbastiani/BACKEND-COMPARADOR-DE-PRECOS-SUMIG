@@ -40,6 +40,7 @@ import { ListAllProductController } from "./controllers/products/ListAllProductC
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
 import { SubCategorysController } from "./controllers/category/SubCategorysController";
+import { FindStoreProductController } from "./controllers/products/searchMachines/FindStoreProductController";
 
 
 const router = Router();
@@ -77,6 +78,7 @@ router.get('/search_products', isAuthenticated, new SearchMachinesStoresControll
 router.get('/esab_machines_weld', isAuthenticated, new EsabSearchController().handle);
 router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMaquinasDeSoldaListController().handle);
 router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
+router.get('/findDataStore', isAuthenticated, new FindStoreProductController().handle);
 
 // -- PRODUCTS -- //
 router.post('/create_product', isAuthenticated, new CreateProductController().handle);
