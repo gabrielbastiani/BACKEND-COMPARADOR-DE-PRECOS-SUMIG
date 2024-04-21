@@ -42,10 +42,11 @@ model Category {
   order    Int?
   status   StatusCategory @default(Disponivel)
 
-  Product    Product[]
+  Product Product[]
 
-  created_at DateTime? @default(now()) @db.Timestamptz(3)
-  updated_at DateTime? @updatedAt
+  created_at      DateTime?         @default(now()) @db.Timestamptz(3)
+  updated_at      DateTime?         @updatedAt
+  ProductCategory ProductCategory[]
 
   @@map("categories")
 }
@@ -64,7 +65,7 @@ model StoreProduct {
   brand         String?
   link          String?
 
-  Product    Product[]
+  Product Product[]
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
@@ -79,8 +80,36 @@ model Product {
   category        Category?     @relation(fields: [category_id], references: [id])
   category_id     String?
 
+  ProductCategory ProductCategory[]
+
+  created_at      DateTime?         @default(now()) @db.Timestamptz(3)
+  updated_at      DateTime?         @updatedAt
+
+  @@map("products")
+}
+
+model ProductCategory {
+  id           String                @id @default(uuid())
+  product      Product               @relation(fields: [product_id], references: [id])
+  product_id   String
+  category     Category              @relation(fields: [name], references: [name])
+  name         String
+  order        Int?
+  status       StatusProductCategory @default(Disponivel)
+  mainCategory MainCategory          @default(Nao)
+
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
 
-  @@map("products")
+  @@map("productcategories")
+}
+
+enum StatusProductCategory {
+  Disponivel
+  Indisponivel
+}
+
+enum MainCategory {
+  Sim
+  Nao
 }
