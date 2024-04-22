@@ -42,6 +42,7 @@ import { DeleteProductController } from "./controllers/products/DeleteProductCon
 import { SubCategorysController } from "./controllers/category/SubCategorysController";
 import { FindStoreProductController } from "./controllers/products/searchMachines/FindStoreProductController";
 import { CreateProductCategoryController } from "./controllers/products/CreateProductCategoryController";
+import { UpdateTypeCategoryController } from "./controllers/category/UpdateTypeCategoryController";
 
 
 const router = Router();
@@ -70,6 +71,7 @@ router.get('/find_unique_category', isAuthenticated, new FindUniqueCategoryContr
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
 router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
+router.put('/update_type_category', isAuthenticated, new UpdateTypeCategoryController().handle);
 router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
 router.delete('/delete_category', isAuthenticated, new DeleteCategoryController().handle);
 router.get('/sub_categorys_category', isAuthenticated, new SubCategorysController().handle);
