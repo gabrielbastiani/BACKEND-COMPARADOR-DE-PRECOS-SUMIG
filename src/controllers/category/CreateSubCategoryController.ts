@@ -7,7 +7,8 @@ class CreateSubCategoryController {
             name,
             nivel,
             parentId,
-            order
+            order,
+            type_category
         } = req.body;
 
         const categorys = new CreateSubCategoryService();
@@ -16,7 +17,8 @@ class CreateSubCategoryController {
             name,
             nivel,
             parentId,
-            order
+            order,
+            type_category
         });
 
         return res.json(category);

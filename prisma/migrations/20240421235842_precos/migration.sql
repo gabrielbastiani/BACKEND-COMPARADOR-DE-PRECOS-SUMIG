@@ -1,6 +1,12 @@
 -- CreateEnum
 CREATE TYPE "StatusCategory" AS ENUM ('Disponivel', 'Indisponivel');
 
+-- CreateEnum
+CREATE TYPE "StatusProductCategory" AS ENUM ('Disponivel', 'Indisponivel');
+
+-- CreateEnum
+CREATE TYPE "MainCategory" AS ENUM ('Sim', 'Nao');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
@@ -31,6 +37,7 @@ CREATE TABLE "categories" (
     "nivel" INTEGER,
     "parentId" TEXT,
     "order" INTEGER,
+    "type_category" TEXT,
     "status" "StatusCategory" NOT NULL DEFAULT 'Disponivel',
     "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
@@ -64,6 +71,20 @@ CREATE TABLE "products" (
     CONSTRAINT "products_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "productcategories" (
+    "id" TEXT NOT NULL,
+    "product_id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "order" INTEGER,
+    "status" "StatusProductCategory" NOT NULL DEFAULT 'Disponivel',
+    "mainCategory" "MainCategory" NOT NULL DEFAULT 'Nao',
+    "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+
+    CONSTRAINT "productcategories_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
@@ -75,3 +96,9 @@ ALTER TABLE "products" ADD CONSTRAINT "products_storeProduct_id_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "products" ADD CONSTRAINT "products_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_name_fkey" FOREIGN KEY ("name") REFERENCES "categories"("name") ON DELETE RESTRICT ON UPDATE CASCADE;

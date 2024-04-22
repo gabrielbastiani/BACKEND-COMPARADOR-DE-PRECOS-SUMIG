@@ -41,6 +41,7 @@ import { StoreListProductController } from "./controllers/products/StoreListProd
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
 import { SubCategorysController } from "./controllers/category/SubCategorysController";
 import { FindStoreProductController } from "./controllers/products/searchMachines/FindStoreProductController";
+import { CreateProductCategoryController } from "./controllers/products/CreateProductCategoryController";
 
 
 const router = Router();
@@ -85,6 +86,7 @@ router.post('/create_product', isAuthenticated, new CreateProductController().ha
 router.get('/list_all_products', isAuthenticated, new ListAllProductController().handle);
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
 router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
+router.post('/create_category_product', isAuthenticated, new CreateProductCategoryController().handle);
 
 
 export { router }
