@@ -5,16 +5,14 @@ class CreateProductCategoryController {
     async handle(req: Request, res: Response) {
         const {
             product_id,
-            name,
-            order
+            name
         } = req.body;
 
         const productCategory = new CreateProductCategoryService();
 
         const category = await productCategory.execute({
             product_id,
-            name,
-            order
+            name
         });
 
         return res.json(category)

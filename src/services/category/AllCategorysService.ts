@@ -8,9 +8,6 @@ class AllCategorysService {
             },
             orderBy: {
                 order: 'asc'
-            },
-            include: {
-                Product: true
             }
         });
 
@@ -20,9 +17,6 @@ class AllCategorysService {
             },
             orderBy: {
                 order: 'asc'
-            },
-            include: {
-                Product: true
             }
         });
 
@@ -32,9 +26,6 @@ class AllCategorysService {
             },
             orderBy: {
                 order: 'asc'
-            },
-            include: {
-                Product: true
             }
         });
 
@@ -44,18 +35,12 @@ class AllCategorysService {
             },
             orderBy: {
                 order: 'asc'
-            },
-            include: {
-                Product: true
             }
         });
 
         const all_categorys = await prismaClient.category.findMany({
             orderBy: {
                 order: 'asc'
-            },
-            include: {
-                Product: true
             }
         });
 

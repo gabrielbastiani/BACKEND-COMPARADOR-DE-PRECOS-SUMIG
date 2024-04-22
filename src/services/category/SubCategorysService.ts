@@ -14,18 +14,12 @@ class SubCategorysService {
             },
             orderBy: {
                 order: 'asc'
-            },
-            include: {
-                Product: true
             }
         });
 
         const categorys = await prismaClient.category.findUnique({
             where: {
                 id: parentId
-            },
-            include: {
-                Product: true
             }
         });
 
