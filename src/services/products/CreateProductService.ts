@@ -12,34 +12,13 @@ class CreateProductService {
             where: {
                 storeProduct_id: storeProduct_id,
                 ProductCategory: {
-                    some: {name: name}
+                    some: { name: name }
                 }
             }
         });
 
         if (findProductExist) {
             throw new Error("Essa categoria já esta cadastrada para esse produto");
-        }
-
-        const productExist = await prismaClient.productCategory.findFirst({
-            where: {
-                id: storeProduct_id
-            }
-        });
-
-        if (productExist) {
-            /* const findProduct = await prismaClient.product.findFirst({
-                orderBy: {
-                    created_at: 'asc'
-                }
-            }); */
-    
-            await prismaClient.productCategory.create({
-                data: {
-                    product_id: productExist.product_id,
-                    name: name
-                }
-            });
         }
 
         const findProduct = await prismaClient.product.findFirst({
@@ -60,8 +39,6 @@ class CreateProductService {
                 storeProduct_id: storeProduct_id
             }
         });
-
-        
 
         return product;
 
