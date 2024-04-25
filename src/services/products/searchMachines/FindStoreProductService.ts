@@ -1,14 +1,14 @@
 import prismaClient from "../../../prisma";
 
 interface StoreRequest {
-    store: string;
+    slug: string;
 }
 
 class FindStoreProductService {
-    async execute({ store }: StoreRequest) {
+    async execute({ slug }: StoreRequest) {
         const product = await prismaClient.storeProduct.findFirst({
             where: {
-                store: store
+                slug: slug
             }
         });
 

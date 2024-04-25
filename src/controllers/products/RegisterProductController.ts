@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { FindStoreProductService } from '../../../services/products/searchMachines/FindStoreProductService';
+import { RegisterProductService } from '../../services/products/RegisterProductService';
 
-class FindStoreProductController {
+class RegisterProductController {
     async handle(req: Request, res: Response) {
         const slug = req.query.slug as string;
 
-        const storeProduct = new FindStoreProductService();
+        const storeProduct = new RegisterProductService();
 
         const productStore = await storeProduct.execute({
             slug
@@ -17,4 +17,4 @@ class FindStoreProductController {
 
 }
 
-export { FindStoreProductController }
+export { RegisterProductController }

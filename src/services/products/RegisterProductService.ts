@@ -1,16 +1,14 @@
 import prismaClient from "../../prisma";
 
 interface ProductRequest {
-    store: string;
+    slug: string;
 }
 
 class RegisterProductService {
-    async execute({ store }: ProductRequest) {
+    async execute({ slug }: ProductRequest) {
         const product = await prismaClient.product.findMany({
             where: {
-                storeProduct: {
-                    store: store
-                }
+                slug: slug
             }, orderBy: {
                 created_at: 'asc'
             },

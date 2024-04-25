@@ -3,12 +3,12 @@ import { StoreListProductService } from '../../services/products/StoreListProduc
 
 class StoreListProductController {
     async handle(req: Request, res: Response) {
-        const store = req.query.store as string;
+        const slug = req.query.slug as string;
 
         const storeProduct = new StoreListProductService();
 
         const productStore = await storeProduct.execute({
-            store
+            slug
         });
 
         return res.json(productStore);
