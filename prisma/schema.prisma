@@ -59,6 +59,7 @@ enum StatusCategory {
 model StoreProduct {
   id            String  @id @default(uuid())
   store         String?
+  slug          String?
   image         String?
   title_product String?
   price         Float?
@@ -77,6 +78,8 @@ model Product {
   id              String        @id @default(uuid())
   storeProduct    StoreProduct? @relation(fields: [storeProduct_id], references: [id])
   storeProduct_id String?
+  store           String?
+  slug            String?
 
   ProductCategory ProductCategory[]
 

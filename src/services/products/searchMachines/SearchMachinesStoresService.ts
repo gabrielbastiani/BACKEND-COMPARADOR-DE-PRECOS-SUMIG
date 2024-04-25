@@ -82,10 +82,20 @@ class SearchMachinesStoresService {
                 link: obj.array4[index]
             }));
 
+            function removerAcentos(s: any) {
+                return s.normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/ +/g, "-")
+                    .replace(/-{2,}/g, "-")
+                    .replace(/[/]/g, "-");
+            }
+
             for (const item of news) {
                 await prismaClient.storeProduct.create({
                     data: {
                         store: item.store,
+                        slug: removerAcentos(item.store),
                         image: item.image,
                         title_product: item.title,
                         price: item.price,

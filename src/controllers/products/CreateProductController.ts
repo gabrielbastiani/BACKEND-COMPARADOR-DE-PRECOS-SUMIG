@@ -5,15 +5,10 @@ class CreateProductController {
     async handle(req: Request, res: Response) {
         const storeProduct_id = req.query.storeProduct_id as string;
 
-        const {
-            name
-        } = req.body;
-
         const createProduct = new CreateProductService();
 
         const product = await createProduct.execute({
-            storeProduct_id,
-            name
+            storeProduct_id
         });
 
         return res.json(product);

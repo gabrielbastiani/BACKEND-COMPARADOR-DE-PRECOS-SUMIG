@@ -35,6 +35,15 @@ class SUMIGMaquinasDeSoldaListService {
 
             const links_sumig = await page_sumig.$$eval('.spotContent > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
+            function removerAcentos(s: any) {
+                return s.normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/ +/g, "-")
+                    .replace(/-{2,}/g, "-")
+                    .replace(/[/]/g, "-");
+            }
+
             for (const link of links_sumig) {
                 if (s === 21) continue;
                 await page_sumig.goto(link);
@@ -85,6 +94,7 @@ class SUMIGMaquinasDeSoldaListService {
                 await prismaClient.storeProduct.create({
                     data: {
                         store: store,
+                        slug: removerAcentos(store),
                         image: obj.image,
                         title_product: obj.title,
                         price: obj.price,

@@ -8,8 +8,7 @@ class ListAllProductService {
                 created_at: "asc"
             },
             include: {
-                storeProduct: true,
-                category: true
+                storeProduct: true
             }
         });
 

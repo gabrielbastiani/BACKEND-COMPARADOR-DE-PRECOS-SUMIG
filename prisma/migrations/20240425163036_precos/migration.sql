@@ -49,6 +49,7 @@ CREATE TABLE "categories" (
 CREATE TABLE "storeproducts" (
     "id" TEXT NOT NULL,
     "store" TEXT,
+    "slug" TEXT,
     "image" TEXT,
     "title_product" TEXT,
     "price" DOUBLE PRECISION,
@@ -64,7 +65,8 @@ CREATE TABLE "storeproducts" (
 CREATE TABLE "products" (
     "id" TEXT NOT NULL,
     "storeProduct_id" TEXT,
-    "category_id" TEXT,
+    "store" TEXT,
+    "slug" TEXT,
     "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 
@@ -93,9 +95,6 @@ CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
 
 -- AddForeignKey
 ALTER TABLE "products" ADD CONSTRAINT "products_storeProduct_id_fkey" FOREIGN KEY ("storeProduct_id") REFERENCES "storeproducts"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "products" ADD CONSTRAINT "products_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
