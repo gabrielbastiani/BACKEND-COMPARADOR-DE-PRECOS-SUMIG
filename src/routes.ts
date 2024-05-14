@@ -41,9 +41,12 @@ import { StoreListProductController } from "./controllers/products/StoreListProd
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
 import { SubCategorysController } from "./controllers/category/SubCategorysController";
 import { FindStoreProductController } from "./controllers/products/searchMachines/FindStoreProductController";
-import { CreateProductCategoryController } from "./controllers/products/CreateProductCategoryController";
 import { UpdateTypeCategoryController } from "./controllers/category/UpdateTypeCategoryController";
 import { RegisterProductController } from "./controllers/products/RegisterProductController";
+
+// -- PRODUCTS CATEGORYS -- //
+import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
+import { ListCategoryProductController } from "./controllers/productCategory/ListCategoryProductController";
 
 
 const router = Router();
@@ -91,6 +94,9 @@ router.get('/store_products', isAuthenticated, new StoreListProductController().
 router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
 router.post('/create_category_product', isAuthenticated, new CreateProductCategoryController().handle);
 router.get('/register_products', isAuthenticated, new RegisterProductController().handle);
+
+// -- PRODUCTS CATEGORYS -- //
+router.get('/list_categorys_product', isAuthenticated, new ListCategoryProductController().handle);
 
 
 export { router }

@@ -13,7 +13,7 @@ class RegisterProductService {
                 created_at: 'asc'
             },
             include: {
-                ProductCategory: true,
+                productCategory: true,
                 storeProduct: true
             }
         });
