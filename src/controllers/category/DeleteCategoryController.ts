@@ -15,6 +15,11 @@ class DeleteCategoryController {
       category_id
     });
 
+    if(imageDelete.image === null) {
+      const category = await deleteCategory.execute({ category_id });
+      return res.json(category);
+    }
+
     fs.unlinkSync(__dirname + '/' + '..' + '/' + '..' + '/' + '..' + '/' + 'images' + '/' + imageDelete.image);
 
     const category = await deleteCategory.execute({ category_id });
