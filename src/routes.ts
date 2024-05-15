@@ -47,6 +47,8 @@ import { RegisterProductController } from "./controllers/products/RegisterProduc
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
 import { ListCategoryProductController } from "./controllers/productCategory/ListCategoryProductController";
+import { UpdateOrderProductController } from "./controllers/productCategory/UpdateOrderProductController";
+import { DeleteProductCategoryController } from "./controllers/productCategory/DeleteProductCategoryController";
 
 
 const router = Router();
@@ -92,11 +94,13 @@ router.post('/create_product', isAuthenticated, new CreateProductController().ha
 router.get('/list_all_products', isAuthenticated, new ListAllProductController().handle);
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
 router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
-router.post('/create_category_product', isAuthenticated, new CreateProductCategoryController().handle);
 router.get('/register_products', isAuthenticated, new RegisterProductController().handle);
 
 // -- PRODUCTS CATEGORYS -- //
+router.post('/create_category_product', isAuthenticated, new CreateProductCategoryController().handle);
 router.get('/list_categorys_product', isAuthenticated, new ListCategoryProductController().handle);
+router.put('/update_positionCategory_product', isAuthenticated, new UpdateOrderProductController().handle);
+router.delete('/delete_category_product', isAuthenticated, new DeleteProductCategoryController().handle);
 
 
 export { router }
