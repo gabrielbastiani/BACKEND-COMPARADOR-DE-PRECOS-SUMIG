@@ -38,6 +38,8 @@ class DeleteCategoryService {
             }
         });
 
+        console.log(exactCategory)
+
         return exactCategory;
     }
 }
