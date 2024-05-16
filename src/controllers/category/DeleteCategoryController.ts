@@ -7,6 +7,7 @@ class DeleteCategoryController {
   async handle(req: Request, res: Response) {
 
     const category_id = req.query.category_id as string;
+    const name = req.query.name as string;
 
     const deleteCategory = new DeleteCategoryService();
     const findImage = new FindUniqueCategoryService();
@@ -16,13 +17,13 @@ class DeleteCategoryController {
     });
 
     if(imageDelete.image === null) {
-      const category = await deleteCategory.execute({ category_id });
+      const category = await deleteCategory.execute({ category_id, name });
       return res.json(category);
     }
 
     fs.unlinkSync(__dirname + '/' + '..' + '/' + '..' + '/' + '..' + '/' + 'images' + '/' + imageDelete.image);
 
-    const category = await deleteCategory.execute({ category_id });
+    const category = await deleteCategory.execute({ category_id, name });
 
     return res.json(category);
 

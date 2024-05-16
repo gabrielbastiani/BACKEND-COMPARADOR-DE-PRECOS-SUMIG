@@ -90,14 +90,13 @@ model Product {
 }
 
 model ProductCategory {
-  id           String                @id @default(uuid())
-  product      Product               @relation(fields: [product_id], references: [id])
-  product_id   String
-  category     Category              @relation(fields: [name], references: [name])
-  name         String
-  order        Int?
-  status       StatusProductCategory @default(Disponivel)
-  mainCategory MainCategory          @default(Nao)
+  id         String   @id @default(uuid())
+  product    Product  @relation(fields: [product_id], references: [id])
+  product_id String
+  category   Category @relation(fields: [name], references: [name])
+  name       String
+  slug       String?
+  order      Int?
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
@@ -108,9 +107,4 @@ model ProductCategory {
 enum StatusProductCategory {
   Disponivel
   Indisponivel
-}
-
-enum MainCategory {
-  Sim
-  Nao
 }
