@@ -9,6 +9,9 @@ class FindUniqueCategoryService {
         const exactCategory = await prismaClient.category.findUnique({
             where: {
                 id: category_id
+            },
+            include: {
+                productCategory: true
             }
         });
 

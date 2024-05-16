@@ -2,11 +2,11 @@ import prismaClient from '../../prisma';
 
 interface CategoryRequest {
     category_id: string;
-    name: string;
+    slug: string;
 }
 
 class DeleteCategoryService {
-    async execute({ category_id, name }: CategoryRequest) {
+    async execute({ category_id, slug }: CategoryRequest) {
 
         const existSubCategorys = await prismaClient.category.findMany({
             where: {
@@ -16,7 +16,7 @@ class DeleteCategoryService {
 
         const productCategory = await prismaClient.productCategory.findFirst({
             where: {
-                name: name
+                slug: slug
             }
         });
 
@@ -27,7 +27,7 @@ class DeleteCategoryService {
         if (productCategory) {
             await prismaClient.productCategory.deleteMany({
                 where: {
-                    name: name
+                    slug: slug
                 }
             });
         }
