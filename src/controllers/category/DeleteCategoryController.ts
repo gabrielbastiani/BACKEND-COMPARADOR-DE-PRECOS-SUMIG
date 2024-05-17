@@ -26,8 +26,6 @@ class DeleteCategoryController {
 
     const existCateg = categorys.all_categorys.filter(item => item.parentId === category_id);
 
-    console.log(existCateg)
-
     if (imageDelete.nivel === 0 && existCateg.length === 0) {
       fs.unlinkSync(__dirname + '/' + '..' + '/' + '..' + '/' + '..' + '/' + 'images' + '/' + imageDelete.image);
       const category = await deleteCategory.execute({ category_id, slug });
