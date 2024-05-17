@@ -49,6 +49,8 @@ import { CreateProductCategoryController } from "./controllers/productCategory/C
 import { ListCategoryProductController } from "./controllers/productCategory/ListCategoryProductController";
 import { UpdateOrderProductController } from "./controllers/productCategory/UpdateOrderProductController";
 import { DeleteProductCategoryController } from "./controllers/productCategory/DeleteProductCategoryController";
+import { ListProductsCategoryController } from "./controllers/productCategory/ListProductsCategoryController";
+
 
 
 const router = Router();
@@ -101,6 +103,7 @@ router.post('/create_category_product', isAuthenticated, new CreateProductCatego
 router.get('/list_categorys_product', isAuthenticated, new ListCategoryProductController().handle);
 router.put('/update_positionCategory_product', isAuthenticated, new UpdateOrderProductController().handle);
 router.delete('/delete_category_product', isAuthenticated, new DeleteProductCategoryController().handle);
+router.get('/products_category', isAuthenticated, new ListProductsCategoryController().handle);
 
 
 export { router }
