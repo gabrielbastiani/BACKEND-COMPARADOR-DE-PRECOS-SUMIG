@@ -11,10 +11,28 @@ class ListProductsCategoryService {
                 slug: slug
             }, orderBy: {
                 created_at: 'asc'
+            },
+            include: {
+                product: {
+                    include: {
+                        storeProduct: true
+                    }
+                }
             }
         });
 
-        return product;
+        const productDate = await prismaClient.category.findFirst({
+            where: {
+                slug: slug
+            }
+        });
+
+        const data = {
+            product,
+            productDate
+        }
+
+        return data;
 
     }
 }
