@@ -50,6 +50,7 @@ import { ListCategoryProductController } from "./controllers/productCategory/Lis
 import { UpdateOrderProductController } from "./controllers/productCategory/UpdateOrderProductController";
 import { DeleteProductCategoryController } from "./controllers/productCategory/DeleteProductCategoryController";
 import { ListProductsCategoryController } from "./controllers/productCategory/ListProductsCategoryController";
+import { FindUniqueProductController } from "./controllers/products/FindUniqueProductController";
 
 
 
@@ -97,6 +98,7 @@ router.get('/list_all_products', isAuthenticated, new ListAllProductController()
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
 router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
 router.get('/register_products', isAuthenticated, new RegisterProductController().handle);
+router.get('/find_product_history', isAuthenticated, new FindUniqueProductController().handle);
 
 // -- PRODUCTS CATEGORYS -- //
 router.post('/create_category_product', isAuthenticated, new CreateProductCategoryController().handle);
