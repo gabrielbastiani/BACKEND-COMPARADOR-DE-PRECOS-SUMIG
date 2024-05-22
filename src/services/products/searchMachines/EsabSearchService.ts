@@ -82,6 +82,15 @@ class EsabSearchService {
                     .replace(/[/]/g, "-");
             }
 
+            function removerAcentosTitle(s: any) {
+                return s.normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/ +/g, "-")
+                    .replace(/-{2,}/g, "-")
+                    .replace(/[/]/g, "-");
+            }
+
             for (const item of new_esab) {
                 await prismaClient.storeProduct.create({
                     data: {
@@ -89,6 +98,7 @@ class EsabSearchService {
                         slug: removerAcentos(item.store),
                         image: item.image,
                         title_product: item.title,
+                        slug_title_product: removerAcentosTitle(item.title),
                         price: item.price,
                         brand: brand_esab,
                         link: item.link

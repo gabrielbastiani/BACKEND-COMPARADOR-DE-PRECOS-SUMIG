@@ -44,6 +44,15 @@ class SUMIGMaquinasDeSoldaListService {
                     .replace(/[/]/g, "-");
             }
 
+            function removerAcentosTitle(s: any) {
+                return s.normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/ +/g, "-")
+                    .replace(/-{2,}/g, "-")
+                    .replace(/[/]/g, "-");
+            }
+
             for (const link of links_sumig) {
                 if (s === 21) continue;
                 await page_sumig.goto(link);
@@ -97,6 +106,7 @@ class SUMIGMaquinasDeSoldaListService {
                         slug: removerAcentos(store),
                         image: obj.image,
                         title_product: obj.title,
+                        slug_title_product: removerAcentosTitle(obj.title),
                         price: obj.price,
                         brand: obj.brand,
                         link: obj.link
