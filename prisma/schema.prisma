@@ -57,14 +57,15 @@ enum StatusCategory {
 }
 
 model StoreProduct {
-  id            String  @id @default(uuid())
-  store         String?
-  slug          String?
-  image         String?
-  title_product String?
-  price         Float?
-  brand         String?
-  link          String?
+  id                 String  @id @default(uuid())
+  store              String?
+  slug               String?
+  image              String?
+  title_product      String?
+  slug_title_product String?
+  price              Float?
+  brand              String?
+  link               String?
 
   product Product[]
 

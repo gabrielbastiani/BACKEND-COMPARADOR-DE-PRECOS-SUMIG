@@ -49,6 +49,7 @@ CREATE TABLE "storeproducts" (
     "slug" TEXT,
     "image" TEXT,
     "title_product" TEXT,
+    "slug_title_product" TEXT,
     "price" DOUBLE PRECISION,
     "brand" TEXT,
     "link" TEXT,
