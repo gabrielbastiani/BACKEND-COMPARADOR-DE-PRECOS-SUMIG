@@ -43,6 +43,7 @@ import { SubCategorysController } from "./controllers/category/SubCategorysContr
 import { FindStoreProductController } from "./controllers/products/searchMachines/FindStoreProductController";
 import { UpdateTypeCategoryController } from "./controllers/category/UpdateTypeCategoryController";
 import { RegisterProductController } from "./controllers/products/RegisterProductController";
+import { FindUniqueProductController } from "./controllers/products/FindUniqueProductController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -50,7 +51,6 @@ import { ListCategoryProductController } from "./controllers/productCategory/Lis
 import { UpdateOrderProductController } from "./controllers/productCategory/UpdateOrderProductController";
 import { DeleteProductCategoryController } from "./controllers/productCategory/DeleteProductCategoryController";
 import { ListProductsCategoryController } from "./controllers/productCategory/ListProductsCategoryController";
-import { FindUniqueProductController } from "./controllers/products/FindUniqueProductController";
 
 
 
