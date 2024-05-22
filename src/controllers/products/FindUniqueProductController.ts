@@ -3,12 +3,12 @@ import { FindUniqueProductService } from '../../services/products/FindUniqueProd
 
 class FindUniqueProductController {
     async handle(req: Request, res: Response) {
-        const product_id = req.query.product_id as string;
+        const slug_title_product = req.query.slug_title_product as string;
 
         const storeProduct = new FindUniqueProductService();
 
         const productStore = await storeProduct.execute({
-            product_id
+            slug_title_product
         });
 
         return res.json(productStore);

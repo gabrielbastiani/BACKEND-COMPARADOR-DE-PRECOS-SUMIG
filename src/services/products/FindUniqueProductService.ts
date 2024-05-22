@@ -1,14 +1,14 @@
 import prismaClient from "../../prisma";
 
 interface ProductRequest {
-    product_id: string;
+    slug_title_product: string;
 }
 
 class FindUniqueProductService {
-    async execute({ product_id }: ProductRequest) {
-        const product = await prismaClient.product.findUnique({
+    async execute({ slug_title_product }: ProductRequest) {
+        const product = await prismaClient.storeProduct.findMany({
             where: {
-                id: product_id
+                slug_title_product: slug_title_product
             }
         });
 
