@@ -101,15 +101,6 @@ class SearchMachinesStoresService {
             }
 
             for (const item of news) {
-
-                const repit: string = removerAcentosTitle(item.title);
-
-                const products = await prismaClient.storeProduct.findMany();
-                
-                const resultado = products.filter(objeto => objeto.slug_title_product === repit);
-            
-                console.log("REPETIDOS", resultado);
-
                 await prismaClient.storeProduct.create({
                     data: {
                         store: item.store,
