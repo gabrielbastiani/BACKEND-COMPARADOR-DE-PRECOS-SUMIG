@@ -76,11 +76,13 @@ model StoreProduct {
 }
 
 model Product {
-  id              String        @id @default(uuid())
-  storeProduct    StoreProduct? @relation(fields: [storeProduct_id], references: [id])
-  storeProduct_id String?
-  store           String?
-  slug            String?
+  id                 String        @id @default(uuid())
+  storeProduct       StoreProduct? @relation(fields: [storeProduct_id], references: [id])
+  storeProduct_id    String?
+  store              String?
+  slug               String?
+  title_product      String?
+  slug_title_product String?
 
   productCategory ProductCategory[]
 

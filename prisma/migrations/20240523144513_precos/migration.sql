@@ -65,6 +65,8 @@ CREATE TABLE "products" (
     "storeProduct_id" TEXT,
     "store" TEXT,
     "slug" TEXT,
+    "title_product" TEXT,
+    "slug_title_product" TEXT,
     "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 
