@@ -18,6 +18,15 @@ class FindUniqueProductService {
             }
         });
 
+        const allProduct = await prismaClient.storeProduct.findMany({
+            where: {
+                slug_title_product: slug_title_product,
+            },
+            orderBy: {
+                created_at: "asc"
+            }
+        });
+
         const date_product = await prismaClient.storeProduct.findFirst({
             where: {
                 slug_title_product: slug_title_product,
@@ -27,6 +36,7 @@ class FindUniqueProductService {
 
         const data = {
             product,
+            allProduct,
             date_product
         }
 
