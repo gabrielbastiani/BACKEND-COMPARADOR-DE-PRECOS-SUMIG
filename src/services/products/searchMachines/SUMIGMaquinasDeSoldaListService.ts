@@ -104,6 +104,7 @@ class SUMIGMaquinasDeSoldaListService {
                     data: {
                         store: store,
                         slug: removerAcentos(store),
+                        link_search: url_sumig,
                         image: obj.image,
                         title_product: obj.title,
                         slug_title_product: removerAcentosTitle(obj.title),

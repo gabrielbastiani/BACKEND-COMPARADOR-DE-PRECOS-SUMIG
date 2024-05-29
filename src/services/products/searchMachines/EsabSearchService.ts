@@ -96,6 +96,7 @@ class EsabSearchService {
                     data: {
                         store: item.store,
                         slug: removerAcentos(item.store),
+                        link_search: url_esab,
                         image: item.image,
                         title_product: item.title,
                         slug_title_product: removerAcentosTitle(item.title),
