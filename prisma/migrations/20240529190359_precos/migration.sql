@@ -47,6 +47,7 @@ CREATE TABLE "storeproducts" (
     "id" TEXT NOT NULL,
     "store" TEXT,
     "slug" TEXT,
+    "link_search" TEXT,
     "image" TEXT,
     "title_product" TEXT,
     "slug_title_product" TEXT,

@@ -60,6 +60,7 @@ model StoreProduct {
   id                 String  @id @default(uuid())
   store              String?
   slug               String?
+  link_search        String?
   image              String?
   title_product      String?
   slug_title_product String?
