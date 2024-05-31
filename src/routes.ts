@@ -33,6 +33,7 @@ import { SearchMachinesStoresController } from "./controllers/products/searchMac
 import { EsabSearchController } from "./controllers/products/searchMachines/EsabSearchController";
 import { SUMIGMaquinasDeSoldaListController } from "./controllers/products/searchMachines/SUMIGMaquinasDeSoldaListController";
 import { UpdateBrandProductController } from "./controllers/products/UpdateBrandProductController";
+import { SearchAllMachinesAllStoresListController } from "./controllers/products/searchMachines/SearchAllMachinesAllStoresListController";
 
 // -- PRODUCTS -- //
 import { CreateProductController } from "./controllers/products/CreateProductController";
@@ -91,6 +92,7 @@ router.get('/esab_machines_weld', isAuthenticated, new EsabSearchController().ha
 router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMaquinasDeSoldaListController().handle);
 router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
 router.get('/findDataStore', isAuthenticated, new FindStoreProductController().handle);
+router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachinesAllStoresListController().handle);
 
 // -- PRODUCTS -- //
 router.post('/create_product', isAuthenticated, new CreateProductController().handle);
