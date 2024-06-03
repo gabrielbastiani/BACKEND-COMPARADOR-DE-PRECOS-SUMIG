@@ -34,13 +34,11 @@ class SearchAllMachinesAllStoresListService {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
-            await page.waitForSelector('.IuHnof', { timeout: 60000 });
-
-            const stores = await page.$$eval('.IuHnof', elementos => {
-                return elementos.map(elemento => elemento.textContent.trim());
+            const stores = await page.$$eval(`.aULzUe`, elementos => {
+                return elementos.map(elemento => elemento.textContent);
             });
 
-            
+
             console.log(stores);
 
 
