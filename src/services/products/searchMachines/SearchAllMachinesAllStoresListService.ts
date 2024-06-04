@@ -34,9 +34,9 @@ class SearchAllMachinesAllStoresListService {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
-            /* await page.waitForSelector('div.IuHnof', { timeout: 60000 }); */
+            /* await page.waitForSelector('.mnIHsc', { timeout: 60000 }); */
 
-            const stores = await page.$$eval(`div`, elementos => {
+            const stores = await page.$$eval(`.sh-dgr__offer-content`, elementos => {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
