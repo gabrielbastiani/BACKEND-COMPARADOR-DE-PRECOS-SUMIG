@@ -34,15 +34,17 @@ class SearchAllMachinesAllStoresListService {
                 return elementos.map(elemento => elemento.textContent.trim());
             });
 
-            /* await page.waitForSelector('.mnIHsc', { timeout: 60000 }); */
+            await page.waitForSelector('div.dD8iuc', { timeout: 60000 });
 
-            const stores = await page.$$eval(`.sh-dgr__offer-content`, elementos => {
-                return elementos.map(elemento => elemento.textContent.trim());
+            const stores = await page.$$eval('div.dD8iuc', elements => {
+                return elements.map(element => {
+                    const clonedElement = element.cloneNode(true);/* @ts-ignore */
+                    clonedElement.querySelectorAll('span').forEach((span: { remove: () => any; }) => span.remove());
+                    return clonedElement.textContent
+                        .replace(/\sde/g, '')
+                        .trim();
+                }).filter(text => text.length > 0);
             });
-
-
-            console.log(stores);
-
 
             await page.waitForSelector('.HRLxBb', { timeout: 60000 });
 
@@ -69,17 +71,16 @@ class SearchAllMachinesAllStoresListService {
                 brand.push(brands);
             }
 
-            const store = "Diversas";
-
             const obj: { [key: string]: any } = {};
             obj.array1 = title;
             obj.array2 = price;
             obj.array3 = brand;
             obj.array4 = links;
             obj.array5 = images;
+            obj.array6 = stores;
 
             const news = Object.keys(obj.array1).map((index) => ({
-                store: store,
+                store: obj.array6[index],
                 image: obj.array5[index],
                 title: obj.array1[index],
                 price: Number(processarString(obj.array2[index])),
