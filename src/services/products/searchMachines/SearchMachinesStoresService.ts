@@ -124,8 +124,6 @@ class SearchMachinesStoresService {
 
                 const nextButton = await page.$('.u30d4 > a');
 
-                console.log(nextButton)
-
                 if (nextButton) {
                     const currentURL = page.url();
                     await Promise.all([
