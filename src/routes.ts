@@ -45,6 +45,7 @@ import { FindStoreProductController } from "./controllers/products/searchMachine
 import { UpdateTypeCategoryController } from "./controllers/category/UpdateTypeCategoryController";
 import { RegisterProductController } from "./controllers/products/RegisterProductController";
 import { FindUniqueProductController } from "./controllers/products/FindUniqueProductController";
+import { PagesStoreListProductController } from "./controllers/products/PagesStoreListProductController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -98,6 +99,7 @@ router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachines
 router.post('/create_product', isAuthenticated, new CreateProductController().handle);
 router.get('/list_all_products', isAuthenticated, new ListAllProductController().handle);
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
+router.get('/page_products', isAuthenticated, new PagesStoreListProductController().handle);
 router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
 router.get('/register_products', isAuthenticated, new RegisterProductController().handle);
 router.get('/find_product_history', isAuthenticated, new FindUniqueProductController().handle);
