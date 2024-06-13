@@ -3,22 +3,32 @@ import prismaClient from "../../prisma";
 class PagesStoreListProductService {
     async execute(page: number, pageSize: number, filter: string, slug: string) {
 
-        let where: any = {};
+        /* const storeProduct = await prismaClient.storeProduct.findMany({
+            where: {
+                slug: slug
+            },
+            include: {
+                product: true
+            }
+        }); */
 
-        if (filter) {
-            where = {
-                slug: slug,
-                OR: [
-                    { title_product: { contains: filter, mode: 'insensitive' } },
-                    { brand: { contains: filter, mode: 'insensitive' } }
-                ]
+        const whereClause: any = {};
+
+        if (filter?.priceRange) {
+            whereClause.price = {
+            gte: filter.priceRange[0],
+            lte: filter.priceRange[1],
             };
         }
 
-        console.log(where)
+        if (filter?.nameContains) {
+            whereClause.name = {
+            contains: filter.nameContains,
+            };
+        }
 
         const product = await prismaClient.storeProduct.findMany({
-            where,
+            whereClause,
             skip: (page - 1) * pageSize,
             take: pageSize,
             include: {
@@ -29,6 +39,7 @@ class PagesStoreListProductService {
         const totalPosts = await prismaClient.storeProduct.count();
 
         const data = {
+            /* storeProduct, */
             product,
             totalPosts,
             totalPages: Math.ceil(totalPosts / pageSize),
