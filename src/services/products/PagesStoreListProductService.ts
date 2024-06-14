@@ -1,7 +1,7 @@
 import prismaClient from "../../prisma";
 
 class PagesStoreListProductService {
-    async execute(slug: string, page: string, limit: string, filter: string, sort: string, order: string, minPrice?: number, maxPrice?: number) {
+    async execute(slug: string, page: string, limit: string, filter?: string, sort?: string, order?: string, minPrice?: number, maxPrice?: number) {
 
         const pageNum = parseInt(page);
         const limitNum = parseInt(limit);
