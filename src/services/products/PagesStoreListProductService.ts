@@ -1,49 +1,55 @@
 import prismaClient from "../../prisma";
 
 class PagesStoreListProductService {
-    async execute(page: number, pageSize: number, filter: string, slug: string) {
+    async execute(slug: string, page: string, limit: string, filter: string, sort: string, order: string, minPrice?: number, maxPrice?: number) {
 
-        /* const storeProduct = await prismaClient.storeProduct.findMany({
-            where: {
-                slug: slug
-            },
-            include: {
-                product: true
-            }
-        }); */
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+        const skip = (pageNum - 1) * limitNum;
+        const take = limitNum;
 
-        const whereClause: any = {};
+        let where: any = { slug: slug };
 
-        if (filter?.priceRange) {
-            whereClause.price = {
-            gte: filter.priceRange[0],
-            lte: filter.priceRange[1],
-            };
+        if (filter) {
+            where.OR = [
+                { title_product: { contains: filter, mode: 'insensitive' } },
+                { brand: { contains: filter, mode: 'insensitive' } }
+            ];
         }
 
-        if (filter?.nameContains) {
-            whereClause.name = {
-            contains: filter.nameContains,
-            };
+        if (minPrice !== undefined) {
+            where.price = { ...where.price, gte: minPrice };
+        }
+        if (maxPrice !== undefined) {
+            where.price = { ...where.price, lte: maxPrice };
+        }
+
+        let orderBy: any = {};
+
+        if (sort && sort === 'price') {
+            orderBy.price = order === 'asc' ? 'asc' : 'desc';
+        }
+
+        if (sort) {
+            orderBy[sort] = order;
         }
 
         const product = await prismaClient.storeProduct.findMany({
-            whereClause,
-            skip: (page - 1) * pageSize,
-            take: pageSize,
+            where: where,
+            skip: skip,
+            take: take,
+            orderBy: Object.keys(orderBy).length > 0 ? orderBy : undefined,
             include: {
                 product: true
             }
         });
 
-        const totalPosts = await prismaClient.storeProduct.count();
+        const totalPosts = await prismaClient.storeProduct.count({ where: where });
 
         const data = {
-            /* storeProduct, */
-            product,
-            totalPosts,
-            totalPages: Math.ceil(totalPosts / pageSize),
-            currentPage: page,
+            totalPages: Math.ceil(totalPosts / take),
+            currentPage: parseInt(page),
+            product: product,
         }
 
         return data;
