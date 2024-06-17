@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { SearchAllMachinesAllStoresListService } from "../../../services/products/searchMachines/SearchAllMachinesAllStoresListService";
+import { SearchAllMachinesAllStoresListService } from "../../../services/products/searchProducts/SearchAllMachinesAllStoresListService";
 
 class SearchAllMachinesAllStoresListController {
     async handle(req: Request, res: Response) {

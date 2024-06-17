@@ -58,6 +58,8 @@ enum StatusCategory {
 
 model StoreProduct {
   id                 String  @id @default(uuid())
+  type_product       String?
+  slug_type          String?
   store              String?
   slug               String?
   link_search        String?

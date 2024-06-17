@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { PagesStoreListProductService } from '../../services/products/PagesStoreListProductService';
+import { PagesStoreMachineWeldProductService } from '../../services/products/PagesStoreMachineWeldProductService';
 
-class PagesStoreListProductController {
+class PagesStoreMachineWeldProductController {
     async handle(req: Request, res: Response) {
         const {
             slug, page, limit, filter, sort, order, minPrice, maxPrice
@@ -10,7 +10,7 @@ class PagesStoreListProductController {
         const parsedMinPrice = minPrice ? parseFloat(minPrice as string) : undefined;
         const parsedMaxPrice = maxPrice ? parseFloat(maxPrice as string) : undefined;
 
-        const storeProduct = new PagesStoreListProductService();
+        const storeProduct = new PagesStoreMachineWeldProductService();
 
         const productStore = await storeProduct.execute(
             slug as string,
@@ -29,4 +29,4 @@ class PagesStoreListProductController {
 
 }
 
-export { PagesStoreListProductController }
+export { PagesStoreMachineWeldProductController }

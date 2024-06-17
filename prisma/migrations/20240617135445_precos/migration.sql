@@ -45,6 +45,8 @@ CREATE TABLE "categories" (
 -- CreateTable
 CREATE TABLE "storeproducts" (
     "id" TEXT NOT NULL,
+    "type_product" TEXT,
+    "slug_type" TEXT,
     "store" TEXT,
     "slug" TEXT,
     "link_search" TEXT,

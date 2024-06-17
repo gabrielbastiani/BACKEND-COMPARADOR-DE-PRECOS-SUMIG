@@ -1,6 +1,6 @@
 import prismaClient from "../../prisma";
 
-class PagesStoreListProductService {
+class PagesStoreMachineCutProductService {
     async execute(slug: string, page: string, limit: string, filter?: string, sort?: string, order?: string, minPrice?: number, maxPrice?: number) {
 
         const pageNum = parseInt(page);
@@ -8,7 +8,7 @@ class PagesStoreListProductService {
         const skip = (pageNum - 1) * limitNum;
         const take = limitNum;
 
-        let where: any = { slug: slug };
+        let where: any = { slug: slug, slug_type: "maquinas-de-corte-plasma-manual" };
 
         if (filter) {
             where.OR = [
@@ -57,4 +57,4 @@ class PagesStoreListProductService {
     }
 }
 
-export { PagesStoreListProductService }
+export { PagesStoreMachineCutProductService }

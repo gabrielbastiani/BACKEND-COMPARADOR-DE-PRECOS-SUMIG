@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { EsabSearchService } from "../../../services/products/searchMachines/EsabSearchService";
+import { EsabSearchService } from "../../../services/products/searchProducts/EsabSearchService";
 
 class EsabSearchController {
     async handle(req: Request, res: Response) {

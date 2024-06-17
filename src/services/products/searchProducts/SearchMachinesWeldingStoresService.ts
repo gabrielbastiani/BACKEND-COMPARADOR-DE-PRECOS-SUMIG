@@ -24,7 +24,7 @@ interface DataObject {
     array5: string[];
 }
 
-class SearchMachinesStoresService {
+class SearchMachinesWeldingStoresService {
     async execute({ urlSearchStore, stores }: SearchRequest) {
 
         const browser = await puppeteer.launch({ headless: false });
@@ -47,7 +47,6 @@ class SearchMachinesStoresService {
                     return elementos.map((elemento) => elemento.textContent.trim());
                 });
 
-                // Filtrando os títulos que contém "Máquina"
                 const filteredIndices = titles.map((title, index) => title.includes('Máquina') ? index : -1).filter(index => index !== -1);
 
                 if (filteredIndices.length === 0) {
@@ -69,7 +68,7 @@ class SearchMachinesStoresService {
                     return elementos.map((elemento) => elemento.textContent.trim());
                 });
 
-                function processarString(str) {
+                function processarString(str: string) {
                     if (str.includes('.')) {
                         str = str.replace('.', '');
                     }
@@ -119,9 +118,20 @@ class SearchMachinesStoresService {
                         .replace(/[/]/g, "-");
                 }
 
+                function removerAcentosType(s: string) {
+                    return s.normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .toLowerCase()
+                        .replace(/ +/g, "-")
+                        .replace(/-{2,}/g, "-")
+                        .replace(/[/]/g, "-");
+                }
+
                 for (const item of news) {
                     await prismaClient.storeProduct.create({
                         data: {
+                            type_product: "Máquinas de Solda",
+                            slug_type: removerAcentosType("Máquinas de Solda"),
                             store: item.store,
                             slug: removerAcentos(item.store),
                             link_search: urlSearchStore,
@@ -155,4 +165,4 @@ class SearchMachinesStoresService {
     }
 }
 
-export { SearchMachinesStoresService }
+export { SearchMachinesWeldingStoresService }

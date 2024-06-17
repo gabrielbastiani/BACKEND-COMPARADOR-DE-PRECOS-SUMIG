@@ -29,11 +29,12 @@ import { CreateSubCategoryController } from "./controllers/category/CreateSubCat
 import { AllCategorysController } from "./controllers/category/AllCategorysController";
 
 // -- SEARCH IN STORES -- //
-import { SearchMachinesStoresController } from "./controllers/products/searchMachines/SearchMachinesStoresController";
-import { EsabSearchController } from "./controllers/products/searchMachines/EsabSearchController";
-import { SUMIGMaquinasDeSoldaListController } from "./controllers/products/searchMachines/SUMIGMaquinasDeSoldaListController";
+import { SearchMachinesWeldingStoresController } from "./controllers/products/searchProducts/SearchMachinesWeldingStoresController";
+import { SearchMachinesCutStoresController } from "./controllers/products/searchProducts/SearchMachinesCutStoresController";
+import { EsabSearchController } from "./controllers/products/searchProducts/EsabSearchController";
+import { SUMIGMaquinasDeSoldaListController } from "./controllers/products/searchProducts/SUMIGMaquinasDeSoldaListController";
 import { UpdateBrandProductController } from "./controllers/products/UpdateBrandProductController";
-import { SearchAllMachinesAllStoresListController } from "./controllers/products/searchMachines/SearchAllMachinesAllStoresListController";
+import { SearchAllMachinesAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesAllStoresListController";
 
 // -- PRODUCTS -- //
 import { CreateProductController } from "./controllers/products/CreateProductController";
@@ -41,11 +42,12 @@ import { ListAllProductController } from "./controllers/products/ListAllProductC
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
 import { SubCategorysController } from "./controllers/category/SubCategorysController";
-import { FindStoreProductController } from "./controllers/products/searchMachines/FindStoreProductController";
+import { FindStoreProductController } from "./controllers/products/searchProducts/FindStoreProductController";
 import { UpdateTypeCategoryController } from "./controllers/category/UpdateTypeCategoryController";
 import { RegisterProductController } from "./controllers/products/RegisterProductController";
 import { FindUniqueProductController } from "./controllers/products/FindUniqueProductController";
-import { PagesStoreListProductController } from "./controllers/products/PagesStoreListProductController";
+import { PagesStoreMachineWeldProductController } from "./controllers/products/PagesStoreMachineWeldProductController";
+import { PagesStoreMachineCutProductController } from "./controllers/products/PagesStoreMachineCutProductController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -88,7 +90,8 @@ router.delete('/delete_category', isAuthenticated, new DeleteCategoryController(
 router.get('/sub_categorys_category', isAuthenticated, new SubCategorysController().handle);
 
 // -- SEARCH IN STORES -- //
-router.get('/search_products', isAuthenticated, new SearchMachinesStoresController().handle);
+router.get('/search_machines_welding', isAuthenticated, new SearchMachinesWeldingStoresController().handle);
+router.get('/search_machines_cut', isAuthenticated, new SearchMachinesCutStoresController().handle);
 router.get('/esab_machines_weld', isAuthenticated, new EsabSearchController().handle);
 router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMaquinasDeSoldaListController().handle);
 router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
@@ -99,7 +102,8 @@ router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachines
 router.post('/create_product', isAuthenticated, new CreateProductController().handle);
 router.get('/list_all_products', isAuthenticated, new ListAllProductController().handle);
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
-router.get('/page_products', isAuthenticated, new PagesStoreListProductController().handle);
+router.get('/page_products_machine_weld', isAuthenticated, new PagesStoreMachineWeldProductController().handle);
+router.get('/page_products_machine_cut', isAuthenticated, new PagesStoreMachineCutProductController().handle);
 router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
 router.get('/register_products', isAuthenticated, new RegisterProductController().handle);
 router.get('/find_product_history', isAuthenticated, new FindUniqueProductController().handle);

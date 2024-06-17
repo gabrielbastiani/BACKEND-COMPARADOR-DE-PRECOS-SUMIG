@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { SearchMachinesStoresService } from "../../../services/products/searchMachines/SearchMachinesStoresService";
+import { SearchMachinesCutStoresService } from "../../../services/products/searchProducts/SearchMachinesCutStoresService";
 
-class SearchMachinesStoresController {
+class SearchMachinesCutStoresController {
     async handle(req: Request, res: Response) {
 
         const urlSearchStore = req.query.urlSearchStore as string;
         const stores = req.query.stores as string;
 
-        const search = new SearchMachinesStoresService();
+        const search = new SearchMachinesCutStoresService();
 
         const machines = await search.execute({ urlSearchStore, stores });
 
@@ -15,4 +15,4 @@ class SearchMachinesStoresController {
     }
 }
 
-export { SearchMachinesStoresController };
+export { SearchMachinesCutStoresController };

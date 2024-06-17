@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { FindStoreProductService } from '../../../services/products/searchMachines/FindStoreProductService';
+import { FindStoreProductService } from '../../../services/products/searchProducts/FindStoreProductService';
 
 class FindStoreProductController {
     async handle(req: Request, res: Response) {
