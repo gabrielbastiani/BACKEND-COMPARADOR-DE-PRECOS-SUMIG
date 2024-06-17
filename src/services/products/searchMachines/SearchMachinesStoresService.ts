@@ -43,6 +43,10 @@ class SearchMachinesStoresService {
 
         while (nextPageExists) {
             try {
+                const title = await page.$$eval(`.rgHvZc > a`, (elementos) => {
+                    return elementos.map((elemento) => elemento.textContent.trim());
+                });
+
                 await page.waitForSelector('.oR27Gd', { timeout: 60000 });
 
                 const images = await page.$$eval('.oR27Gd > img', (el) => el.map((link) => link.src));
@@ -50,10 +54,6 @@ class SearchMachinesStoresService {
                 await page.waitForSelector('.rgHvZc', { timeout: 60000 });
 
                 const links = await page.$$eval('.rgHvZc > a', (el) => el.map((link) => link.href));
-
-                const title = await page.$$eval(`.rgHvZc > a`, (elementos) => {
-                    return elementos.map((elemento) => elemento.textContent.trim());
-                });
 
                 await page.waitForSelector('.HRLxBb', { timeout: 60000 });
 
