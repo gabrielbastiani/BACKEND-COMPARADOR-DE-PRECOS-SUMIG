@@ -31,8 +31,8 @@ import { AllCategorysController } from "./controllers/category/AllCategorysContr
 // -- SEARCH IN STORES -- //
 import { SearchMachinesWeldingStoresController } from "./controllers/products/searchProducts/SearchMachinesWeldingStoresController";
 import { SearchMachinesCutStoresController } from "./controllers/products/searchProducts/SearchMachinesCutStoresController";
-import { EsabSearchController } from "./controllers/products/searchProducts/EsabSearchController";
-import { SUMIGMaquinasDeSoldaListController } from "./controllers/products/searchProducts/SUMIGMaquinasDeSoldaListController";
+import { ESABMachinesWeldingSearchController } from "./controllers/products/searchProducts/ESABMachinesWeldingSearchController";
+import { SUMIGMachinesWeldingSearchController } from "./controllers/products/searchProducts/SUMIGMachinesWeldingSearchController";
 import { UpdateBrandProductController } from "./controllers/products/UpdateBrandProductController";
 import { SearchAllMachinesAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesAllStoresListController";
 
@@ -92,8 +92,8 @@ router.get('/sub_categorys_category', isAuthenticated, new SubCategorysControlle
 // -- SEARCH IN STORES -- //
 router.get('/search_machines_welding', isAuthenticated, new SearchMachinesWeldingStoresController().handle);
 router.get('/search_machines_cut', isAuthenticated, new SearchMachinesCutStoresController().handle);
-router.get('/esab_machines_weld', isAuthenticated, new EsabSearchController().handle);
-router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMaquinasDeSoldaListController().handle);
+router.get('/esab_machines_weld', isAuthenticated, new ESABMachinesWeldingSearchController().handle);
+router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMachinesWeldingSearchController().handle);
 router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
 router.get('/findDataStore', isAuthenticated, new FindStoreProductController().handle);
 router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachinesAllStoresListController().handle);

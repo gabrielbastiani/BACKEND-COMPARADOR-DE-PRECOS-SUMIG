@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
 import prismaClient from '../../../prisma';
 
-class EsabSearchService {
+class ESABMachinesWeldingSearchService {
     async execute() {
 
         const list_products: any = [];
@@ -122,4 +122,4 @@ class EsabSearchService {
 
 }
 
-export { EsabSearchService }
+export { ESABMachinesWeldingSearchService }
