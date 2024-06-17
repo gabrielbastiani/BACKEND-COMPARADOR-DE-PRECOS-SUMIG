@@ -43,9 +43,17 @@ class SearchMachinesStoresService {
 
         while (nextPageExists) {
             try {
-                const title = await page.$$eval(`.rgHvZc > a`, (elementos) => {
+                const titles = await page.$$eval(`.rgHvZc > a`, (elementos) => {
                     return elementos.map((elemento) => elemento.textContent.trim());
                 });
+
+                // Filtrando os títulos que contém "Máquina"
+                const filteredIndices = titles.map((title, index) => title.includes('Máquina') ? index : -1).filter(index => index !== -1);
+
+                if (filteredIndices.length === 0) {
+                    nextPageExists = false;
+                    break;
+                }
 
                 await page.waitForSelector('.oR27Gd', { timeout: 60000 });
 
@@ -57,7 +65,7 @@ class SearchMachinesStoresService {
 
                 await page.waitForSelector('.HRLxBb', { timeout: 60000 });
 
-                const price = await page.$$eval('.HRLxBb', (elementos) => {
+                const prices = await page.$$eval('.HRLxBb', (elementos) => {
                     return elementos.map((elemento) => elemento.textContent.trim());
                 });
 
@@ -69,22 +77,19 @@ class SearchMachinesStoresService {
                     return str;
                 }
 
-                const brand = [];
-
-                for (let i = 0; i < title.length; i++) {
-                    const palavras = title[i].split(' ');
-                    const brands = palavras[palavras.length - 1];
-                    brand.push(brands);
-                }
+                const brands = filteredIndices.map(i => {
+                    const palavras = titles[i].split(' ');
+                    return palavras[palavras.length - 1];
+                });
 
                 const store = stores;
 
                 const obj: DataObject = {
-                    array1: title,
-                    array2: price,
-                    array3: brand,
-                    array4: links,
-                    array5: images
+                    array1: filteredIndices.map(i => titles[i]),
+                    array2: filteredIndices.map(i => prices[i]),
+                    array3: brands,
+                    array4: filteredIndices.map(i => links[i]),
+                    array5: filteredIndices.map(i => images[i])
                 };
 
                 const news = obj.array1.map((_, index) => ({
@@ -147,9 +152,7 @@ class SearchMachinesStoresService {
 
         await browser.close();
         return list_products.flat();
-
     }
-
 }
 
 export { SearchMachinesStoresService }
