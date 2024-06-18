@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import randomUserAgent from 'random-useragent';
 import prismaClient from '../../../prisma';
 
-class SUMIGMachinesWeldingSearchService {
+class SUMIGMachinesCutSearchService {
     async execute() {
 
         const list_products: any = [];
@@ -145,4 +145,4 @@ class SUMIGMachinesWeldingSearchService {
     }
 }
 
-export { SUMIGMachinesWeldingSearchService }
+export { SUMIGMachinesCutSearchService }
