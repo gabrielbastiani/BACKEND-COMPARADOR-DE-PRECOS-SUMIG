@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import randonUserAgent from 'random-useragent';
 import prismaClient from '../../../prisma';
 
-class SearchAllMachinesAllStoresListService {
+class SearchAllMachinesWeldingAllStoresListService {
     async execute() {
 
         const list_products: any = [];
@@ -300,4 +300,4 @@ class SearchAllMachinesAllStoresListService {
 
 }
 
-export { SearchAllMachinesAllStoresListService }
+export { SearchAllMachinesWeldingAllStoresListService }

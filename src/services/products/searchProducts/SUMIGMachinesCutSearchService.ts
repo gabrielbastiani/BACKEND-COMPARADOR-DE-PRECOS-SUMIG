@@ -6,12 +6,7 @@ class SUMIGMachinesCutSearchService {
     async execute() {
 
         const list_products: any = [];
-        const maxProducts = 23;
-
-        const urls_sumig = [
-            'https://loja.sumig.com/maquinas-de-solda?busca=&ordenacao=maisVendidos%3Adecrescente',
-            'https://loja.sumig.com/maquinas-de-solda?busca=&ordenacao=maisVendidos%3Adecrescente&pagina=2'
-        ];
+        const url_sumig = 'https://loja.sumig.com/maquinas-de-corte?busca=&ordenacao=maisVendidos%3Adecrescente';
 
         const browser_sumig = await puppeteer.launch({
             headless: false,
@@ -65,78 +60,81 @@ class SUMIGMachinesCutSearchService {
                 return str;
             }
 
-            let productCount = 0;
+            // Acessa a página inicial
+            await page_sumig.goto(url_sumig);
+            await page_sumig.waitForSelector('.spotContent', { timeout: 60000 });
 
-            for (const url_sumig of urls_sumig) {
-                await page_sumig.goto(url_sumig);
-                await page_sumig.waitForSelector('.spotContent', { timeout: 60000 });
+            // Captura todos os links dos produtos
+            const links_sumig = await page_sumig.$$eval('.spotContent > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
 
-                const links_sumig = await page_sumig.$$eval('.spotContent > a', (el: any[]) => el.map((link: { href: any; }) => link.href));
+            const uniqueLinks = [...new Set(links_sumig)]; // Remove duplicados
 
-                for (const link of links_sumig) {
-                    if (productCount >= maxProducts && url_sumig === urls_sumig[0]) break;
+            for (const link of uniqueLinks) {
+                const productPage = await browser_sumig.newPage();
+                try {
+                    await productPage.goto(link);
 
-                    const productPage = await browser_sumig.newPage();
-                    try {
-                        await productPage.goto(link);
+                    await productPage.waitForSelector('.prodTitle', { timeout: 60000 });
 
-                        await productPage.waitForSelector('.prodTitle', { timeout: 60000 });
+                    const title = await productPage.$eval('.prodTitle', (element: HTMLElement | null) => {
+                        return element ? element.innerText : '';
+                    });
 
-                        const title = await productPage.$eval('.prodTitle', (element: HTMLElement | null) => {
-                            return element ? element.innerText : '';
-                        });
-
-                        await productPage.waitForSelector('.com-precoDe', { timeout: 60000 });
-
-                        const price = await productPage.$eval('.com-precoDe', (element: HTMLElement | null) => {
-                            return element ? element.innerText : '';
-                        });
-
-                        await productPage.waitForSelector('#zoomImagemProduto', { timeout: 60000 });
-
-                        const image = await productPage.$eval('#zoomImagemProduto', (element: HTMLElement | null) => {
-                            return element ? element.getAttribute('src') : '';
-                        });
-
-                        const store = "SUMIG";
-                        const brand = "SUMIG";
-
-                        const obj: { [key: string]: any } = {};
-                        obj.store = store;
-                        obj.image = image;
-                        obj.title = title;
-                        obj.price = Number(processarString(price));
-                        obj.brand = brand;
-                        obj.link = link;
-
-                        list_products.push(obj);
-                        productCount++;
-
-                        await prismaClient.storeProduct.create({
-                            data: {
-                                type_product: "Máquinas de Solda",
-                                slug_type: removerAcentosType("Máquinas de Solda"),
-                                store: store,
-                                slug: removerAcentos(store),
-                                link_search: url_sumig,
-                                image: obj.image,
-                                title_product: obj.title,
-                                slug_title_product: removerAcentosTitle(obj.title),
-                                price: obj.price,
-                                brand: obj.brand,
-                                link: obj.link
-                            }
-                        });
-                    } catch (error) {
-                        console.error(`Erro ao processar o link ${link}:`, error);
-                    } finally {
+                    // Verifica se o título contém "Plasma"
+                    if (!title.toLowerCase().includes('plasma')) {
                         await productPage.close();
+                        continue; // Pula este produto se não contiver "Plasma" no título
                     }
+
+                    await productPage.waitForSelector('.com-precoDe', { timeout: 60000 });
+
+                    const price = await productPage.$eval('.com-precoDe', (element: HTMLElement | null) => {
+                        return element ? element.innerText : '';
+                    });
+
+                    await productPage.waitForSelector('#zoomImagemProduto', { timeout: 60000 });
+
+                    const image = await productPage.$eval('#zoomImagemProduto', (element: HTMLElement | null) => {
+                        return element ? element.getAttribute('src') : '';
+                    });
+
+                    const store = "SUMIG";
+                    const brand = "SUMIG";
+
+                    const obj: { [key: string]: any } = {};
+                    obj.store = store;
+                    obj.image = image;
+                    obj.title = title;
+                    obj.price = Number(processarString(price));
+                    obj.brand = brand;
+                    obj.link = link;
+
+                    list_products.push(obj);
+
+                    await prismaClient.storeProduct.create({
+                        data: {
+                            type_product: "Máquinas de Corte Plasma Manual",
+                            slug_type: removerAcentosType("Máquinas de Corte Plasma Manual"),
+                            store: store,
+                            slug: removerAcentos(store),
+                            link_search: url_sumig,
+                            image: obj.image,
+                            title_product: obj.title,
+                            slug_title_product: removerAcentosTitle(obj.title),
+                            price: obj.price,
+                            brand: obj.brand,
+                            link: obj.link
+                        }
+                    });
+                } catch (error) {
+                    console.error(`Erro ao processar o link ${link}:`, error);
+                } finally {
+                    await productPage.close();
                 }
             }
 
         } catch (error) {
-            console.error("Erro ao carregar dados da concorrência SUMIG:", error);
+            console.error("Erro ao carregar dados da concorrência SUMIG");
         } finally {
             await browser_sumig.close();
         }

@@ -33,8 +33,10 @@ import { SearchMachinesWeldingStoresController } from "./controllers/products/se
 import { SearchMachinesCutStoresController } from "./controllers/products/searchProducts/SearchMachinesCutStoresController";
 import { ESABMachinesWeldingSearchController } from "./controllers/products/searchProducts/ESABMachinesWeldingSearchController";
 import { SUMIGMachinesWeldingSearchController } from "./controllers/products/searchProducts/SUMIGMachinesWeldingSearchController";
+import { SUMIGMachinesCutSearchController } from "./controllers/products/searchProducts/SUMIGMachinesCutSearchController";
+import { ESABMachinesCutSearchController } from "./controllers/products/searchProducts/ESABMachinesCutSearchController";
 import { UpdateBrandProductController } from "./controllers/products/UpdateBrandProductController";
-import { SearchAllMachinesAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesAllStoresListController";
+import { SearchAllMachinesWeldingAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesWeldingAllStoresListController";
 
 // -- PRODUCTS -- //
 import { CreateProductController } from "./controllers/products/CreateProductController";
@@ -93,10 +95,12 @@ router.get('/sub_categorys_category', isAuthenticated, new SubCategorysControlle
 router.get('/search_machines_welding', isAuthenticated, new SearchMachinesWeldingStoresController().handle);
 router.get('/search_machines_cut', isAuthenticated, new SearchMachinesCutStoresController().handle);
 router.get('/esab_machines_weld', isAuthenticated, new ESABMachinesWeldingSearchController().handle);
+router.get('/esab_machines_cut', isAuthenticated, new ESABMachinesCutSearchController().handle);
 router.get('/sumig_machines_weld', isAuthenticated, new SUMIGMachinesWeldingSearchController().handle);
+router.get('/sumig_machines_cut', isAuthenticated, new SUMIGMachinesCutSearchController().handle);
 router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
 router.get('/findDataStore', isAuthenticated, new FindStoreProductController().handle);
-router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachinesAllStoresListController().handle);
+router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachinesWeldingAllStoresListController().handle);
 
 // -- PRODUCTS -- //
 router.post('/create_product', isAuthenticated, new CreateProductController().handle);
