@@ -86,6 +86,7 @@ model Product {
   slug               String?
   title_product      String?
   slug_title_product String?
+  price              Float?
 
   productCategory ProductCategory[]
 

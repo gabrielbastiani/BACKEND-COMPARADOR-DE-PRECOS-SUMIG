@@ -4,10 +4,11 @@ interface ProductRequest {
     storeProduct_id: string;
     store: string;
     title_product: string;
+    price: number;
 }
 
 class CreateProductService {
-    async execute({ storeProduct_id, store, title_product }: ProductRequest) {
+    async execute({ storeProduct_id, store, title_product, price }: ProductRequest) {
 
         function removerAcentos(s: any) {
             return s.normalize('NFD')
@@ -33,6 +34,7 @@ class CreateProductService {
                 store: store,
                 slug: removerAcentos(store),
                 title_product: title_product,
+                price: price,
                 slug_title_product: removerAcentosTitle(title_product)
             }
         });

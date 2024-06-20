@@ -3,15 +3,27 @@ import { ListProductsCategoryService } from '../../services/productCategory/List
 
 class ListProductsCategoryController {
     async handle(req: Request, res: Response) {
-        const slug = req.query.slug as string;
+        const {
+            slug, page, limit, filter, sort, order, minPrice, maxPrice
+        } = req.query;
 
-        const categorys = new ListProductsCategoryService();
+        const parsedMinPrice = minPrice ? parseFloat(minPrice as string) : undefined;
+        const parsedMaxPrice = maxPrice ? parseFloat(maxPrice as string) : undefined;
 
-        const productCategorys = await categorys.execute({
-            slug
-        });
+        const storeProduct = new ListProductsCategoryService();
 
-        return res.json(productCategorys);
+        const productStore = await storeProduct.execute(
+            slug as string,
+            page as string,
+            limit as string,
+            filter as string,
+            sort as string,
+            order as string,
+            parsedMinPrice,
+            parsedMaxPrice
+        );
+
+        return res.json(productStore);
 
     }
 

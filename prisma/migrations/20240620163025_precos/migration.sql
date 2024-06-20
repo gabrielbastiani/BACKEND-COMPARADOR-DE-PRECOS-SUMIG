@@ -70,6 +70,7 @@ CREATE TABLE "products" (
     "slug" TEXT,
     "title_product" TEXT,
     "slug_title_product" TEXT,
+    "price" DOUBLE PRECISION,
     "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 
