@@ -8,33 +8,44 @@ class ListProductsCategoryService {
         const skip = (pageNum - 1) * limitNum;
         const take = limitNum;
 
-        let where: any = { slug: slug };
+        // Inicializar a cláusula where para a tabela storeProduct
+        let storeProductWhere: any = {};
 
         if (filter) {
-            where.OR = [
+            storeProductWhere.OR = [
                 { title_product: { contains: filter, mode: 'insensitive' } },
                 { brand: { contains: filter, mode: 'insensitive' } }
             ];
         }
 
         if (minPrice !== undefined) {
-            where.price = { ...where.price, gte: minPrice };
+            storeProductWhere.price = { ...storeProductWhere.price, gte: minPrice };
         }
         if (maxPrice !== undefined) {
-            where.price = { ...where.price, lte: maxPrice };
+            storeProductWhere.price = { ...storeProductWhere.price, lte: maxPrice };
         }
 
         let orderBy: any = {};
 
-        if (sort && sort === 'price') {
-            orderBy.price = order === 'asc' ? 'asc' : 'desc';
+        if (sort === 'price') {
+            orderBy = {
+                product: {
+                    storeProduct: {
+                        price: order === 'asc' ? 'asc' : 'desc'
+                    }
+                }
+            };
+        } else if (sort) {
+            orderBy = {
+                product: {
+                    storeProduct: {
+                        [sort]: order
+                    }
+                }
+            };
         }
 
-        if (sort) {
-            orderBy[sort] = order;
-        }
-
-        const product = await prismaClient.productCategory.findMany({
+        const productCategories = await prismaClient.productCategory.findMany({
             where: {
                 slug: slug
             },
@@ -45,17 +56,24 @@ class ListProductsCategoryService {
                 product: {
                     include: {
                         storeProduct: {
-                            where: where
+                            where: storeProductWhere
                         }
                     }
                 }
             }
         });
 
-        console.log(product)
+        console.log(productCategories)
 
-        const totalPosts = await prismaClient.productCategory.count({ 
-            where: where
+        const totalPosts = await prismaClient.productCategory.count({
+            where: {
+                slug: slug,
+                product: {
+                    storeProduct: {
+                        ...storeProductWhere
+                    }
+                }
+            }
         });
 
         const productDate = await prismaClient.category.findFirst({
@@ -66,14 +84,13 @@ class ListProductsCategoryService {
 
         const data = {
             totalPages: Math.ceil(totalPosts / take),
-            currentPage: parseInt(page),
-            product: product,
+            currentPage: pageNum,
+            product: productCategories,
             productDate: productDate
-        }
+        };
 
         return data;
-
     }
 }
 
-export { ListProductsCategoryService }
+export { ListProductsCategoryService };

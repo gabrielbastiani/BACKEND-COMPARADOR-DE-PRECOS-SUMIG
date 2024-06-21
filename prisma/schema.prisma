@@ -71,6 +71,7 @@ model StoreProduct {
   link               String?
 
   product Product[]
+  Filter  Filter[]
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
@@ -89,6 +90,7 @@ model Product {
   price              Float?
 
   productCategory ProductCategory[]
+  Filter          Filter[]
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
@@ -105,6 +107,8 @@ model ProductCategory {
   slug       String?
   order      Int?
 
+  Filter Filter[]
+
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
 
@@ -114,4 +118,19 @@ model ProductCategory {
 enum StatusProductCategory {
   Disponivel
   Indisponivel
+}
+
+model Filter {
+  id                 String          @id @default(uuid())
+  storeProduct       StoreProduct?   @relation(fields: [storeProduct_id], references: [id])
+  storeProduct_id    String?
+  product            Product         @relation(fields: [product_id], references: [id])
+  product_id         String
+  productCategory    ProductCategory @relation(fields: [productCategory_id], references: [id])
+  productCategory_id String
+
+  created_at DateTime? @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt
+
+  @@map("filters")
 }
