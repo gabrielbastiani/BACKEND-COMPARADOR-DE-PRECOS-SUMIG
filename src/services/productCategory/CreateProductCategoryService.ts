@@ -1,13 +1,13 @@
 import prismaClient from "../../prisma";
 
 interface ProductCategoryRequest {
-    product_id: string;
+    storeProduct_id: string;
     name: string;
     order: number;
 }
 
 class CreateProductCategoryService {
-    async execute({ product_id, name, order }: ProductCategoryRequest) {
+    async execute({ storeProduct_id, name, order }: ProductCategoryRequest) {
 
         function removerAcentos(s: any) {
             return s.normalize('NFD')
@@ -20,7 +20,7 @@ class CreateProductCategoryService {
 
         const categoryAlredyExist = await prismaClient.productCategory.findFirst({
             where: {
-                product_id: product_id,
+                storeProduct_id: storeProduct_id,
                 name: name,
             }
         });
@@ -31,7 +31,7 @@ class CreateProductCategoryService {
 
         const categories = await prismaClient.productCategory.create({
             data: {
-                product_id: product_id,
+                storeProduct_id: storeProduct_id,
                 name: name,
                 slug: removerAcentos(name),
                 order: Number(order)

@@ -70,8 +70,7 @@ model StoreProduct {
   brand              String?
   link               String?
 
-  product Product[]
-  Filter  Filter[]
+  productCategory ProductCategory[]
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
@@ -79,35 +78,14 @@ model StoreProduct {
   @@map("storeproducts")
 }
 
-model Product {
-  id                 String        @id @default(uuid())
-  storeProduct       StoreProduct? @relation(fields: [storeProduct_id], references: [id])
-  storeProduct_id    String?
-  store              String?
-  slug               String?
-  title_product      String?
-  slug_title_product String?
-  price              Float?
-
-  productCategory ProductCategory[]
-  Filter          Filter[]
-
-  created_at DateTime? @default(now()) @db.Timestamptz(3)
-  updated_at DateTime? @updatedAt
-
-  @@map("products")
-}
-
 model ProductCategory {
-  id         String   @id @default(uuid())
-  product    Product  @relation(fields: [product_id], references: [id])
-  product_id String
-  category   Category @relation(fields: [name], references: [name])
-  name       String
-  slug       String?
-  order      Int?
-
-  Filter Filter[]
+  id              String       @id @default(uuid())
+  storeProduct    StoreProduct @relation(fields: [storeProduct_id], references: [id])
+  storeProduct_id String
+  category        Category     @relation(fields: [name], references: [name])
+  name            String
+  slug            String?
+  order           Int?
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt
@@ -118,19 +96,4 @@ model ProductCategory {
 enum StatusProductCategory {
   Disponivel
   Indisponivel
-}
-
-model Filter {
-  id                 String          @id @default(uuid())
-  storeProduct       StoreProduct?   @relation(fields: [storeProduct_id], references: [id])
-  storeProduct_id    String?
-  product            Product         @relation(fields: [product_id], references: [id])
-  product_id         String
-  productCategory    ProductCategory @relation(fields: [productCategory_id], references: [id])
-  productCategory_id String
-
-  created_at DateTime? @default(now()) @db.Timestamptz(3)
-  updated_at DateTime? @updatedAt
-
-  @@map("filters")
 }

@@ -40,7 +40,7 @@ class PagesStoreMachineCutProductService {
             take: take,
             orderBy: Object.keys(orderBy).length > 0 ? orderBy : undefined,
             include: {
-                product: true
+                productCategory: true
             }
         });
 

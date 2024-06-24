@@ -63,24 +63,9 @@ CREATE TABLE "storeproducts" (
 );
 
 -- CreateTable
-CREATE TABLE "products" (
-    "id" TEXT NOT NULL,
-    "storeProduct_id" TEXT,
-    "store" TEXT,
-    "slug" TEXT,
-    "title_product" TEXT,
-    "slug_title_product" TEXT,
-    "price" DOUBLE PRECISION,
-    "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3),
-
-    CONSTRAINT "products_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "productcategories" (
     "id" TEXT NOT NULL,
-    "product_id" TEXT NOT NULL,
+    "storeProduct_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "slug" TEXT,
     "order" INTEGER,
@@ -97,10 +82,7 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
 
 -- AddForeignKey
-ALTER TABLE "products" ADD CONSTRAINT "products_storeProduct_id_fkey" FOREIGN KEY ("storeProduct_id") REFERENCES "storeproducts"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_storeProduct_id_fkey" FOREIGN KEY ("storeProduct_id") REFERENCES "storeproducts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_name_fkey" FOREIGN KEY ("name") REFERENCES "categories"("name") ON DELETE RESTRICT ON UPDATE CASCADE;

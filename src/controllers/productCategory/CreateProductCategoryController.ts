@@ -4,7 +4,7 @@ import { CreateProductCategoryService } from "../../services/productCategory/Cre
 class CreateProductCategoryController {
     async handle(req: Request, res: Response) {
         const {
-            product_id,
+            storeProduct_id,
             name,
             order
         } = req.body;
@@ -12,7 +12,7 @@ class CreateProductCategoryController {
         const productCategory = new CreateProductCategoryService();
 
         const category = await productCategory.execute({
-            product_id,
+            storeProduct_id,
             name,
             order
         });
