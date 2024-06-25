@@ -13,7 +13,7 @@ class StoreListProductService {
                 created_at: 'asc'
             },
             include: {
-                product: true
+                productCategory: true
             }
         });
 

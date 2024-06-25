@@ -8,72 +8,50 @@ class ListProductsCategoryService {
         const skip = (pageNum - 1) * limitNum;
         const take = limitNum;
 
-        // Inicializar a cláusula where para a tabela storeProduct
-        let storeProductWhere: any = {};
+        let where: any = {
+            productCategory: {
+                some: {
+                    slug: slug
+                }
+            }
+        };
 
         if (filter) {
-            storeProductWhere.OR = [
+            where.OR = [
                 { title_product: { contains: filter, mode: 'insensitive' } },
                 { brand: { contains: filter, mode: 'insensitive' } }
             ];
         }
 
         if (minPrice !== undefined) {
-            storeProductWhere.price = { ...storeProductWhere.price, gte: minPrice };
+            where.price = { ...where.price, gte: minPrice };
         }
         if (maxPrice !== undefined) {
-            storeProductWhere.price = { ...storeProductWhere.price, lte: maxPrice };
+            where.price = { ...where.price, lte: maxPrice };
         }
 
         let orderBy: any = {};
 
-        if (sort === 'price') {
-            orderBy = {
-                product: {
-                    storeProduct: {
-                        price: order === 'asc' ? 'asc' : 'desc'
-                    }
-                }
-            };
-        } else if (sort) {
-            orderBy = {
-                product: {
-                    storeProduct: {
-                        [sort]: order
-                    }
-                }
-            };
+        if (sort && sort === 'price') {
+            orderBy.price = order === 'asc' ? 'asc' : 'desc';
         }
 
-        const productCategories = await prismaClient.productCategory.findMany({
-            where: {
-                slug: slug
-            },
+        if (sort) {
+            orderBy[sort] = order;
+        }
+
+        const productCategories = await prismaClient.storeProduct.findMany({
+            where: where,
             skip: skip,
             take: take,
             orderBy: Object.keys(orderBy).length > 0 ? orderBy : undefined,
             include: {
-                product: {
-                    include: {
-                        storeProduct: {
-                            where: storeProductWhere
-                        }
-                    }
-                }
+                productCategory: true
             }
         });
 
-        console.log(productCategories)
-
-        const totalPosts = await prismaClient.productCategory.count({
-            where: {
-                slug: slug,
-                product: {
-                    storeProduct: {
-                        ...storeProductWhere
-                    }
-                }
-            }
+        const totalPosts = await prismaClient.storeProduct.count({
+            where: where
         });
 
         const productDate = await prismaClient.category.findFirst({
@@ -93,4 +71,4 @@ class ListProductsCategoryService {
     }
 }
 
-export { ListProductsCategoryService };
+export { ListProductsCategoryService }

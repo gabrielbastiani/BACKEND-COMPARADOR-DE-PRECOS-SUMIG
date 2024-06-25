@@ -1,21 +1,21 @@
 import prismaClient from "../../prisma";
 
 interface ProductRequest {
-    product_id: string;
+    storeProduct_id: string;
 }
 
 class DeleteProductService {
-    async execute({ product_id }: ProductRequest) {
+    async execute({ storeProduct_id }: ProductRequest) {
 
         await prismaClient.productCategory.deleteMany({
             where: {
-                product_id: product_id,
+                storeProduct_id: storeProduct_id,
             }
         });
 
-        const product = await prismaClient.product.delete({
+        const product = await prismaClient.storeProduct.delete({
             where: {
-                id: product_id,
+                id: storeProduct_id,
             }
         });
 

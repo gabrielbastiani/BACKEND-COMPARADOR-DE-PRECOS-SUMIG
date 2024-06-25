@@ -3,12 +3,12 @@ import { ListCategoryProductService } from '../../services/productCategory/ListC
 
 class ListCategoryProductController {
     async handle(req: Request, res: Response) {
-        const product_id = req.query.product_id as string;
+        const storeProduct_id = req.query.storeProduct_id as string;
 
         const categorys = new ListCategoryProductService();
 
         const productCategorys = await categorys.execute({
-            product_id
+            storeProduct_id
         });
 
         return res.json(productCategorys);

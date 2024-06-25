@@ -33,18 +33,17 @@ class RegisterProductService {
             orderBy[sort] = order;
         }
 
-        const product = await prismaClient.product.findMany({
+        const product = await prismaClient.storeProduct.findMany({
             where: where,
             skip: skip,
             take: take,
             orderBy: Object.keys(orderBy).length > 0 ? orderBy : undefined,
             include: {
-                productCategory: true,
-                storeProduct: true
+                productCategory: true
             }
         });
 
-        const totalPosts = await prismaClient.product.count({ where: where });
+        const totalPosts = await prismaClient.storeProduct.count({ where: where });
 
         const data = {
             totalPages: Math.ceil(totalPosts / take),
