@@ -50,6 +50,7 @@ import { RegisterProductController } from "./controllers/products/RegisterProduc
 import { FindUniqueProductController } from "./controllers/products/FindUniqueProductController";
 import { PagesStoreMachineWeldProductController } from "./controllers/products/PagesStoreMachineWeldProductController";
 import { PagesStoreMachineCutProductController } from "./controllers/products/PagesStoreMachineCutProductController";
+import { SearchAllMachinesCutAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesCutAllStoresListController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -101,6 +102,7 @@ router.get('/sumig_machines_cut', isAuthenticated, new SUMIGMachinesCutSearchCon
 router.put('/update_brand', isAuthenticated, new UpdateBrandProductController().handle);
 router.get('/findDataStore', isAuthenticated, new FindStoreProductController().handle);
 router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachinesWeldingAllStoresListController().handle);
+router.get('/search_all_stores_cuts', isAuthenticated, new SearchAllMachinesCutAllStoresListController().handle);
 
 // -- PRODUCTS -- //
 router.post('/create_product', isAuthenticated, new CreateProductController().handle);
