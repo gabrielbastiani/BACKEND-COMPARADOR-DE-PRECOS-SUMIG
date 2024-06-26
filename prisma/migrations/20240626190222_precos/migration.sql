@@ -30,7 +30,6 @@ CREATE TABLE "categories" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(300),
     "slug" VARCHAR(300),
-    "image" TEXT,
     "nivel" INTEGER,
     "parentId" TEXT,
     "order" INTEGER,

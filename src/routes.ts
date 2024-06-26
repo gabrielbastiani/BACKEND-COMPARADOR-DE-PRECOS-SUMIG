@@ -22,7 +22,6 @@ import { CreateCategoryController } from "./controllers/category/CreateCategoryC
 import { UpdateNameCategoryController } from "./controllers/category/UpdateNameCategoryController";
 import { FindUniqueCategoryController } from "./controllers/category/FindUniqueCategoryController";
 import { UpdateOrderCategoryController } from "./controllers/category/UpdateOrderCategoryController";
-import { UpdateImageCategoryController } from "./controllers/category/UpdateImageCategoryController";
 import { UpdateStatusCategoryController } from "./controllers/category/UpdateStatusCategoryController";
 import { DeleteCategoryController } from "./controllers/category/DeleteCategoryController";
 import { CreateSubCategoryController } from "./controllers/category/CreateSubCategoryController"
@@ -80,13 +79,12 @@ router.get('/find_unique_user', isAuthenticated, new FindUniqueUserController().
 router.delete('/delete_user', isAuthenticated, new DeleteUserController().handle);
 
 // -- CATEGORY -- //
-router.post('/create_category', isAuthenticated, upload.single('file'), new CreateCategoryController().handle);
+router.post('/create_category', isAuthenticated, new CreateCategoryController().handle);
 router.post('/create_subcategory', isAuthenticated, new CreateSubCategoryController().handle);
 router.get('/all_categorys', isAuthenticated, new AllCategorysController().handle);
 router.get('/find_unique_category', isAuthenticated, new FindUniqueCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
-router.put('/update_image_category', isAuthenticated, upload.single('file'), new UpdateImageCategoryController().handle);
 router.put('/update_type_category', isAuthenticated, new UpdateTypeCategoryController().handle);
 router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
 router.delete('/delete_category', isAuthenticated, new DeleteCategoryController().handle);

@@ -36,7 +36,6 @@ model Category {
   id            String         @id @default(uuid())
   name          String?        @unique @db.VarChar(300)
   slug          String?        @db.VarChar(300)
-  image         String?
   nivel         Int?
   parentId      String?
   order         Int?

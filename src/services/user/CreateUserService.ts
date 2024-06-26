@@ -14,6 +14,7 @@ interface UserRequest {
 
 class CreateUserService {
     async execute({ name, email, password }: UserRequest) {
+
         function removerAcentos(s: any) {
             return s.normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, "")
@@ -21,6 +22,36 @@ class CreateUserService {
                 .replace(/ +/g, "-")
                 .replace(/-{2,}/g, "-")
                 .replace(/[/]/g, "-");
+        }
+
+        const categs = await prismaClient.category.findFirst({
+            where: {
+                slug: "maquinas-de-solda"
+            }
+        });
+
+        if (!categs) {
+            await prismaClient.category.create({
+                data: {
+                    name: "Máquinas de solda",
+                    slug: removerAcentos("Máquinas de solda"),
+                    nivel: Number(0),
+                    parentId: null,
+                    order: Number(0),
+                    type_category: "principal"
+                }
+            });
+
+            await prismaClient.category.create({
+                data: {
+                    name: "Máquinas de corte plasma manual",
+                    slug: removerAcentos("Máquinas de corte plasma manual"),
+                    nivel: Number(0),
+                    parentId: null,
+                    order: Number(1),
+                    type_category: "principal"
+                }
+            });
         }
 
         if (!email) {
@@ -50,29 +81,29 @@ class CreateUserService {
 
         const findUser = await prismaClient.user.findFirst({
             orderBy: {
-              created_at: 'desc'
+                created_at: 'desc'
             }
-          });
+        });
 
-          const transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             host: process.env.HOST_SMTP,
             port: 465,
             auth: {
-              user: process.env.USER_SMTP,
-              pass: process.env.PASS_SMTP
+                user: process.env.USER_SMTP,
+                pass: process.env.PASS_SMTP
             }
-          });
-      
-          const requiredPath = path.join(__dirname, `../user/templateEmail/criacao_de_cliente.ejs`);
-      
-          const data = await ejs.renderFile(requiredPath, { name: findUser?.name });
-      
-          await transporter.sendMail({
+        });
+
+        const requiredPath = path.join(__dirname, `../user/templateEmail/criacao_de_cliente.ejs`);
+
+        const data = await ejs.renderFile(requiredPath, { name: findUser?.name });
+
+        await transporter.sendMail({
             from: `SUMIG Soluções Para Solda e Corte LTDA - <sumig@sumig.com>`,
             to: findUser?.email,
             subject: `Novo usuario cadastrado`,
             html: data
-          });
+        });
 
         return users;
     }

@@ -13,24 +13,15 @@ class CreateCategoryController {
 
         const categorys = new CreateCategoryService();
 
-        if (!req.file) {
-            throw new Error("error upload file");
-        } else {
+        const category = await categorys.execute({
+            name,
+            nivel,
+            parentId,
+            order,
+            type_category
+        });
 
-            const { originalname, filename: image } = req.file;
-
-            const category = await categorys.execute({
-                name,
-                nivel,
-                parentId,
-                order,
-                image,
-                type_category
-            });
-
-            return res.json(category);
-
-        }
+        return res.json(category);
 
     }
 }
