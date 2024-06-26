@@ -6,9 +6,9 @@ interface ProductRequest {
 
 class DeleteProductCategoryService {
     async execute({ productCategory_id }: ProductRequest) {
-        const categoryProduct = await prismaClient.productCategory.delete({
+        const categoryProduct = await prismaClient.productCategory.deleteMany({
             where: {
-                id: productCategory_id,
+                storeProduct_id: productCategory_id,
             }
         });
 
