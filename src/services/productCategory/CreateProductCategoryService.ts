@@ -20,8 +20,7 @@ class CreateProductCategoryService {
 
         const categoryAlredyExist = await prismaClient.productCategory.findFirst({
             where: {
-                storeProduct_id: storeProduct_id,
-                name: name,
+                name: name
             }
         });
 
