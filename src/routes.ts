@@ -57,6 +57,7 @@ import { ListCategoryProductController } from "./controllers/productCategory/Lis
 import { UpdateOrderProductController } from "./controllers/productCategory/UpdateOrderProductController";
 import { DeleteProductCategoryController } from "./controllers/productCategory/DeleteProductCategoryController";
 import { ListProductsCategoryController } from "./controllers/productCategory/ListProductsCategoryController";
+import { ListAllCategoryProductController } from "./controllers/productCategory/ListAllCategoryProductController";
 
 
 
@@ -115,6 +116,7 @@ router.get('/find_product_history', isAuthenticated, new FindUniqueProductContro
 // -- PRODUCTS CATEGORYS -- //
 router.post('/create_category_product', isAuthenticated, new CreateProductCategoryController().handle);
 router.get('/list_categorys_product', isAuthenticated, new ListCategoryProductController().handle);
+router.get('/list_all_products_categorys', isAuthenticated, new ListAllCategoryProductController().handle);
 router.put('/update_positionCategory_product', isAuthenticated, new UpdateOrderProductController().handle);
 router.delete('/delete_category_product', isAuthenticated, new DeleteProductCategoryController().handle);
 router.get('/products_category', isAuthenticated, new ListProductsCategoryController().handle);

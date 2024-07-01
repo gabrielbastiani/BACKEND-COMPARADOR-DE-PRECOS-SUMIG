@@ -6,7 +6,9 @@ class CreateProductCategoryController {
         const {
             storeProduct_id,
             name,
-            order
+            order,
+            slug_title_product,
+            store
         } = req.body;
 
         const productCategory = new CreateProductCategoryService();
@@ -14,7 +16,9 @@ class CreateProductCategoryController {
         const category = await productCategory.execute({
             storeProduct_id,
             name,
-            order
+            order,
+            slug_title_product,
+            store
         });
 
         return res.json(category)

@@ -78,13 +78,15 @@ model StoreProduct {
 }
 
 model ProductCategory {
-  id              String       @id @default(uuid())
-  storeProduct    StoreProduct @relation(fields: [storeProduct_id], references: [id])
-  storeProduct_id String
-  category        Category     @relation(fields: [name], references: [name])
-  name            String
-  slug            String?
-  order           Int?
+  id                 String       @id @default(uuid())
+  storeProduct       StoreProduct @relation(fields: [storeProduct_id], references: [id])
+  storeProduct_id    String
+  category           Category     @relation(fields: [name], references: [name])
+  name               String
+  slug               String?
+  order              Int?
+  store              String?
+  slug_title_product String?
 
   created_at DateTime? @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt

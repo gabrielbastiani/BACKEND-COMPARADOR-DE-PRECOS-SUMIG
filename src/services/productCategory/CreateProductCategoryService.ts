@@ -4,10 +4,12 @@ interface ProductCategoryRequest {
     storeProduct_id: string;
     name: string;
     order: number;
+    slug_title_product: string;
+    store: string;
 }
 
 class CreateProductCategoryService {
-    async execute({ storeProduct_id, name, order }: ProductCategoryRequest) {
+    async execute({ storeProduct_id, name, order, slug_title_product, store }: ProductCategoryRequest) {
 
         function removerAcentos(s: any) {
             return s.normalize('NFD')
@@ -34,7 +36,9 @@ class CreateProductCategoryService {
                 storeProduct_id: storeProduct_id,
                 name: name,
                 slug: removerAcentos(name),
-                order: Number(order)
+                order: Number(order),
+                store: store,
+                slug_title_product: slug_title_product
             }
         });
 

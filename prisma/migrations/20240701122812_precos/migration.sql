@@ -68,6 +68,8 @@ CREATE TABLE "productcategories" (
     "name" TEXT NOT NULL,
     "slug" TEXT,
     "order" INTEGER,
+    "store" TEXT,
+    "slug_title_product" TEXT,
     "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 
