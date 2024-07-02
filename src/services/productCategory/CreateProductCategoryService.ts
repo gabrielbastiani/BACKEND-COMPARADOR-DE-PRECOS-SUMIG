@@ -6,19 +6,20 @@ interface ProductCategoryRequest {
     order: number;
     slug_title_product: string;
     store: string;
+    category_id: string;
 }
 
 class CreateProductCategoryService {
-    async execute({ storeProduct_id, name, order, slug_title_product, store }: ProductCategoryRequest) {
+    async execute({ storeProduct_id, name, order, slug_title_product, store, category_id }: ProductCategoryRequest) {
 
         function removerAcentos(s: any) {
             return s.normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, "")
-              .toLowerCase()
-              .replace(/ +/g, "-")
-              .replace(/-{2,}/g, "-")
-              .replace(/[/]/g, "-");
-          }
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+                .replace(/ +/g, "-")
+                .replace(/-{2,}/g, "-")
+                .replace(/[/]/g, "-");
+        }
 
         const categoryAlredyExist = await prismaClient.productCategory.findFirst({
             where: {
@@ -34,6 +35,7 @@ class CreateProductCategoryService {
         const categories = await prismaClient.productCategory.create({
             data: {
                 storeProduct_id: storeProduct_id,
+                category_id: category_id,
                 name: name,
                 slug: removerAcentos(name),
                 order: Number(order),

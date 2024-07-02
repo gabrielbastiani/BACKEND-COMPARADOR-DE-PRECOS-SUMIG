@@ -6,6 +6,7 @@ class CreateProductCategoryController {
         const {
             storeProduct_id,
             name,
+            category_id,
             order,
             slug_title_product,
             store
@@ -16,6 +17,7 @@ class CreateProductCategoryController {
         const category = await productCategory.execute({
             storeProduct_id,
             name,
+            category_id,
             order,
             slug_title_product,
             store

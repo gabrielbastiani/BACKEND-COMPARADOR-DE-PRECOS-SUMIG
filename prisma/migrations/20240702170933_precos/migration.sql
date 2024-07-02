@@ -65,7 +65,8 @@ CREATE TABLE "storeproducts" (
 CREATE TABLE "productcategories" (
     "id" TEXT NOT NULL,
     "storeProduct_id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "category_id" TEXT NOT NULL,
+    "name" TEXT,
     "slug" TEXT,
     "order" INTEGER,
     "store" TEXT,
@@ -79,11 +80,8 @@ CREATE TABLE "productcategories" (
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
--- CreateIndex
-CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
-
 -- AddForeignKey
 ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_storeProduct_id_fkey" FOREIGN KEY ("storeProduct_id") REFERENCES "storeproducts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_name_fkey" FOREIGN KEY ("name") REFERENCES "categories"("name") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "productcategories" ADD CONSTRAINT "productcategories_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

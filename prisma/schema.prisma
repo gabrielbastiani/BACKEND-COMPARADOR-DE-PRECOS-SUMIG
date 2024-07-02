@@ -34,7 +34,7 @@ model PasswordRecoveryUser {
 
 model Category {
   id            String         @id @default(uuid())
-  name          String?        @unique @db.VarChar(300)
+  name          String?        @db.VarChar(300)
   slug          String?        @db.VarChar(300)
   nivel         Int?
   parentId      String?
@@ -81,8 +81,9 @@ model ProductCategory {
   id                 String       @id @default(uuid())
   storeProduct       StoreProduct @relation(fields: [storeProduct_id], references: [id])
   storeProduct_id    String
-  category           Category     @relation(fields: [name], references: [name])
-  name               String
+  category           Category     @relation(fields: [category_id], references: [id])
+  category_id        String
+  name               String?
   slug               String?
   order              Int?
   store              String?
