@@ -52,6 +52,41 @@ class CreateUserService {
                     type_category: "principal"
                 }
             });
+
+            const categsCreate = await prismaClient.category.findMany();
+
+            await prismaClient.category.create({
+                data: {
+                    name: "Processo MMA (eletrodo revestido)",
+                    slug: removerAcentos("Processo MMA (eletrodo revestido)"),
+                    nivel: Number(1),
+                    parentId: categsCreate[0].id,
+                    order: Number(0),
+                    type_category: "process"
+                }
+            });
+
+            await prismaClient.category.create({
+                data: {
+                    name: "Processo MIG/MAG",
+                    slug: removerAcentos("Processo MIG/MAG"),
+                    nivel: Number(1),
+                    parentId: categsCreate[0].id,
+                    order: Number(1),
+                    type_category: "process"
+                }
+            });
+
+            await prismaClient.category.create({
+                data: {
+                    name: "Processo TIG",
+                    slug: removerAcentos("Processo TIG"),
+                    nivel: Number(1),
+                    parentId: categsCreate[0].id,
+                    order: Number(2),
+                    type_category: "process"
+                }
+            });
         }
 
         if (!email) {
