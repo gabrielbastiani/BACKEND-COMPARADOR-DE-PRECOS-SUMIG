@@ -1,7 +1,7 @@
 import prismaClient from "../../prisma";
 
 class ListProductsCategoryService {
-    async execute(slug: string, page: string, limit: string, filter?: string, sort?: string, order?: string, minPrice?: number, maxPrice?: number) {
+    async execute(id: string, page: string, limit: string, filter?: string, sort?: string, order?: string, minPrice?: number, maxPrice?: number) {
 
         const pageNum = parseInt(page);
         const limitNum = parseInt(limit);
@@ -11,7 +11,7 @@ class ListProductsCategoryService {
         let where: any = {
             productCategory: {
                 some: {
-                    slug: slug
+                    category_id: id
                 }
             }
         };
@@ -56,7 +56,7 @@ class ListProductsCategoryService {
 
         const productDate = await prismaClient.category.findFirst({
             where: {
-                slug: slug
+                id: id
             }
         });
 

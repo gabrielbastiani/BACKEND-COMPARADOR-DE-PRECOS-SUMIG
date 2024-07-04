@@ -68,8 +68,8 @@ class CreateUserService {
 
             await prismaClient.category.create({
                 data: {
-                    name: "Processo MIG/MAG",
-                    slug: removerAcentos("Processo MIG/MAG"),
+                    name: "Processo MIG e MAG",
+                    slug: removerAcentos("Processo MIG e MAG"),
                     nivel: Number(1),
                     parentId: categsCreate[0].id,
                     order: Number(1),

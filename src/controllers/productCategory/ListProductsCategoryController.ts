@@ -4,7 +4,7 @@ import { ListProductsCategoryService } from '../../services/productCategory/List
 class ListProductsCategoryController {
     async handle(req: Request, res: Response) {
         const {
-            slug, page, limit, filter, sort, order, minPrice, maxPrice
+            id, page, limit, filter, sort, order, minPrice, maxPrice
         } = req.query;
 
         const parsedMinPrice = minPrice ? parseFloat(minPrice as string) : undefined;
@@ -13,7 +13,7 @@ class ListProductsCategoryController {
         const storeProduct = new ListProductsCategoryService();
 
         const productStore = await storeProduct.execute(
-            slug as string,
+            id as string,
             page as string,
             limit as string,
             filter as string,
