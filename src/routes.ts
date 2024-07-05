@@ -38,7 +38,6 @@ import { UpdateBrandProductController } from "./controllers/products/UpdateBrand
 import { SearchAllMachinesWeldingAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesWeldingAllStoresListController";
 
 // -- PRODUCTS -- //
-import { CreateProductController } from "./controllers/products/CreateProductController";
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { DeleteProductController } from "./controllers/products/DeleteProductController";
@@ -50,6 +49,7 @@ import { FindUniqueProductController } from "./controllers/products/FindUniquePr
 import { PagesStoreMachineWeldProductController } from "./controllers/products/PagesStoreMachineWeldProductController";
 import { PagesStoreMachineCutProductController } from "./controllers/products/PagesStoreMachineCutProductController";
 import { SearchAllMachinesCutAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesCutAllStoresListController";
+import { UpdateTitleProductController } from "./controllers/products/UpdateTitleProductController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -104,7 +104,7 @@ router.get('/search_all_stores_machines', isAuthenticated, new SearchAllMachines
 router.get('/search_all_stores_cuts', isAuthenticated, new SearchAllMachinesCutAllStoresListController().handle);
 
 // -- PRODUCTS -- //
-router.post('/create_product', isAuthenticated, new CreateProductController().handle);
+router.put('/update_title_product', isAuthenticated, new UpdateTitleProductController().handle);
 router.get('/list_all_products', isAuthenticated, new ListAllProductController().handle);
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
 router.get('/page_products_machine_weld', isAuthenticated, new PagesStoreMachineWeldProductController().handle);

@@ -94,7 +94,7 @@ class CreateUserService {
                     slug: removerAcentos("Equipamentos multiprocessos"),
                     nivel: Number(1),
                     parentId: categsCreate[0].id,
-                    order: Number(2),
+                    order: Number(3),
                     type_category: "process"
                 }
             });
