@@ -87,6 +87,17 @@ class CreateUserService {
                     type_category: "process"
                 }
             });
+
+            await prismaClient.category.create({
+                data: {
+                    name: "Equipamentos multiprocessos",
+                    slug: removerAcentos("Equipamentos multiprocessos"),
+                    nivel: Number(1),
+                    parentId: categsCreate[0].id,
+                    order: Number(2),
+                    type_category: "process"
+                }
+            });
         }
 
         if (!email) {
