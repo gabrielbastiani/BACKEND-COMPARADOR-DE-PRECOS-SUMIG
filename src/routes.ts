@@ -58,6 +58,8 @@ import { UpdateOrderProductController } from "./controllers/productCategory/Upda
 import { DeleteProductCategoryController } from "./controllers/productCategory/DeleteProductCategoryController";
 import { ListProductsCategoryController } from "./controllers/productCategory/ListProductsCategoryController";
 import { ListAllCategoryProductController } from "./controllers/productCategory/ListAllCategoryProductController";
+import { CaptureWeldingMachinController } from "./controllers/productCategory/CaptureWeldingMachinController";
+import { CaptureCutMachinController } from "./controllers/productCategory/CaptureCutMachinController";
 
 
 
@@ -114,6 +116,8 @@ router.get('/register_products', isAuthenticated, new RegisterProductController(
 router.get('/find_product_history', isAuthenticated, new FindUniqueProductController().handle);
 
 // -- PRODUCTS CATEGORYS -- //
+router.post('/capture_product_welding_machine', isAuthenticated, new CaptureWeldingMachinController().handle);
+router.post('/capture_product_cut_machine', isAuthenticated, new CaptureCutMachinController().handle);
 router.post('/create_category_product', isAuthenticated, new CreateProductCategoryController().handle);
 router.get('/list_categorys_product', isAuthenticated, new ListCategoryProductController().handle);
 router.get('/list_all_products_categorys', isAuthenticated, new ListAllCategoryProductController().handle);
