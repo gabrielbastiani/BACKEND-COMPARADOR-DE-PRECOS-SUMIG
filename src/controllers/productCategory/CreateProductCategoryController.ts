@@ -5,6 +5,7 @@ class CreateProductCategoryController {
     async handle(req: Request, res: Response) {
         const {
             storeProduct_id,
+            parentId,
             name,
             category_id,
             order,
@@ -16,6 +17,7 @@ class CreateProductCategoryController {
 
         const category = await productCategory.execute({
             storeProduct_id,
+            parentId,
             name,
             category_id,
             order,

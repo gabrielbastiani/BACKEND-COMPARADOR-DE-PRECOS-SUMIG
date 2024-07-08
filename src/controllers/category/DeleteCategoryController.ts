@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
 import { DeleteCategoryService } from '../../services/category/DeleteCategoryService';
-import { FindUniqueCategoryService } from '../../services/category/FindUniqueCategoryService';
-import { AllCategorysService } from '../../services/category/AllCategorysService';
-import fs from 'fs';
 
 class DeleteCategoryController {
   async handle(req: Request, res: Response) {

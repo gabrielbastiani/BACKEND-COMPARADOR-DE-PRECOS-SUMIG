@@ -66,6 +66,7 @@ CREATE TABLE "productcategories" (
     "id" TEXT NOT NULL,
     "storeProduct_id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
+    "parentId" TEXT,
     "name" TEXT,
     "slug" TEXT,
     "order" INTEGER,

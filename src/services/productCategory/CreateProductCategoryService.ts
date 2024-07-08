@@ -2,6 +2,7 @@ import prismaClient from "../../prisma";
 
 interface ProductCategoryRequest {
     storeProduct_id: string;
+    parentId: string;
     name: string;
     order: number;
     slug_title_product: string;
@@ -10,7 +11,7 @@ interface ProductCategoryRequest {
 }
 
 class CreateProductCategoryService {
-    async execute({ storeProduct_id, name, order, slug_title_product, store, category_id }: ProductCategoryRequest) {
+    async execute({ storeProduct_id, name, order, slug_title_product, store, category_id, parentId }: ProductCategoryRequest) {
 
         function removerAcentos(s: any) {
             return s.normalize('NFD')
@@ -36,6 +37,7 @@ class CreateProductCategoryService {
             data: {
                 storeProduct_id: storeProduct_id,
                 category_id: category_id,
+                parentId: parentId,
                 name: name,
                 slug: removerAcentos(name),
                 order: Number(order),

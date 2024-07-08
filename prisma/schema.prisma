@@ -83,6 +83,7 @@ model ProductCategory {
   storeProduct_id    String
   category           Category     @relation(fields: [category_id], references: [id])
   category_id        String
+  parentId           String?
   name               String?
   slug               String?
   order              Int?
