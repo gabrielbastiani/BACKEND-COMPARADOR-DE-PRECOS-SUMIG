@@ -171,7 +171,7 @@ class SearchAllMachinesWeldingAllStoresListService {
             }
         }
 
-        /* await browser.close(); */
+        await browser.close();
         return list_products.flat();
 
     }
