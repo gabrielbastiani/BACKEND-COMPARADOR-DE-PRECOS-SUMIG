@@ -23,7 +23,7 @@ class UpdateTitleProductService {
             },
             data: {
                 title_product: title_product,
-                slug: removerAcentos(title_product)
+                slug_title_product: removerAcentos(title_product)
             }
         });
 
