@@ -60,6 +60,7 @@ import { ListProductsCategoryController } from "./controllers/productCategory/Li
 import { ListAllCategoryProductController } from "./controllers/productCategory/ListAllCategoryProductController";
 import { CaptureWeldingMachinController } from "./controllers/productCategory/CaptureWeldingMachinController";
 import { CaptureCutMachinController } from "./controllers/productCategory/CaptureCutMachinController";
+import { SearchSocialMediasController } from "./controllers/searchSocialMedias/SearchSocialMediasController";
 
 
 
@@ -124,6 +125,9 @@ router.get('/list_all_products_categorys', isAuthenticated, new ListAllCategoryP
 router.put('/update_positionCategory_product', isAuthenticated, new UpdateOrderProductController().handle);
 router.delete('/delete_category_product', isAuthenticated, new DeleteProductCategoryController().handle);
 router.get('/products_category', isAuthenticated, new ListProductsCategoryController().handle);
+
+// -- SEARCH MEDIAS SOCIAL -- //
+router.get('/search_medias_social', isAuthenticated, new SearchSocialMediasController().handle);
 
 
 export { router }
