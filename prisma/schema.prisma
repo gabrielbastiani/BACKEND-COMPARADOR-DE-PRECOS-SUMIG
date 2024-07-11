@@ -68,6 +68,7 @@ model StoreProduct {
   price              Float?
   brand              String?
   link               String?
+  register           String? @default("Nao")
 
   productCategory ProductCategory[]
 

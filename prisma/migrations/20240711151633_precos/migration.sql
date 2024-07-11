@@ -55,6 +55,7 @@ CREATE TABLE "storeproducts" (
     "price" DOUBLE PRECISION,
     "brand" TEXT,
     "link" TEXT,
+    "register" TEXT DEFAULT 'Nao',
     "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 

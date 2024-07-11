@@ -40,7 +40,6 @@ import { SearchAllMachinesWeldingAllStoresListController } from "./controllers/p
 // -- PRODUCTS -- //
 import { ListAllProductController } from "./controllers/products/ListAllProductController";
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
-import { DeleteProductController } from "./controllers/products/DeleteProductController";
 import { SubCategorysController } from "./controllers/category/SubCategorysController";
 import { FindStoreProductController } from "./controllers/products/searchProducts/FindStoreProductController";
 import { UpdateTypeCategoryController } from "./controllers/category/UpdateTypeCategoryController";
@@ -50,6 +49,7 @@ import { PagesStoreMachineWeldProductController } from "./controllers/products/P
 import { PagesStoreMachineCutProductController } from "./controllers/products/PagesStoreMachineCutProductController";
 import { SearchAllMachinesCutAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesCutAllStoresListController";
 import { UpdateTitleProductController } from "./controllers/products/UpdateTitleProductController";
+import { ListAllProductStoreController } from "./controllers/products/ListAllProductStoreController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -60,6 +60,8 @@ import { ListProductsCategoryController } from "./controllers/productCategory/Li
 import { ListAllCategoryProductController } from "./controllers/productCategory/ListAllCategoryProductController";
 import { CaptureWeldingMachinController } from "./controllers/productCategory/CaptureWeldingMachinController";
 import { CaptureCutMachinController } from "./controllers/productCategory/CaptureCutMachinController";
+
+// -- SEARCH MEDIAS SOCIAL -- //
 import { SearchSocialMediasController } from "./controllers/searchSocialMedias/SearchSocialMediasController";
 
 
@@ -112,9 +114,9 @@ router.get('/list_all_products', isAuthenticated, new ListAllProductController()
 router.get('/store_products', isAuthenticated, new StoreListProductController().handle);
 router.get('/page_products_machine_weld', isAuthenticated, new PagesStoreMachineWeldProductController().handle);
 router.get('/page_products_machine_cut', isAuthenticated, new PagesStoreMachineCutProductController().handle);
-router.delete('/delete_product', isAuthenticated, new DeleteProductController().handle);
 router.get('/register_products', isAuthenticated, new RegisterProductController().handle);
 router.get('/find_product_history', isAuthenticated, new FindUniqueProductController().handle);
+router.get('/list_all_products_store', isAuthenticated, new ListAllProductStoreController().handle);
 
 // -- PRODUCTS CATEGORYS -- //
 router.post('/capture_product_welding_machine', isAuthenticated, new CaptureWeldingMachinController().handle);
