@@ -23,15 +23,20 @@ class SearchSocialMediasService {
 
         try {
 
-           /*  await page.waitForSelector('.m', { timeout: 60000 });
-            await page.click('.m'); */
-
             await page.waitForSelector('div.native-text', { timeout: 60000 });
-            const description = await page.$$eval('div.native-text', (elementos) => {
-                return elementos.map((elemento) => elemento.textContent.trim());
+            const descriptions = await page.$$eval('div.native-text', (elementos) => {
+                // Filtrar e mapear os elementos que possuem o span com o texto "… Ver mais"
+                return elementos
+                    .filter(el => el.querySelector('span')?.textContent === '… Ver mais')
+                    .map(el => el.textContent.trim().replace('… Ver mais', '').trim());
             });
 
-            console.log(description)
+            console.log(descriptions)
+
+            await page.waitForSelector('.img', { timeout: 60000 });
+            const images = await page.$$eval('.img > img', (el) => el.map((link) => link.src));
+
+            console.log(images)
 
         } catch (error) {
             console.log(error);
