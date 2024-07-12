@@ -50,6 +50,7 @@ import { PagesStoreMachineCutProductController } from "./controllers/products/Pa
 import { SearchAllMachinesCutAllStoresListController } from "./controllers/products/searchProducts/SearchAllMachinesCutAllStoresListController";
 import { UpdateTitleProductController } from "./controllers/products/UpdateTitleProductController";
 import { ListAllProductStoreController } from "./controllers/products/ListAllProductStoreController";
+import { UpdateRegisterProductController } from "./controllers/products/UpdateRegisterProductController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -67,7 +68,6 @@ import { SearchSocialMediasController } from "./controllers/searchSocialMedias/S
 
 
 const router = Router();
-const upload = multer(uploadConfig.upload("./images"));
 
 
 
@@ -117,6 +117,7 @@ router.get('/page_products_machine_cut', isAuthenticated, new PagesStoreMachineC
 router.get('/register_products', isAuthenticated, new RegisterProductController().handle);
 router.get('/find_product_history', isAuthenticated, new FindUniqueProductController().handle);
 router.get('/list_all_products_store', isAuthenticated, new ListAllProductStoreController().handle);
+router.put('/update_register_product', isAuthenticated, new UpdateRegisterProductController().handle);
 
 // -- PRODUCTS CATEGORYS -- //
 router.post('/capture_product_welding_machine', isAuthenticated, new CaptureWeldingMachinController().handle);
