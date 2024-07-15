@@ -33,7 +33,6 @@ CREATE TABLE "categories" (
     "nivel" INTEGER,
     "parentId" TEXT,
     "order" INTEGER,
-    "type_category" TEXT,
     "status" "StatusCategory" NOT NULL DEFAULT 'Disponivel',
     "created_at" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),

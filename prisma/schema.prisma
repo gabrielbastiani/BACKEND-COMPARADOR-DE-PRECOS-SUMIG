@@ -33,14 +33,13 @@ model PasswordRecoveryUser {
 }
 
 model Category {
-  id            String         @id @default(uuid())
-  name          String?        @db.VarChar(300)
-  slug          String?        @db.VarChar(300)
-  nivel         Int?
-  parentId      String?
-  order         Int?
-  type_category String?
-  status        StatusCategory @default(Disponivel)
+  id       String         @id @default(uuid())
+  name     String?        @db.VarChar(300)
+  slug     String?        @db.VarChar(300)
+  nivel    Int?
+  parentId String?
+  order    Int?
+  status   StatusCategory @default(Disponivel)
 
   productCategory ProductCategory[]
 

@@ -37,8 +37,7 @@ class CreateUserService {
                     slug: removerAcentos("Máquinas de solda"),
                     nivel: Number(0),
                     parentId: null,
-                    order: Number(0),
-                    type_category: "principal"
+                    order: Number(0)
                 }
             });
 
@@ -48,8 +47,7 @@ class CreateUserService {
                     slug: removerAcentos("Máquinas de corte plasma manual"),
                     nivel: Number(0),
                     parentId: null,
-                    order: Number(1),
-                    type_category: "principal"
+                    order: Number(1)
                 }
             });
 
@@ -61,8 +59,7 @@ class CreateUserService {
                     slug: removerAcentos("Processo MMA (eletrodo revestido)"),
                     nivel: Number(1),
                     parentId: categsCreate[0].id,
-                    order: Number(0),
-                    type_category: "process"
+                    order: Number(0)
                 }
             });
 
@@ -72,8 +69,7 @@ class CreateUserService {
                     slug: removerAcentos("Processo MIG e MAG"),
                     nivel: Number(1),
                     parentId: categsCreate[0].id,
-                    order: Number(1),
-                    type_category: "process"
+                    order: Number(1)
                 }
             });
 
@@ -83,8 +79,7 @@ class CreateUserService {
                     slug: removerAcentos("Processo TIG"),
                     nivel: Number(1),
                     parentId: categsCreate[0].id,
-                    order: Number(2),
-                    type_category: "process"
+                    order: Number(2)
                 }
             });
 
@@ -94,8 +89,7 @@ class CreateUserService {
                     slug: removerAcentos("Equipamentos multiprocessos"),
                     nivel: Number(1),
                     parentId: categsCreate[0].id,
-                    order: Number(3),
-                    type_category: "process"
+                    order: Number(3)
                 }
             });
         }

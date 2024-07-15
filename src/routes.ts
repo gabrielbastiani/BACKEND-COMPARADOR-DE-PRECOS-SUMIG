@@ -42,7 +42,6 @@ import { ListAllProductController } from "./controllers/products/ListAllProductC
 import { StoreListProductController } from "./controllers/products/StoreListProductController";
 import { SubCategorysController } from "./controllers/category/SubCategorysController";
 import { FindStoreProductController } from "./controllers/products/searchProducts/FindStoreProductController";
-import { UpdateTypeCategoryController } from "./controllers/category/UpdateTypeCategoryController";
 import { RegisterProductController } from "./controllers/products/RegisterProductController";
 import { FindUniqueProductController } from "./controllers/products/FindUniqueProductController";
 import { PagesStoreMachineWeldProductController } from "./controllers/products/PagesStoreMachineWeldProductController";
@@ -64,6 +63,7 @@ import { CaptureCutMachinController } from "./controllers/productCategory/Captur
 
 // -- SEARCH MEDIAS SOCIAL -- //
 import { SearchSocialMediasController } from "./controllers/searchSocialMedias/SearchSocialMediasController";
+import { HistoryProductPriceController } from "./controllers/products/HistoryProductPriceController";
 
 
 
@@ -91,7 +91,6 @@ router.get('/all_categorys', isAuthenticated, new AllCategorysController().handl
 router.get('/find_unique_category', isAuthenticated, new FindUniqueCategoryController().handle);
 router.put('/update_name_category', isAuthenticated, new UpdateNameCategoryController().handle);
 router.put('/update_order_category', isAuthenticated, new UpdateOrderCategoryController().handle);
-router.put('/update_type_category', isAuthenticated, new UpdateTypeCategoryController().handle);
 router.put('/update_status_category', isAuthenticated, new UpdateStatusCategoryController().handle);
 router.delete('/delete_category', isAuthenticated, new DeleteCategoryController().handle);
 router.get('/sub_categorys_category', isAuthenticated, new SubCategorysController().handle);
@@ -118,6 +117,7 @@ router.get('/register_products', isAuthenticated, new RegisterProductController(
 router.get('/find_product_history', isAuthenticated, new FindUniqueProductController().handle);
 router.get('/list_all_products_store', isAuthenticated, new ListAllProductStoreController().handle);
 router.put('/update_register_product', isAuthenticated, new UpdateRegisterProductController().handle);
+router.get('/history_prices_product', isAuthenticated, new HistoryProductPriceController().handle);
 
 // -- PRODUCTS CATEGORYS -- //
 router.post('/capture_product_welding_machine', isAuthenticated, new CaptureWeldingMachinController().handle);
