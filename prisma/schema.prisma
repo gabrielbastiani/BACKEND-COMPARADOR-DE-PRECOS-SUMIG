@@ -56,8 +56,6 @@ enum StatusCategory {
 
 model StoreProduct {
   id                 String  @id @default(uuid())
-  type_product       String?
-  slug_type          String?
   store              String?
   slug               String?
   link_search        String?
@@ -75,6 +73,19 @@ model StoreProduct {
   updated_at DateTime? @updatedAt
 
   @@map("storeproducts")
+}
+
+model TitleProduct {
+  id                 String  @id @default(uuid())
+  title_product      String?
+  slug_title_product String?
+  store              String?
+  slug_store         String?
+
+  created_at DateTime? @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt
+
+  @@map("titleproducts")
 }
 
 model ProductCategory {
