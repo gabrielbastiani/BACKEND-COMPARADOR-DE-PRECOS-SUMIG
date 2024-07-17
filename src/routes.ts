@@ -50,6 +50,8 @@ import { SearchAllMachinesCutAllStoresListController } from "./controllers/produ
 import { UpdateTitleProductController } from "./controllers/products/UpdateTitleProductController";
 import { ListAllProductStoreController } from "./controllers/products/ListAllProductStoreController";
 import { UpdateRegisterProductController } from "./controllers/products/UpdateRegisterProductController";
+import { HistoryProductPriceController } from "./controllers/products/HistoryProductPriceController";
+import { CreateAlternativeTitleController } from "./controllers/products/CreateAlternativeTitleController";
 
 // -- PRODUCTS CATEGORYS -- //
 import { CreateProductCategoryController } from "./controllers/productCategory/CreateProductCategoryController";
@@ -63,7 +65,7 @@ import { CaptureCutMachinController } from "./controllers/productCategory/Captur
 
 // -- SEARCH MEDIAS SOCIAL -- //
 import { SearchSocialMediasController } from "./controllers/searchSocialMedias/SearchSocialMediasController";
-import { HistoryProductPriceController } from "./controllers/products/HistoryProductPriceController";
+
 
 
 
@@ -118,6 +120,7 @@ router.get('/find_product_history', isAuthenticated, new FindUniqueProductContro
 router.get('/list_all_products_store', isAuthenticated, new ListAllProductStoreController().handle);
 router.put('/update_register_product', isAuthenticated, new UpdateRegisterProductController().handle);
 router.get('/history_prices_product', isAuthenticated, new HistoryProductPriceController().handle);
+router.post('/create_alternative_title', isAuthenticated, new CreateAlternativeTitleController().handle);
 
 // -- PRODUCTS CATEGORYS -- //
 router.post('/capture_product_welding_machine', isAuthenticated, new CaptureWeldingMachinController().handle);

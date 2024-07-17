@@ -128,6 +128,45 @@ class SearchMachinesWeldingStoresService {
                 }
 
                 for (const item of news) {
+                    const slug = removerAcentos(item.title);
+
+                    const listTitle = await prismaClient.titleProduct.findFirst({
+                        where: {
+                            slug_title_product: slug
+                        }
+                    });
+
+                    const listTitleAlternative = await prismaClient.titleAlternative.findFirst({
+                        where: {
+                            slug_title: slug
+                        }
+                    });
+
+                    if (listTitle && listTitleAlternative && listTitle.slug_title_product === listTitleAlternative.slug_title) {
+                        await prismaClient.storeProduct.updateMany({
+                            where: {
+                                slug_title_product: slug
+                            },
+                            data: {
+                                title_product: listTitleAlternative.title_alternative,
+                                slug_title_product: removerAcentosTitle(listTitleAlternative.title_alternative)
+                            }
+                        });
+                    } else {
+                        try {
+                            await prismaClient.titleProduct.create({
+                                data: {
+                                    title_product: item.title,
+                                    slug_title_product: removerAcentosTitle(item.title)
+                                }
+                            });
+                        } catch (error) {
+                            if (error.code !== 'P2002') {
+                                throw error;
+                            }
+                        }
+                    }
+
                     await prismaClient.storeProduct.create({
                         data: {
                             type_product: "Máquinas de Solda",
@@ -165,4 +204,4 @@ class SearchMachinesWeldingStoresService {
     }
 }
 
-export { SearchMachinesWeldingStoresService }
+export { SearchMachinesWeldingStoresService };
