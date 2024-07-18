@@ -111,25 +111,76 @@ class SUMIGMachinesCutSearchService {
 
                     list_products.push(obj);
 
-                    await prismaClient.storeProduct.create({
-                        data: {
-                            type_product: "Máquinas de Corte Plasma Manual",
-                            slug_type: removerAcentosType("Máquinas de Corte Plasma Manual"),
-                            store: store,
-                            slug: removerAcentos(store),
-                            link_search: url_sumig,
-                            image: obj.image,
-                            title_product: obj.title,
-                            slug_title_product: removerAcentosTitle(obj.title),
-                            price: obj.price,
-                            brand: obj.brand,
-                            link: obj.link
+                    try {
+                        // Verifique se o slug_title_product existe na tabela titleAlternative
+                        const titleAlternative = await prismaClient.titleAlternative.findFirst({
+                            where: {
+                                slug_title_product: removerAcentosTitle(obj.title)
+                            }
+                        });
+
+                        let titleProduct = obj.title;
+                        let slugTitleProduct = removerAcentosTitle(obj.title);
+
+                        if (titleAlternative) {
+                            slugTitleProduct = titleAlternative.slug_title_alternative;
+                            titleProduct = titleAlternative.title_alternative;
                         }
-                    });
+
+                        await prismaClient.storeProduct.create({
+                            data: {
+                                type_product: "Máquinas de Corte Plasma Manual",
+                                slug_type: removerAcentosType("Máquinas de Corte Plasma Manual"),
+                                store: store,
+                                slug: removerAcentos(store),
+                                link_search: url_sumig,
+                                image: obj.image,
+                                title_product: titleProduct,
+                                slug_title_product: slugTitleProduct,
+                                price: obj.price,
+                                brand: obj.brand,
+                                link: obj.link
+                            }
+                        });
+
+                    } catch (insertError) {
+                        console.error(`Erro ao inserir/atualizar produto: ${obj.title}`, insertError);
+                    }
+
                 } catch (error) {
                     console.error(`Erro ao processar o link ${link}:`, error);
                 } finally {
                     await productPage.close();
+
+                    // Revalidação e atualização dos dados existentes no banco de dados
+                    const existingProducts = await prismaClient.storeProduct.findMany();
+
+                    for (const product of existingProducts) {
+                        try {
+                            const titleAlternative = await prismaClient.titleAlternative.findFirst({
+                                where: {
+                                    slug_title_product: product.slug_title_product
+                                }
+                            });
+
+                            if (titleAlternative) {
+                                await prismaClient.storeProduct.updateMany({
+                                    where: {
+                                        id: product.id
+                                    },
+                                    data: {
+                                        title_product: titleAlternative.title_alternative,
+                                        slug_title_product: titleAlternative.slug_title_alternative
+                                    }
+                                });
+
+                                console.log(`Produto atualizado: ${product.title_product}`);
+                            }
+                        } catch (updateError) {
+                            console.error(`Erro ao atualizar produto: ${product.title_product}`, updateError);
+                        }
+                    }
+
                 }
             }
 

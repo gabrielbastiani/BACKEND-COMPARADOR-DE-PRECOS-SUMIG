@@ -77,23 +77,9 @@ model StoreProduct {
   @@map("storeproducts")
 }
 
-model TitleProduct {
-  id                 String  @id @default(uuid())
-  title_product      String? @unique
-  slug_title_product String? @unique
-
-  titleAlternative TitleAlternative[]
-
-  created_at DateTime? @default(now()) @db.Timestamptz(3)
-  updated_at DateTime? @updatedAt
-
-  @@map("titleproducts")
-}
-
 model TitleAlternative {
-  id                     String       @id @default(uuid())
-  titleProduct           TitleProduct @relation(fields: [slug_title], references: [slug_title_product])
-  slug_title             String
+  id                     String  @id @default(uuid())
+  slug_title_product     String
   title_alternative      String?
   slug_title_alternative String?
 

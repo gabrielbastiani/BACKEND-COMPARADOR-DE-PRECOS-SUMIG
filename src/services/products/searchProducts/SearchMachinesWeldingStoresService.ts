@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import randonUserAgent from 'random-useragent';
+import randomUserAgent from 'random-useragent';
 import prismaClient from '../../../prisma';
 
 interface SearchRequest {
@@ -35,7 +35,7 @@ class SearchMachinesWeldingStoresService {
             deviceScaleFactor: 2,
             isMobile: true
         });
-        await page.setUserAgent(randonUserAgent.getRandom());
+        await page.setUserAgent(randomUserAgent.getRandom());
         await page.goto(urlSearchStore);
 
         const list_products: Product[] = [];
@@ -128,60 +128,41 @@ class SearchMachinesWeldingStoresService {
                 }
 
                 for (const item of news) {
-                    const slug = removerAcentos(item.title);
-
-                    const listTitle = await prismaClient.titleProduct.findFirst({
-                        where: {
-                            slug_title_product: slug
-                        }
-                    });
-
-                    const listTitleAlternative = await prismaClient.titleAlternative.findFirst({
-                        where: {
-                            slug_title: slug
-                        }
-                    });
-
-                    if (listTitle && listTitleAlternative && listTitle.slug_title_product === listTitleAlternative.slug_title) {
-                        await prismaClient.storeProduct.updateMany({
+                    try {
+                        // Verifique se o slug_title_product existe na tabela titleAlternative
+                        const titleAlternative = await prismaClient.titleAlternative.findFirst({
                             where: {
-                                slug_title_product: slug
-                            },
-                            data: {
-                                title_product: listTitleAlternative.title_alternative,
-                                slug_title_product: removerAcentosTitle(listTitleAlternative.title_alternative)
+                                slug_title_product: removerAcentosTitle(item.title)
                             }
                         });
-                    } else {
-                        try {
-                            await prismaClient.titleProduct.create({
-                                data: {
-                                    title_product: item.title,
-                                    slug_title_product: removerAcentosTitle(item.title)
-                                }
-                            });
-                        } catch (error) {
-                            if (error.code !== 'P2002') {
-                                throw error;
-                            }
-                        }
-                    }
 
-                    await prismaClient.storeProduct.create({
-                        data: {
-                            type_product: "Máquinas de Solda",
-                            slug_type: removerAcentosType("Máquinas de Solda"),
-                            store: item.store,
-                            slug: removerAcentos(item.store),
-                            link_search: urlSearchStore,
-                            image: item.image,
-                            title_product: item.title,
-                            slug_title_product: removerAcentosTitle(item.title),
-                            price: item.price,
-                            brand: item.brand.replace(/\|/g, ''),
-                            link: item.link
+                        let titleProduct = item.title;
+                        let slugTitleProduct = removerAcentosTitle(item.title);
+
+                        if (titleAlternative) {
+                            slugTitleProduct = titleAlternative.slug_title_alternative;
+                            titleProduct = titleAlternative.title_alternative;
                         }
-                    });
+
+                        await prismaClient.storeProduct.create({
+                            data: {
+                                type_product: "Máquinas de Solda",
+                                slug_type: removerAcentosType("Máquinas de Solda"),
+                                store: item.store,
+                                slug: removerAcentos(item.store),
+                                link_search: urlSearchStore,
+                                image: item.image,
+                                title_product: titleProduct,
+                                slug_title_product: slugTitleProduct,
+                                price: item.price,
+                                brand: item.brand.replace(/\|/g, ''),
+                                link: item.link
+                            }
+                        });
+
+                    } catch (insertError) {
+                        console.error(`Erro ao inserir/atualizar produto: ${item.title}`, insertError);
+                    }
                 }
 
                 list_products.push(...news);
@@ -194,12 +175,42 @@ class SearchMachinesWeldingStoresService {
                     nextPageExists = false;
                 }
             } catch (error) {
-                console.log(error);
+                console.error(`Erro ao carregar dados da concorrência ${stores}`, error);
                 throw new Error(`Erro ao carregar dados da concorrência ${stores}`);
             }
         }
 
         await browser.close();
+
+        // Revalidação e atualização dos dados existentes no banco de dados
+        const existingProducts = await prismaClient.storeProduct.findMany();
+
+        for (const product of existingProducts) {
+            try {
+                const titleAlternative = await prismaClient.titleAlternative.findFirst({
+                    where: {
+                        slug_title_product: product.slug_title_product
+                    }
+                });
+
+                if (titleAlternative) {
+                    await prismaClient.storeProduct.updateMany({
+                        where: {
+                            id: product.id
+                        },
+                        data: {
+                            title_product: titleAlternative.title_alternative,
+                            slug_title_product: titleAlternative.slug_title_alternative
+                        }
+                    });
+
+                    console.log(`Produto atualizado: ${product.title_product}`);
+                }
+            } catch (updateError) {
+                console.error(`Erro ao atualizar produto: ${product.title_product}`, updateError);
+            }
+        }
+
         return list_products.flat();
     }
 }

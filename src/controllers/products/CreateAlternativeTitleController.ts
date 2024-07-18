@@ -4,14 +4,14 @@ import { CreateAlternativeTitleService } from "../../services/products/CreateAlt
 class CreateAlternativeTitleController {
     async handle(req: Request, res: Response) {
         const {
-            slug_title,
+            slug_title_product,
             title_alternative
         } = req.body;
 
         const alternative = new CreateAlternativeTitleService();
 
         const titleAlternative = await alternative.execute({
-            slug_title,
+            slug_title_product,
             title_alternative
         });
 
