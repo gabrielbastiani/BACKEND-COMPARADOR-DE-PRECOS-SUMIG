@@ -203,8 +203,6 @@ class SearchMachinesWeldingStoresService {
                             slug_title_product: titleAlternative.slug_title_alternative
                         }
                     });
-
-                    console.log(`Produto atualizado: ${product.title_product}`);
                 }
             } catch (updateError) {
                 console.error(`Erro ao atualizar produto: ${product.title_product}`, updateError);

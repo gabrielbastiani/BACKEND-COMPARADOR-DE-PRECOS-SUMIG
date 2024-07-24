@@ -136,21 +136,41 @@ class SearchAllMachinesCutAllStoresListService {
 
                 await prismaClient.$transaction(async (transaction) => {
                     for (const item of news) {
-                        await transaction.storeProduct.create({
-                            data: {
-                                type_product: "Máquinas de Solda",
-                                slug_type: removerAcentosType("Máquinas de Solda"),
-                                store: item.store,
-                                slug: removerAcentos(item.store),
-                                link_search: "https://www.google.com/search?sca_esv=34178eb96b5aeaa8&tbm=shop&sxsrf=ADLYWILNvv7Sj4iQSp-z422okhLv_SD6SQ:1719407578223&q=maquina+de+corte+plasma+manual&tbs=mr:1,merchagg:g103278022%7Cg134886126%7Cg208973168%7Cg104823487%7Cg8670533%7Cg115160181%7Cg103001188%7Cg142484886%7Cg103272221%7Cm110551677%7Cm111260480%7Cm134880504%7Cm134942054%7Cm101617997%7Cm10892984%7Cm553660352%7Cm478855842%7Cm135437352%7Cm120225280%7Cm732046960%7Cm735128761%7Cm735098639%7Cm735098660%7Cm735128188%7Cm735125422%7Cm501057771%7Cm143357536%7Cm336930894%7Cm143358244%7Cm7423416%7Cm265940141%7Cm507986362%7Cm623309586%7Cm408640043%7Cm133736100%7Cm110551671%7Cm163052276&sa=X&ved=0ahUKEwiU4LGvrPmGAxXHrZUCHRmYD_IQsysIqwkoOg&biw=1592&bih=752&dpr=1",
-                                image: item.image,
-                                title_product: item.title,
-                                slug_title_product: removerAcentosTitle(item.title),
-                                price: item.price,
-                                brand: item.brand.replace(/\|/g, ''),
-                                link: item.link
+                        try {
+                            // Verifique se o slug_title_product existe na tabela titleAlternative
+                            const titleAlternative = await prismaClient.titleAlternative.findFirst({
+                                where: {
+                                    slug_title_product: removerAcentosTitle(item.title)
+                                }
+                            });
+
+                            let titleProduct = item.title;
+                            let slugTitleProduct = removerAcentosTitle(item.title);
+
+                            if (titleAlternative) {
+                                slugTitleProduct = titleAlternative.slug_title_alternative;
+                                titleProduct = titleAlternative.title_alternative;
                             }
-                        });
+
+                            await transaction.storeProduct.create({
+                                data: {
+                                    type_product: "Máquinas de Solda",
+                                    slug_type: removerAcentosType("Máquinas de Solda"),
+                                    store: item.store,
+                                    slug: removerAcentos(item.store),
+                                    link_search: "https://www.google.com/search?sca_esv=34178eb96b5aeaa8&tbm=shop&sxsrf=ADLYWILNvv7Sj4iQSp-z422okhLv_SD6SQ:1719407578223&q=maquina+de+corte+plasma+manual&tbs=mr:1,merchagg:g103278022%7Cg134886126%7Cg208973168%7Cg104823487%7Cg8670533%7Cg115160181%7Cg103001188%7Cg142484886%7Cg103272221%7Cm110551677%7Cm111260480%7Cm134880504%7Cm134942054%7Cm101617997%7Cm10892984%7Cm553660352%7Cm478855842%7Cm135437352%7Cm120225280%7Cm732046960%7Cm735128761%7Cm735098639%7Cm735098660%7Cm735128188%7Cm735125422%7Cm501057771%7Cm143357536%7Cm336930894%7Cm143358244%7Cm7423416%7Cm265940141%7Cm507986362%7Cm623309586%7Cm408640043%7Cm133736100%7Cm110551671%7Cm163052276&sa=X&ved=0ahUKEwiU4LGvrPmGAxXHrZUCHRmYD_IQsysIqwkoOg&biw=1592&bih=752&dpr=1",
+                                    image: item.image,
+                                    title_product: item.title,
+                                    slug_title_product: removerAcentosTitle(item.title),
+                                    price: item.price,
+                                    brand: item.brand.replace(/\|/g, ''),
+                                    link: item.link
+                                }
+                            });
+                        } catch (insertError) {
+                            console.error(`Erro ao inserir/atualizar produto: ${item.title}`, insertError);
+                        }
+
                     }
                 });
 
@@ -172,6 +192,34 @@ class SearchAllMachinesCutAllStoresListService {
         }
 
         await browser.close();
+
+        // Revalidação e atualização dos dados existentes no banco de dados
+        const existingProducts = await prismaClient.storeProduct.findMany();
+
+        for (const product of existingProducts) {
+            try {
+                const titleAlternative = await prismaClient.titleAlternative.findFirst({
+                    where: {
+                        slug_title_product: product.slug_title_product
+                    }
+                });
+
+                if (titleAlternative) {
+                    await prismaClient.storeProduct.updateMany({
+                        where: {
+                            id: product.id
+                        },
+                        data: {
+                            title_product: titleAlternative.title_alternative,
+                            slug_title_product: titleAlternative.slug_title_alternative
+                        }
+                    });
+                }
+            } catch (updateError) {
+                console.error(`Erro ao atualizar produto: ${product.title_product}`, updateError);
+            }
+        }
+
         return list_products.flat();
 
     }
