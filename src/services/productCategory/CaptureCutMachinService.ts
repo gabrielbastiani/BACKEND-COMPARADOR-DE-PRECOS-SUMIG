@@ -36,6 +36,26 @@ class CaptureCutMachinService {
             }
         });
 
+        const registerCapture = await prismaClient.storeProduct.findFirst({
+            where: {
+                id: storeProduct_id,
+                register: "Sim"
+            }
+        });
+
+        if (registerCapture) {
+            throw new Error("Produto ja cadastrado!");
+        }
+
+        await prismaClient.storeProduct.update({
+            where: {
+                id: storeProduct_id
+            },
+            data: {
+                register: "Sim"
+            }
+        });
+
         return categories;
 
     }
